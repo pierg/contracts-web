@@ -201,10 +201,12 @@ def delete_component(name) -> None:
     """
     session_id = str(request.args.get("id"))
 
-    Component.delete_component(name, session_id)
-
-    send_message_to_user(f"The component '{name}' has been deleted.", request.sid, "success")
-    emit("component-deleted", True, room=request.sid)
+    is_deleted = Component.delete_component(name, session_id)
+    if is_deleted:
+        send_message_to_user(f"The component '{name}' has been deleted.", request.sid, "success")
+    else:
+        send_message_to_user(f"The component '{name}' has not been deleted", request.sid, "error")
+    emit("component-deleted", is_deleted, room=request.sid)
 
 
 if __name__ == "__main__":

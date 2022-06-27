@@ -23,7 +23,7 @@ class Component:
         return list_components
 
     @staticmethod
-    def save_component(data, session_id):
+    def save_component(data, session_id) -> None:
         component_folder = component_path(session_id)
 
         if "id" not in data["component"]:
@@ -41,11 +41,14 @@ class Component:
         json_file.close()
 
     @staticmethod
-    def delete_component(name, session_id):
+    def delete_component(name, session_id) -> bool:
         component_folder = component_path(session_id)
 
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
-            if len(filename.split(".")) == 2 and filename.split(".")[-1] == "dat":
-                continue
-            os.remove(component_folder / filename)
+            with open(component_folder / filename) as file:
+                json_content = json.load(file)
+                if json_content["name"] == name:
+                    os.remove(component_folder / filename)
+                    return True
+        return False
