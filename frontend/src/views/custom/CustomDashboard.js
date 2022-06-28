@@ -2,7 +2,7 @@ import React from "react";
 import {useLocation} from "react-router-dom";
 
 // components
-import CromeContracts from "./CromeContracts";
+import Contracts from "./Contracts";
 // texts as props
 import customsidebar from "../../_texts/custom/customsidebar";
 import {SocketProvider, ConnectorProvider} from "../../contexts/SocketProvider";
@@ -50,9 +50,6 @@ export default function CustomDashboard(props) {
             <Console {...consoleinfo} customText={message}/>
             <SocketIoConsoleMessage modifyMessage={(e) => updateMessage(e)} session={id}/>
             <div className="relative xxl:ml-64 bg-blueGray-100 min-h-screen">
-                {
-                    console.log(props.page)
-                }
                 {(() => {
                     switch (props.page) {
                         case 'index':
@@ -61,7 +58,7 @@ export default function CustomDashboard(props) {
                                 )
                         default:
                             return (
-                                <CromeContracts/>
+                                <Contracts/>
                             )
                     }
                 })()}

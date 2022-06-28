@@ -4,7 +4,7 @@ import ComponentsView from "../../components/Custom/ComponentsView";
 import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";
 
-export default class CromeContracts extends React.Component {
+export default class Contracts extends React.Component {
     state = {
         headerStates: [true, false],
         currentTabOpen: 0
