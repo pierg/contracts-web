@@ -11,7 +11,9 @@ import {Tooltip} from 'react-tippy';
 export default class ComponentsView extends React.Component {
 
     state = {
-        triggerAddComponent: false, tmpComponent: false, selectedComponents: []
+        triggerAddComponent: false,
+        tmpComponent: false,
+        selectedComponents: []
     }
 
     setTriggerAddComponent = (bool) => {
