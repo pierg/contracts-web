@@ -8,7 +8,13 @@ export default class Contracts extends React.Component {
     state = {
         headerStates: [true, false],
         currentTabOpen: 0,
-        componentsSelected: []
+        selectedComponents: []
+    }
+
+    setSelectedComponents = (selectedComponents) => {
+        this.setState({
+            selectedComponents
+        })
     }
 
     toggleNew = (e, actionToggle, disabled) => {
@@ -28,7 +34,7 @@ export default class Contracts extends React.Component {
 
     let page;
     if(this.state.headerStates[0]){
-        page = <ComponentsView/>
+        page = <ComponentsView setComponents={this.setSelectedComponents}/>
 }
     else{
         page = <></>
