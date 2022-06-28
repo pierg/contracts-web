@@ -12,10 +12,12 @@ import "./assets/demo/nucleo-icons-page-styles.css";
 // styles from Notus template
 import "@fortawesome/fontawesome-free/css/all.css";
 import "./assets/styles/tailwind.min.css";
+import "./assets/styles/tailwind.css";
 import "./assets/styles/docs.css";
+import "./assets/styles/custom.css"
 
 // // custom
-import CromeContracts from "./views/custom/CromeContracts";
+import CustomDashboard from "./views/custom/CustomDashboard";
 
 
 ReactDOM.render(
@@ -23,7 +25,7 @@ ReactDOM.render(
     <Switch>
 
       {/* Custom Routes added */}
-      <Route exact path="/:id" render={(props) => ( <CromeContracts />)} />
+      <Route exact path="/:id" render={(props) => ( <CustomDashboard />)} />
 
       <Redirect from="*" to="/index" />
     </Switch>
