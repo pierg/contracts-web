@@ -7,7 +7,8 @@ import CustomHeader from "../../components/Custom/CustomHeader";
 export default class Contracts extends React.Component {
     state = {
         headerStates: [true, false],
-        currentTabOpen: 0
+        currentTabOpen: 0,
+        componentsSelected: []
     }
 
     toggleNew = (e, actionToggle, disabled) => {

@@ -5,10 +5,15 @@ const textProps = {
             component: {
                 header: {
                     title: "COMPONENTS",
-                    button: {
+                    addButton: {
                         size: "sm",
                         color: "gray",
                         icon: "fa-solid fa-plus fa-2xl text-lightBlue-700",
+                    },
+                    uploadButton: {
+                        size: "sm",
+                        color: "gray",
+                        icon: "fa-solid fa-upload fa-2xl text-lightBlue-700",
                     }
                 },
             },

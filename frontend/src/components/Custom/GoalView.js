@@ -15,8 +15,8 @@ function GoalView(props) {
     for (const property in props.contract) {
         if (props.contract.hasOwnProperty(property)) {
             contract[Object.keys(props.contract).indexOf(property)] = []
-            contract[Object.keys(props.contract).indexOf(property)]["title"]=property
-            contract[Object.keys(props.contract).indexOf(property)]["content"]=props.contract[property]
+            contract[Object.keys(props.contract).indexOf(property)]["title"] = property
+            contract[Object.keys(props.contract).indexOf(property)]["content"] = props.contract[property]
         }
     }
 
@@ -25,12 +25,13 @@ function GoalView(props) {
     }, [props.contract]);
 
     let callBackAction = (bool) => {
-      setOpen(bool);
+        setOpen(bool);
     };
 
-    return(
+    return (
         <>
-            <div className={"w-full lg:w-6/12 xl:w-5/12 mt-8 ml-4 mr-4 px-4 relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg opacity-1 transform duration-300 transition-all ease-in-out"}>
+            <div
+                className={"w-full lg:w-6/12 xl:w-5/12 mt-8 ml-4 mr-4 px-4 relative flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg opacity-1 transform duration-300 transition-all ease-in-out"}>
                 <div className="flex-auto p-4 pr-0">
                     <div className="flex">
                         <div className="flex flex-wrap w-full">
@@ -54,57 +55,57 @@ function GoalView(props) {
                         </div>
                         <div className="flex flex-col min-content">
                             <div className="relative pl-4 flex justify-end flex-initial">
-                                                                    <Tooltip
-                                        title="Edit"
-                                        position="right"
-                                        arrow="true"
-                                        >
-                                <div
-                                    onClick={() => props.modify(true, props.number)}
-                                    className={
-                                        "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer " +
-                                        props.statIconColor
-                                    }
+                                <Tooltip
+                                    title="Edit"
+                                    position="right"
+                                    arrow="true"
                                 >
-                                    <i className={props.statIconName}/>
-                                </div>
-                                                                    </Tooltip>
+                                    <div
+                                        onClick={() => props.modify(true, props.number)}
+                                        className={
+                                            "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer " +
+                                            props.statIconColor
+                                        }
+                                    >
+                                        <i className={props.statIconName}/>
+                                    </div>
+                                </Tooltip>
                             </div>
                             <div className="relative pl-4 flex mt-2 justify-end flex-initial">
 
-                                                                                                   <Tooltip
-                                        title="Delete"
-                                        position="right"
-                                        arrow="true"
-                                        >
-                                <div
-                                    onClick={() => props.delete(props.number)}
-                                    className={
-                                        "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer " +
-                                        props.statIconColor
-                                    }
+                                <Tooltip
+                                    title="Delete"
+                                    position="right"
+                                    arrow="true"
                                 >
-                                    <i className={props.statSecondIconName}/>
-                                </div>
-                                                                                                   </Tooltip>
+                                    <div
+                                        onClick={() => props.delete(props.number)}
+                                        className={
+                                            "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer " +
+                                            props.statIconColor
+                                        }
+                                    >
+                                        <i className={props.statSecondIconName}/>
+                                    </div>
+                                </Tooltip>
                             </div>
-                                                                                               <Tooltip
-                                        title="Download"
-                                        position="right"
-                                        arrow="true"
-                                        >
-                            <div className="relative pl-4 flex mt-2 justify-end flex-initial">
-                                <div
-                                    onClick={() => props.download(props.number)}
-                                    id={"downloadButton-"+props.number}
-                                    className={
-                                        "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer bg-emerald-400"
-                                    }
-                                >
-                                    <i className={props.statDownloadIconName} id={"downloadIcon"}/>
+                            <Tooltip
+                                title="Download"
+                                position="right"
+                                arrow="true"
+                            >
+                                <div className="relative pl-4 flex mt-2 justify-end flex-initial">
+                                    <div
+                                        onClick={() => props.download(props.number)}
+                                        id={"downloadButton-" + props.number}
+                                        className={
+                                            "text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 shadow-lg rounded-full cursor-pointer bg-emerald-400"
+                                        }
+                                    >
+                                        <i className={props.statDownloadIconName} id={"downloadIcon"}/>
+                                    </div>
                                 </div>
-                            </div>
-                                                                                               </Tooltip>
+                            </Tooltip>
                         </div>
                     </div>
                     <div className="flex flex-col mt-4">
