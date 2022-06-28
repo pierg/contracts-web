@@ -27,7 +27,14 @@ export default class ComponentsView extends React.Component {
     }
 
     checkBoxClicked = (i) => {
-        console.log(i)
+        let selected = this.state.selectedComponents
+        if (selected.includes(i))
+            selected = selected.filter((e) => e!==i)
+        else
+            selected.push(i)
+        this.setState({
+            selectedComponents : selected
+        })
     }
 
     clickAddComponent = () => {
@@ -50,18 +57,35 @@ export default class ComponentsView extends React.Component {
 
     render() {
         let components = []
+        let lineClass = ""
         for (let i = 0; i < 20; i++) {
-
-            if (i === 0) {
-                components.push(<li key={i}
+            lineClass="border-b-1 text-blueGray-700 text-lg p-3 rounded hover:bg-blueGray-100 cursor-pointer"
+            if (i===0) {
+                lineClass+=" border-t-1"
+            }
+            if (this.state.selectedComponents.includes(i)) {
+                lineClass+=" bg-blueGray-100"
+            }
+            components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
+                                    className={lineClass}>
+                    <div className="flex justify-between">
+                        <div>
+                           {" composant_" + i}
+                        </div>
+                        <div>
+                            <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
+                                className={componentInfo.info.icon.edit}/></Button>
+                            <Button size="sm" color="red" onClick={() => this.deleteComponent(i)}><i
+                                className={componentInfo.info.icon.delete}/></Button>
+                        </div>
+                    </div>
+                </li>)
+            /*if (i === 0) {
+                components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
                                     className="border-b-1 border-t-1 text-blueGray-700 text-lg py-3 hover:bg-blueGray-100 cursor-pointer">
                     <div className="flex justify-between">
                         <div>
-                            <Checkbox
-                                className="pr-2"
-                                value={false}
-                                onChange={() => this.checkBoxClicked(i)}
-                            />{" composant_" + i}
+                           {" composant_" + i}
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
@@ -72,15 +96,11 @@ export default class ComponentsView extends React.Component {
                     </div>
                 </li>)
             } else {
-                components.push(<li key={i}
+                components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
                                     className="border-b-1 text-blueGray-700 text-lg py-3 hover:bg-blueGray-100 cursor-pointer">
                     <div className="flex justify-between">
                         <div>
-                            <Checkbox
-                                className="pr-2"
-                                value={false}
-                                onChange={() => this.checkBoxClicked(i)}
-                            />{" composant_" + i}
+                            {" composant_" + i}
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
@@ -90,7 +110,7 @@ export default class ComponentsView extends React.Component {
                         </div>
                     </div>
                 </li>)
-            }
+            }*/
         }
 
         return (<>

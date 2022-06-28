@@ -32,13 +32,13 @@ export default class Contracts extends React.Component {
 
     render() {
 
-    let page;
-    if(this.state.headerStates[0]){
-        page = <ComponentsView setComponents={this.setSelectedComponents}/>
-}
-    else{
-        page = <></>
-}
+        let page;
+        if(this.state.headerStates[0]){
+            page = <ComponentsView setComponents={this.setSelectedComponents}/>
+        }
+        else{
+            page = <></>
+        }
         return (
             <>
                 <CustomHeader
