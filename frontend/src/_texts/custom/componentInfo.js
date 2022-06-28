@@ -17,7 +17,7 @@ const textProps = {
                     }
                 },
             },
-            diagram: "Diagram"
+            diagram: "DIAGRAM"
         },
         icon: {
             build: "fas fa-2xl fa-arrow-right",

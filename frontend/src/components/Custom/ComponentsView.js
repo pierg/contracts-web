@@ -145,10 +145,10 @@ export default class ComponentsView extends React.Component {
                                 position="right"
                                 arrow="true"
                             >
+                                 {/*#TODO add a onClick on this upload button*/}
                                 <Button
                                     size={componentInfo.info.texts.component.header.uploadButton.size}
                                     color={componentInfo.info.texts.component.header.uploadButton.color}
-                                    onClick={() => this.clickAddComponent()}
                                 >
                                     <i className={componentInfo.info.texts.component.header.uploadButton.icon}></i>
                                 </Button>
