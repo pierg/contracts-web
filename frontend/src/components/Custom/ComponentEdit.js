@@ -2,8 +2,9 @@ import React from "react";
 import {Button, ModalFooter} from "reactstrap";
 import Input from "../Elements/Input";
 import ContractContentEditor from "../Custom/ContractContentEditor";
-import contracteditorinfo from "_texts/custom/contracteditorinfo.js";
-import makeListOf from "hooks/stringToListConversion.js";
+import contracteditorinfo from "../../_texts/custom/contracteditorinfo";
+import makeListOf from "../../hooks/stringToListConversion";
+
 
 function ComponentEdit(props) {
 

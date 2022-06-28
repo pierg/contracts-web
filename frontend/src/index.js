@@ -15,7 +15,7 @@ import "./assets/styles/tailwind.min.css";
 import "./assets/styles/docs.css";
 
 // // custom
-import CustomDashboard from "./views/custom/CustomDashboard";
+import CromeContracts from "./views/custom/CromeContracts";
 
 
 ReactDOM.render(
@@ -23,7 +23,7 @@ ReactDOM.render(
     <Switch>
 
       {/* Custom Routes added */}
-      <Route exact path="/:id" render={(props) => ( <CustomDashboard page={props.match.params.id}/>)} />
+      <Route exact path="/:id" render={(props) => ( <CromeContracts />)} />
 
       <Redirect from="*" to="/index" />
     </Switch>
