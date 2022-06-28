@@ -7,7 +7,8 @@ const Button = React.forwardRef(
       sm: "text-xs px-3 py-2 shadow-sm hover:shadow-md rounded-md",
       regular: "text-sm px-6 py-2 shadow hover:shadow-lg rounded-md",
       regular2: "w-100 text-sm px-6 py-2 shadow hover:shadow-lg rounded-md",
-      lg: "text-sm px-6 py-3 shadow-md hover:shadow-lg rounded-lg",
+      lg: "text-sm px-6 py-3 shadow-md hover:shadow-lg rounded-lg ",
+      customLg: "text-sm px-6 py-3 shadow-md hover:shadow-lg rounded-lg transition ease-in-out duration-400 hover:custom-transform",
       xl: "text-sm px-10 py-3 shadow-md hover:shadow-lg rounded-lg",
       worldModeling: "w-64 text-sm py-1 shadow-md hover:shadow-lg rounded-lg whitespace-nowrap break-all border-1"
     };
@@ -147,7 +148,7 @@ Button.defaultProps = {
   size: "regular",
 };
 Button.propTypes = {
-  size: PropTypes.oneOf(["sm", "lg", "regular", "xl", "worldModeling"]),
+  size: PropTypes.oneOf(["sm", "lg", "customLg", "regular", "xl", "worldModeling"]),
   outline: PropTypes.bool,
   children: PropTypes.node,
   fullWidth: PropTypes.bool,

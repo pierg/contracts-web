@@ -25,7 +25,7 @@ ReactDOM.render(
     <Switch>
 
       {/* Custom Routes added */}
-      <Route exact path="/:id" render={(props) => ( <CustomDashboard />)} />
+      <Route exact path="/:id" render={(props) => ( <CustomDashboard page={props.match.params.id}/>)} />
 
       <Redirect from="*" to="/index" />
     </Switch>

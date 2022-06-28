@@ -11,6 +11,7 @@ import Console from "../../components/Custom/Console";
 import consoleinfo from "../../_texts/custom/console";
 import SocketIoConsoleMessage from "../../components/Custom/Socket/GetConsoleMessage";
 import CustomSidebar from "../../components/Custom/CustomSidebar";
+import LandingPageContracts from "./LandingPageContracts";
 
 
 export default function CustomDashboard(props) {
@@ -49,7 +50,21 @@ export default function CustomDashboard(props) {
             <Console {...consoleinfo} customText={message}/>
             <SocketIoConsoleMessage modifyMessage={(e) => updateMessage(e)} session={id}/>
             <div className="relative xxl:ml-64 bg-blueGray-100 min-h-screen">
-                <CromeContracts/>
+                {
+                    console.log(props.page)
+                }
+                {(() => {
+                    switch (props.page) {
+                        case 'index':
+                            return (
+                               <LandingPageContracts/>
+                                )
+                        default:
+                            return (
+                                <CromeContracts/>
+                            )
+                    }
+                })()}
             </div>
         </SocketProvider>
     );
