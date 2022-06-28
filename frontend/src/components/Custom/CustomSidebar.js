@@ -86,49 +86,13 @@ export default function CustomSidebar({
                             {items.map((prop, key) => {
                                 if (prop.divider) {
                                     return <hr key={key} className="my-4 xxl:min-w-full"/>;
-                                } else if (prop.titleCrome) {
-                                    return (
-                                        <h6
-                                            key={key}
-                                            className="xxl:min-w-full text-blueGray-500 text-xs uppercase font-bold inline"
-                                        >
-                                            {prop.titleCrome}
-                                        </h6>
-                                    );
-                                } else if (prop.titleSynthesis) {
-                                    return (
-                                        <h6
-                                            key={key}
-                                            className="xxl:min-w-full text-blueGray-500 text-xs uppercase font-bold inline mt-3"
-                                        >
-                                            {prop.titleSynthesis}
-                                        </h6>
-                                    );
-                                } else if (prop.titleContracts) {
+                                }  else if (prop.titleContracts) {
                                     return (
                                         <h6
                                             key={key}
                                             className="xxl:min-w-full text-blueGray-500 text-xs uppercase font-bold inline mt-3 "
                                         >
                                             {prop.titleContracts}
-                                        </h6>
-                                    );
-                                    } else if (prop.titleComponent) {
-                                    return (
-                                        <h6
-                                            key={key}
-                                            className="xxl:min-w-full text-blueGray-500 text-xs uppercase font-bold inline mt-3 "
-                                        >
-                                            {prop.titleComponent}
-                                        </h6>
-                                    );
-                                    } else if (prop.titleLastPage) {
-                                    return (
-                                        <h6
-                                            key={key}
-                                            className="xxl:min-w-full text-blueGray-500 text-xs uppercase font-bold inline mt-3 "
-                                        >
-                                            {prop.titleLastPage}
                                         </h6>
                                     );
                                 } else {
@@ -149,19 +113,10 @@ export default function CustomSidebar({
                                                 })}
                                             />
                                             {prop.text}
-                                            {(page !== "index") && (prop.text === "Run CROME") &&
+                                            {(page !== "contracts") && (prop.text === "Run CROME") &&
                                                 <i className="fas fa-arrow-right ml-2"/>
                                             }
-                                            {(page !== "synthesis") && (prop.text === "Run SYNTHESIS") &&
-                                                <i className="fas fa-arrow-right ml-2"/>
-                                            }
-                                            {(page !== "contracts") && (prop.text === "Run CONTRACTS") &&
-                                                <i className="fas fa-arrow-right ml-2"/>
-                                            }
-                                            {(page !== "component") && (prop.text === "Run COMPONENT") &&
-                                                <i className="fas fa-arrow-right ml-2"/>
-                                            }
-                                            {(page !== "LastPage") && (prop.text === "Run LastPage") &&
+                                            {(page !== "index") && (prop.text === "Run CONTRACTS") &&
                                                 <i className="fas fa-arrow-right ml-2"/>
                                             }
                                         </a>
