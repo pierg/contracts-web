@@ -30,7 +30,7 @@ export default function CustomNavButton(
         >
             <div>
                 {(type === "back") && (
-                    <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.iconNameBack + " mr-2"}/>
+                    <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.leftChevronIcon + " mr-2"}/>
                 )}
                 <span className={(disabled ? "opacity-40 " : "hover:underline ") + "text-2xl"}>
                     {(type === "back") && (customnavbutton.backText)}
