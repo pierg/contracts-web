@@ -6,6 +6,7 @@ import {Modal} from "reactstrap";
 import goaleditinfo from "../../_texts/custom/goaleditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
+import Checkbox from "../Elements/Checkbox";
 
 export default class ComponentsView extends React.Component {
 
@@ -58,6 +59,13 @@ export default class ComponentsView extends React.Component {
         this.props.setComponents(tmpComponent)
     }
 
+    selectAllComponents = (e) => {
+        if (e.target.checked)
+            this.props.setSelectedComponents(this.props.components)
+        else
+            this.props.setSelectedComponents([])
+    }
+
     saveComponent = (component) => {
         console.log(component)
     }
@@ -97,7 +105,7 @@ export default class ComponentsView extends React.Component {
         return (<>
             <div className="px-3 pb-3 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
                 <div className="flex justify-between p-4 text-center">
-                    <div className="w-5"></div>
+                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="select all" /></div>
                     <div className="fs-4 font-bold text-blueGray-500">
                         {componentInfo.info.texts.component.header.title}
                     </div>
