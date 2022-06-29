@@ -26,12 +26,12 @@ export default class ComponentsView extends React.Component {
         })
     }
 
-    checkBoxClicked = (i) => {
+    lineClicked = (i) => {
         let selected = this.props.selectedComponents
-        if (selected.includes(i))
-            selected = selected.filter((e) => e!==i)
+        if (selected.includes(this.props.components[i]))
+            selected = selected.filter((e) => e!==this.props.components[i])
         else
-            selected.push(i)
+            selected.push(this.props.components[i])
 
         this.props.setSelectedComponents(selected)
     }
@@ -47,7 +47,15 @@ export default class ComponentsView extends React.Component {
     }
 
     deleteComponent = (i) => {
-        console.log(i)
+
+        let tmpComponent = this.props.components
+        let selected = this.props.selectedComponents
+
+        selected = selected.filter((e) => e!==this.props.components[i])
+        tmpComponent.splice(i,1)
+
+        this.props.setSelectedComponents(selected)
+        this.props.setComponents(tmpComponent)
     }
 
     saveComponent = (component) => {
@@ -62,20 +70,24 @@ export default class ComponentsView extends React.Component {
             if (i===0) {
                 lineClass+=" border-t-1"
             }
-            if (this.props.selectedComponents.includes(i)) {
+            if (this.props.selectedComponents.includes(this.props.components[i])) {
                 lineClass+=" bg-blueGray-100 font-bold"
             }
 
-            components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
+            components.push(<li key={i} onClick={() => this.lineClicked(i)}
                                     className={lineClass}>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between" >
                         <div>
                            {" composant_" + this.props.components[i]}
                         </div>
                         <div>
-                            <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
+                            <Button size="sm" color="gray" onClick={(e) => {
+                                e.stopPropagation(); this.editComponent(i)
+                            }}><i
                                 className={componentInfo.info.icon.edit}/></Button>
-                            <Button size="sm" color="red" onClick={() => this.deleteComponent(i)}><i
+                            <Button size="sm" color="red" onClick={(e) => {
+                                e.stopPropagation(); this.deleteComponent(i)
+                            }}><i
                                 className={componentInfo.info.icon.delete}/></Button>
                         </div>
                     </div>
