@@ -1,5 +1,5 @@
-import contractsconnect from "./contractsconnect";
-import Button from "../../components/Elements/Button";
+import contractsconnect from "../../_texts/custom/contractsconnect";
+import Button from "../Elements/Button";
 import React from "react";
 import {Classes, Tree} from "@blueprintjs/core";
 

@@ -1,6 +1,6 @@
 import React from "react";
-import ContractsConnectConnections from "../../_texts/custom/ContractsConnectConnections";
-import ContractsConnectInstances from "../../_texts/custom/ContractsConnectInstances";
+import ContractsConnectConnections from "./ContractsConnectConnections";
+import ContractsConnectInstances from "./ContractsConnectInstances";
 
 function ContractsConnect(props) {
 
