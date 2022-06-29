@@ -59,6 +59,10 @@ export default class ComponentsView extends React.Component {
         this.props.setComponents(tmpComponent)
     }
 
+    showInfo = (i) => {
+
+    }
+
     selectAllComponents = (e) => {
         if (e.target.checked)
             this.props.setSelectedComponents(this.props.components)
@@ -90,13 +94,22 @@ export default class ComponentsView extends React.Component {
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={(e) => {
+                                e.stopPropagation(); this.showInfo(i)
+                            }}>
+                                <i className={componentInfo.info.icon.info}/>
+                            </Button>
+
+                            <Button size="sm" color="gray" onClick={(e) => {
                                 e.stopPropagation(); this.editComponent(i)
-                            }}><i
-                                className={componentInfo.info.icon.edit}/></Button>
+                            }}>
+                                <i className={componentInfo.info.icon.edit}/>
+                            </Button>
+
                             <Button size="sm" color="red" onClick={(e) => {
                                 e.stopPropagation(); this.deleteComponent(i)
-                            }}><i
-                                className={componentInfo.info.icon.delete}/></Button>
+                            }}>
+                                <i className={componentInfo.info.icon.delete}/>
+                            </Button>
                         </div>
                     </div>
                 </li>)

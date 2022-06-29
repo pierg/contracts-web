@@ -20,6 +20,7 @@ const textProps = {
             diagram: "DIAGRAM"
         },
         icon: {
+            info : "fas fa-info",
             build: "fas fa-2xl fa-arrow-right",
             delete: "fas fa-trash-alt",
             edit: "fas fa-pen"
