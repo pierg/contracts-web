@@ -26,6 +26,10 @@ class Component:
                     continue
 
                 elif header:
+
+                    if line_header == DESCRIPTION_HEADER:
+                        break
+
                     if line == NAME_HEADER:
                         if line_header == "":
                             line_header = line

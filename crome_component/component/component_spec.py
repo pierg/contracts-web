@@ -68,14 +68,12 @@ class ComponentSpec:
                     if INPUTS_HEADER == line_header:
                         split_line = line.strip().split(" ")
                         name, input_type = split_line[0], split_line[1]
-                        input_type.replace('(', "").replace(')', "")
-                        i.append({"name": name, "type": input_type})
+                        i.append({"name": name, "type": input_type[1:-1]})
 
                     elif OUTPUTS_HEADER == line_header:
                         split_line = line.strip().split(" ")
                         name, output_type = split_line[0], split_line[1]
-                        output_type.replace('(', "").replace(')', "")
-                        o.append({"name": name, "type": output_type})
+                        o.append({"name": name, "type": output_type[1:-1]})
 
                     elif ASSUMPTION_HEADER == line_header:
                         if type_ltl == "" and line.startswith("PL"):
