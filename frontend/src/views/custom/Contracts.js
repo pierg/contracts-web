@@ -89,7 +89,10 @@ export default class Contracts extends React.Component {
         ]
         let page;
         if (this.state.headerStates[0]) {
-            page = <ComponentsView setComponents={this.setSelectedComponents}/>
+            page = <ComponentsView
+                    setComponents={this.setSelectedComponents}
+                    components={this.state.selectedComponents}
+                    />
         } else {
             page =
                 <ComponentsDiagram

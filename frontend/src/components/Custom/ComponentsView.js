@@ -2,7 +2,6 @@ import React from "react";
 import componentInfo from "../../_texts/custom/componentInfo";
 import ComponentEdit from "./ComponentEdit";
 import Button from "../Elements/Button";
-import Checkbox from "../Elements/Checkbox";
 import {Modal} from "reactstrap";
 import goaleditinfo from "../../_texts/custom/goaleditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
@@ -13,7 +12,6 @@ export default class ComponentsView extends React.Component {
     state = {
         triggerAddComponent: false,
         tmpComponent: false,
-        selectedComponents: []
     }
 
     setTriggerAddComponent = (bool) => {
@@ -29,14 +27,13 @@ export default class ComponentsView extends React.Component {
     }
 
     checkBoxClicked = (i) => {
-        let selected = this.state.selectedComponents
+        let selected = this.props.components
         if (selected.includes(i))
             selected = selected.filter((e) => e!==i)
         else
             selected.push(i)
-        this.setState({
-            selectedComponents : selected
-        })
+
+        this.props.setComponents(selected)
     }
 
     clickAddComponent = () => {
@@ -65,7 +62,7 @@ export default class ComponentsView extends React.Component {
             if (i===0) {
                 lineClass+=" border-t-1"
             }
-            if (this.state.selectedComponents.includes(i)) {
+            if (this.props.components.includes(i)) {
                 lineClass+=" bg-blueGray-100"
             }
             components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
