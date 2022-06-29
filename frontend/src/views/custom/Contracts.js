@@ -7,7 +7,7 @@ import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 
 export default class Contracts extends React.Component {
     state = {
-        headerStates: [true, false],
+        headerStates: [true, false, false],
         currentTabOpen: 0,
         selectedComponents: []
     }
@@ -90,9 +90,11 @@ export default class Contracts extends React.Component {
         let page;
         if (this.state.headerStates[0]) {
             page = <ComponentsView
-                    setComponents={this.setSelectedComponents}
-                    components={this.state.selectedComponents}
-                    />
+                setComponents={this.setSelectedComponents}
+                components={this.state.selectedComponents}
+            />
+        } else if (this.state.headerStates[1]) {
+            page = <></>
         } else {
             page =
                 <ComponentsDiagram
@@ -113,7 +115,7 @@ export default class Contracts extends React.Component {
                     <div>
                         <CustomNavButton
                             open={this.state.currentTabOpen}
-                            itemsLength="2"
+                            itemsLength={this.state.headerStates.length}
                             type={"back"}
                             toggleNew={this.toggleNew}
                             href="#/contracts"
@@ -123,8 +125,8 @@ export default class Contracts extends React.Component {
                     <div>
                         <CustomNavButton
                             open={this.state.currentTabOpen}
-                            itemsLength="2"
-                            type={"continue"}
+                            itemsLength={this.state.headerStates.length}
+                            type={this.state.currentTabOpen === 0 ? "connect" : "create-system"}
                             toggleNew={this.toggleNew}
                             href="#/contracts"
                         />

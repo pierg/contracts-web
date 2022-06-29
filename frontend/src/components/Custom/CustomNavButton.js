@@ -1,14 +1,15 @@
 import React from "react";
 import customnavbutton from "../../_texts/custom/customnavbutton";
 
-export default function CustomNavButton({
-  toggleNew,
-  open,
-  itemsLength,
-  type,
-  noProject,
-  href
-}) {
+export default function CustomNavButton(
+    {
+        toggleNew,
+        open,
+        itemsLength,
+        type,
+        noProject,
+        href
+    }) {
 
     let disabled
     let actionToggle
@@ -16,9 +17,8 @@ export default function CustomNavButton({
     if (type === "back") {
         disabled = (open === 0)
         actionToggle = (open - 1 < 0 ? itemsLength - 1 : open - 1)
-    }
-    else {
-        disabled = (open === itemsLength -1 || noProject)
+    } else {
+        disabled = (open === itemsLength - 1 || noProject)
         actionToggle = (open + 1 > itemsLength - 1 ? 0 : open + 1)
     }
 
@@ -33,10 +33,16 @@ export default function CustomNavButton({
                     <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.iconNameBack + " mr-2"}/>
                 )}
                 <span className={(disabled ? "opacity-40 " : "hover:underline ") + "text-2xl"}>
-                    {type === "back" ? customnavbutton.backText : customnavbutton.continueText}
+                    {(type === "back") && (customnavbutton.backText)}
+                    {(type === "connect") && (customnavbutton.connectText)}
+                    {(type === "create-system") && (customnavbutton.createSystemText)}
                 </span>
-                {(type === "continue") && (
-                    <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.iconNameContinue + " ml-2"}/>
+
+                {(type === "connect") && (
+                    <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.rightChevronIcon + " ml-2"}/>
+                )}
+                {(type === "create-system") && (
+                    <i className={(disabled ? "opacity-30 " : "") + customnavbutton.iconColor + " " + customnavbutton.rightChevronIcon + " ml-2"}/>
                 )}
             </div>
         </a>
