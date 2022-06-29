@@ -17,7 +17,8 @@ const textProps = {
                     }
                 },
             },
-            diagram: "DIAGRAM"
+            diagram: "DIAGRAM",
+            info: "INFO"
         },
         icon: {
             info : "fas fa-info",

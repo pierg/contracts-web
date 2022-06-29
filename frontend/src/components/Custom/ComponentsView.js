@@ -7,12 +7,15 @@ import goaleditinfo from "../../_texts/custom/goaleditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
 import Checkbox from "../Elements/Checkbox";
+import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
 
 export default class ComponentsView extends React.Component {
 
     state = {
         triggerAddComponent: false,
         tmpComponent: false,
+        componentToShow : null,
+        show : false
     }
 
     setTriggerAddComponent = (bool) => {
@@ -59,9 +62,6 @@ export default class ComponentsView extends React.Component {
         this.props.setComponents(tmpComponent)
     }
 
-    showInfo = (i) => {
-
-    }
 
     selectAllComponents = (e) => {
         if (e.target.checked)
@@ -73,6 +73,20 @@ export default class ComponentsView extends React.Component {
     saveComponent = (component) => {
         console.log(component)
     }
+
+    handleShow = (i) => {
+        this.setState({
+            componentToShow : this.props.components[i],
+            show : true
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            show : false
+        })
+    }
+
 
     render() {
         let components = []
@@ -94,7 +108,7 @@ export default class ComponentsView extends React.Component {
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={(e) => {
-                                e.stopPropagation(); this.showInfo(i)
+                                e.stopPropagation(); this.handleShow(i)
                             }}>
                                 <i className={componentInfo.info.icon.info}/>
                             </Button>
@@ -176,6 +190,11 @@ export default class ComponentsView extends React.Component {
                     </ul>
                 </div>
             </div>
+            <ComponentInfoOffCanvas
+                show={this.state.show}
+                handleClose={this.handleClose}
+                component={this.state.componentToShow}
+            />
         </>);
     }
 }
