@@ -5,6 +5,7 @@ import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 import ContractsConnect from "../../components/Custom/ContractsConnect";
+import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 
 let tests=[]
 for (let i=0; i<20; i++) {
@@ -23,9 +24,16 @@ export default class Contracts extends React.Component {
         headerStates: [true, false, false],
         currentTabOpen: 0,
         selectedComponents: [],
-        components : tests
+        components : tests,
+        triggerComponents : true
         //components : []
 
+    }
+
+    setTriggerComponents = (bool) => {
+        this.setState({
+            triggerComponents : bool
+        })
     }
 
     setSelectedComponents = (selectedComponents) => {
@@ -105,6 +113,7 @@ export default class Contracts extends React.Component {
             },
         ]
 
+        console.log(this.state.components)
 
         const links = [
             {input: 'port-1', output: 'port-4'},
@@ -129,6 +138,11 @@ export default class Contracts extends React.Component {
         }
         return (
             <>
+                <SocketIoComponents
+                    updateComponents={this.setComponents}
+                    triggerComponents={this.state.triggerComponents}
+                    setTriggerComponents={this.setTriggerComponents}
+                />
                 <CustomHeader
                     {...cromecontractsheaderscards}
                     color={"purple"}
