@@ -4,6 +4,7 @@ import ComponentsView from "../../components/Custom/ComponentsView";
 import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
+import ContractsConnect from "../../components/Custom/ContractsConnect";
 
 const tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
 
@@ -107,7 +108,7 @@ export default class Contracts extends React.Component {
                         components={this.state.components}
                     />
         } else if (this.state.headerStates[1]) {
-            page = <></>
+            page = <ContractsConnect/>
         } else {
             page =
                 <ComponentsDiagram
