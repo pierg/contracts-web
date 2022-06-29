@@ -3,9 +3,19 @@ import json
 from os import walk
 
 from backend.shared.paths import component_path
+from crome_component.component import Component
+
+HEADER_SYMBOL = "**"
+NAME_HEADER = "**NAME**"
+DESCRIPTION_HEADER = "**DESCRIPTION**"
+INPUTS_HEADER = "**INPUTS**"
+OUTPUTS_HEADER = "**OUTPUTS**"
+ASSUMPTION_HEADER = "**ASSUMPTION**"
+GUARANTEES_HEADER = "**GUARANTEES**"
+COMMENT_CHAR = "#"
 
 
-class Component:
+class ComponentOperation:
 
     @staticmethod
     def get_components(session_id) -> list:
@@ -16,29 +26,19 @@ class Component:
         if os.path.isdir(component_folder):
             _, _, filenames = next(walk(component_folder))
             for filename in filenames:
-                with open(component_folder / filename) as json_file:
-                    json_obj = json.load(json_file)
-                    list_components.append(json_obj)
+                component = Component.from_file(component_folder / filename)
+                list_components.append({"name": component.name, "description": component.description,
+                                        "inputs": component.spec.i, "outputs": component.spec.o,
+                                        "assumptions": component.spec.a, "guarantees": component.spec.g})
 
         return list_components
 
     @staticmethod
     def save_component(data, session_id) -> None:
         component_folder = component_path(session_id)
-
-        if "id" not in data["component"]:
-            dir_path, dir_names, filenames = next(os.walk(component_folder))
-            greatest_id = -1 if len(filenames) == 0 else int(max(filenames)[0:4])
-            greatest_id += 1
-            data["component"]["id"] = (
-                    session_id + "-" + str(greatest_id).zfill(4)
-            )
-            filename = "component_" + str(greatest_id).zfill(4) + ".json"
-            data["component"]["filename"] = filename
-        json_file = open(os.path.join(component_folder, data["component"]["filename"]), "w")
-        json_formatted = json.dumps(data["component"], indent=4, sort_keys=True)
-        json_file.write(json_formatted)
-        json_file.close()
+        if not os.path.exists(component_folder):
+            os.makedirs(component_folder)
+        # TODO : create the txt file and put all the information inside
 
     @staticmethod
     def delete_component(name, session_id) -> bool:
@@ -52,3 +52,9 @@ class Component:
                     os.remove(component_folder / filename)
                     return True
         return False
+
+    @staticmethod
+    def _check_header(line: str) -> tuple[str, bool]:
+        if line.startswith(HEADER_SYMBOL):
+            return line.strip(), True
+        return line.strip(), False
