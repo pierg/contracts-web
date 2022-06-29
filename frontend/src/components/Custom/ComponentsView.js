@@ -104,7 +104,7 @@ export default class ComponentsView extends React.Component {
                                     className={lineClass}>
                     <div className="flex justify-between" >
                         <div>
-                           {" composant_" + this.props.components[i]}
+                           {this.props.components[i].title}
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={(e) => {

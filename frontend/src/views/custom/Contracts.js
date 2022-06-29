@@ -6,7 +6,17 @@ import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 import ContractsConnect from "../../components/Custom/ContractsConnect";
 
-const tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+let tests=[]
+for (let i=0; i<20; i++) {
+    tests.push({
+        "title": "component_"+i,
+        "description" : "here is the description of the component",
+        "inputs":"test inputs",
+        "outputs":"test outputs",
+        "assumptions":"test assumptions",
+        "guarantees":"test guarantees"
+    })
+}
 
 export default class Contracts extends React.Component {
     state = {

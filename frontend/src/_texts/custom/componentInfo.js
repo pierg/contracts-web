@@ -18,7 +18,13 @@ const textProps = {
                 },
             },
             diagram: "DIAGRAM",
-            info: "INFO"
+            info: {
+                title:"INFO",
+                inputs:"Inputs",
+                outputs:"Outputs",
+                assumptions:"Assumptions",
+                guarantees:"Guarantees"
+            }
         },
         icon: {
             info : "fas fa-info",
