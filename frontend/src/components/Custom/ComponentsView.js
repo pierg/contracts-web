@@ -58,13 +58,14 @@ export default class ComponentsView extends React.Component {
         let components = []
         let lineClass = ""
         for (let i = 0; i < 20; i++) {
-            lineClass="border-b-1 text-blueGray-700 text-lg p-3 rounded hover:bg-blueGray-100 cursor-pointer"
+            lineClass="border-b-1 text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
             if (i===0) {
                 lineClass+=" border-t-1"
             }
             if (this.props.components.includes(i)) {
-                lineClass+=" bg-blueGray-100"
+                lineClass+=" bg-blueGray-100 font-bold"
             }
+
             components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
                                     className={lineClass}>
                     <div className="flex justify-between">
@@ -79,48 +80,16 @@ export default class ComponentsView extends React.Component {
                         </div>
                     </div>
                 </li>)
-            /*if (i === 0) {
-                components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
-                                    className="border-b-1 border-t-1 text-blueGray-700 text-lg py-3 hover:bg-blueGray-100 cursor-pointer">
-                    <div className="flex justify-between">
-                        <div>
-                           {" composant_" + i}
-                        </div>
-                        <div>
-                            <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
-                                className={componentInfo.info.icon.edit}/></Button>
-                            <Button size="sm" color="red" onClick={() => this.deleteComponent(i)}><i
-                                className={componentInfo.info.icon.delete}/></Button>
-                        </div>
-                    </div>
-                </li>)
-            } else {
-                components.push(<li key={i} onClick={() => this.checkBoxClicked(i)}
-                                    className="border-b-1 text-blueGray-700 text-lg py-3 hover:bg-blueGray-100 cursor-pointer">
-                    <div className="flex justify-between">
-                        <div>
-                            {" composant_" + i}
-                        </div>
-                        <div>
-                            <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
-                                className={componentInfo.info.icon.edit}/></Button>
-                            <Button size="sm" color="red" onClick={() => this.deleteComponent(i)}><i
-                                className={componentInfo.info.icon.delete}/></Button>
-                        </div>
-                    </div>
-                </li>)
-            }*/
         }
 
         return (<>
             <div className="px-3 pb-3 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
-                <div className="flex flex-row py-3 text-center">
-                    <div className="w-9/12">
-                        <div className="fs-4 font-bold text-blueGray-500">
-                            {componentInfo.info.texts.component.header.title}
-                        </div>
+                <div className="flex justify-between p-4 text-center">
+                    <div className="w-5"></div>
+                    <div className="fs-4 font-bold text-blueGray-500">
+                        {componentInfo.info.texts.component.header.title}
                     </div>
-                    <div className="w-3/12 flex justify-center">
+                    <div className="flex justify-center">
                         <div className="mx-2">
                             <Tooltip
                                 title="Add a component"
@@ -168,7 +137,7 @@ export default class ComponentsView extends React.Component {
                         </Modal>
                     </div>
                 </div>
-                <div className="overflow-auto max-h-400-px pt-3 px-5 mb-4">
+                <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4">
                     <ul>
                         {components}
                     </ul>
