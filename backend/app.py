@@ -8,7 +8,7 @@ from typing import Any
 from flask import Flask, Response, request
 from flask_socketio import SocketIO, emit
 
-from backend.operations.component import Component
+from backend.operations.component import ComponentOperation
 from backend.shared.paths import (
     build_path,
     project_path,
@@ -165,7 +165,7 @@ def get_components() -> None:
         get the synthesis created by the user and the examples.
     """
     session_id = str(request.args.get("id"))
-    list_examples = Component.get_components(session_id)
+    list_examples = ComponentOperation.get_components(session_id)
 
     emit("receive-components", list_examples, room=request.sid)
 
@@ -182,7 +182,7 @@ def save_component(data) -> None:
     emit("component-saved", True, room=request.sid)
 
     try:
-        Component.save_component(data, session_id)
+        ComponentOperation.save_component(data, session_id)
         send_message_to_user(content='The component "' + name + '" has been saved.',
                              room_id=request.sid, crometype="success")
     except KeyError as keyError:
@@ -201,7 +201,7 @@ def delete_component(name) -> None:
     """
     session_id = str(request.args.get("id"))
 
-    is_deleted = Component.delete_component(name, session_id)
+    is_deleted = ComponentOperation.delete_component(name, session_id)
     if is_deleted:
         send_message_to_user(f"The component '{name}' has been deleted.", request.sid, "success")
     else:
