@@ -5,16 +5,27 @@ import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 
+const tests = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]
+
 export default class Contracts extends React.Component {
     state = {
         headerStates: [true, false, false],
         currentTabOpen: 0,
-        selectedComponents: []
+        selectedComponents: [],
+        components : tests
+        //components : []
+
     }
 
     setSelectedComponents = (selectedComponents) => {
         this.setState({
             selectedComponents
+        })
+    }
+
+    setComponents = (components) => {
+        this.setState({
+            components
         })
     }
 
@@ -90,9 +101,11 @@ export default class Contracts extends React.Component {
         let page;
         if (this.state.headerStates[0]) {
             page = <ComponentsView
-                setComponents={this.setSelectedComponents}
-                components={this.state.selectedComponents}
-            />
+                        setSelectedComponents={this.setSelectedComponents}
+                        selectedComponents={this.state.selectedComponents}
+                        setComponents={this.setComponents}
+                        components={this.state.components}
+                    />
         } else if (this.state.headerStates[1]) {
             page = <></>
         } else {

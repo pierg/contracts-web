@@ -27,13 +27,13 @@ export default class ComponentsView extends React.Component {
     }
 
     checkBoxClicked = (i) => {
-        let selected = this.props.components
+        let selected = this.props.selectedComponents
         if (selected.includes(i))
             selected = selected.filter((e) => e!==i)
         else
             selected.push(i)
 
-        this.props.setComponents(selected)
+        this.props.setSelectedComponents(selected)
     }
 
     clickAddComponent = () => {
@@ -57,12 +57,12 @@ export default class ComponentsView extends React.Component {
     render() {
         let components = []
         let lineClass = ""
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < this.props.components.length; i++) {
             lineClass="border-b-1 text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
             if (i===0) {
                 lineClass+=" border-t-1"
             }
-            if (this.props.components.includes(i)) {
+            if (this.props.selectedComponents.includes(i)) {
                 lineClass+=" bg-blueGray-100 font-bold"
             }
 
@@ -70,7 +70,7 @@ export default class ComponentsView extends React.Component {
                                     className={lineClass}>
                     <div className="flex justify-between">
                         <div>
-                           {" composant_" + i}
+                           {" composant_" + this.props.components[i]}
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={() => this.editComponent(i)}><i
