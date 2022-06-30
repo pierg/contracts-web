@@ -104,7 +104,7 @@ export default class ComponentsView extends React.Component {
                                     className={lineClass}>
                     <div className="flex justify-between" >
                         <div>
-                           {this.props.components[i].title}
+                           {this.props.components[i].name}
                         </div>
                         <div>
                             <Button size="sm" color="gray" onClick={(e) => {
@@ -132,7 +132,7 @@ export default class ComponentsView extends React.Component {
         return (<>
             <div className="px-3 pb-3 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
                 <div className="flex justify-between p-4 text-center">
-                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="select all" /></div>
+                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all" /></div>
                     <div className="fs-4 font-bold text-blueGray-500">
                         {componentInfo.info.texts.component.header.title}
                     </div>

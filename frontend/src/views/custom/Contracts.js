@@ -12,10 +12,12 @@ for (let i=0; i<20; i++) {
     tests.push({
         "title": "component_"+i,
         "description" : "here is the description of the component",
-        "inputs":"test inputs",
-        "outputs":"test outputs",
-        "assumptions":"test assumptions",
-        "guarantees":"test guarantees"
+        "inputs": "test inputs",
+        "outputs": "test outputs",
+        "contract": {
+            "assumptions":"test assumptions",
+            "guarantees":"test guarantees"
+        }
     })
 }
 
@@ -24,10 +26,18 @@ export default class Contracts extends React.Component {
         headerStates: [true, false, false],
         currentTabOpen: 0,
         selectedComponents: [],
-        components : tests,
-        triggerComponents : true
+        components : [],
+        triggerComponents : true,
+        triggerSave : false,
+        componentToSave : null
         //components : []
 
+    }
+
+    setTriggerSave = (bool) => {
+        this.setState({
+            triggerSave : bool
+        })
     }
 
     setTriggerComponents = (bool) => {
@@ -45,6 +55,13 @@ export default class Contracts extends React.Component {
     setComponents = (components) => {
         this.setState({
             components
+        })
+    }
+
+    saveComponent = (component) => {
+        this.setState({
+            componentToSave : component,
+            triggerSave : true
         })
     }
 
