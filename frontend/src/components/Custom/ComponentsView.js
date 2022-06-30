@@ -3,7 +3,7 @@ import componentInfo from "../../_texts/custom/componentInfo";
 import ComponentEdit from "./ComponentEdit";
 import Button from "../Elements/Button";
 import {Modal} from "reactstrap";
-import goaleditinfo from "../../_texts/custom/goaleditinfo";
+import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
 import Checkbox from "../Elements/Checkbox";
@@ -46,7 +46,6 @@ export default class ComponentsView extends React.Component {
     }
 
     editComponent = (component) => {
-        console.log("edit")
         this.setTmpComponent(component)
     }
 
@@ -71,7 +70,22 @@ export default class ComponentsView extends React.Component {
     }
 
     saveComponent = (component) => {
-        console.log(component)
+        this.setTriggerAddComponent(false)
+        const tmpComponent = {
+            "name":component.name,
+            "description": component.description,
+            "inputs" : [{"name" : "x", "type" : "float"},{"name" : "a", "type" : "bool"}],
+            "outputs" : [{"name" : "y", "type" : "float"},{"name" : "b", "type" : "bool"}],
+            "assumptions" : {
+                'LTL': ['GF(a)'],
+                'PL': ['x <= 84']
+            },
+            "guarantees" : {
+                'LTL': ['F(b)'],
+                'PL': ['y > 2']
+            }
+        }
+        this.props.saveComponent(tmpComponent)
     }
 
     handleShow = (i) => {
@@ -179,7 +193,7 @@ export default class ComponentsView extends React.Component {
                                 edit={(component) => this.editComponent(component)}
                                 save={(component) => this.saveComponent(component)}
                                 close={() => this.setTriggerAddComponent(false)}
-                                {...goaleditinfo}
+                                {...componenteditinfo}
                             />
                         </Modal>
                     </div>

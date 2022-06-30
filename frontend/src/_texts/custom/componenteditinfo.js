@@ -1,6 +1,6 @@
 const textProps = {
     info: {
-        title: "Edit a Goal",
+        title: "Edit a Component",
         context: {
             title: "Context"
         },

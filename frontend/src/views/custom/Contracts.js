@@ -6,6 +6,7 @@ import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 import ContractsConnect from "../../components/Custom/ContractsConnect";
 import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
+import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 
 let tests=[]
 for (let i=0; i<20; i++) {
@@ -31,7 +32,6 @@ export default class Contracts extends React.Component {
         triggerSave : false,
         componentToSave : null
         //components : []
-
     }
 
     setTriggerSave = (bool) => {
@@ -59,9 +59,16 @@ export default class Contracts extends React.Component {
     }
 
     saveComponent = (component) => {
+        console.log(component)
         this.setState({
             componentToSave : component,
             triggerSave : true
+        })
+    }
+
+    componentIsSaved = () => {
+        this.setState({
+            triggerComponents : true
         })
     }
 
@@ -130,8 +137,6 @@ export default class Contracts extends React.Component {
             },
         ]
 
-        console.log(this.state.components)
-
         const links = [
             {input: 'port-1', output: 'port-4'},
         ]
@@ -142,6 +147,7 @@ export default class Contracts extends React.Component {
                         selectedComponents={this.state.selectedComponents}
                         setComponents={this.setComponents}
                         components={this.state.components}
+                        saveComponent={this.saveComponent}
                     />
         } else if (this.state.headerStates[1]) {
             page = <ContractsConnect/>
@@ -159,6 +165,12 @@ export default class Contracts extends React.Component {
                     updateComponents={this.setComponents}
                     triggerComponents={this.state.triggerComponents}
                     setTriggerComponents={this.setTriggerComponents}
+                />
+                <SocketSaveComponent
+                    componentIsSaved={this.componentIsSaved}
+                    triggerSave={this.state.triggerSave}
+                    setTriggerSave={this.setTriggerSave}
+                    component={this.state.componentToSave}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}
