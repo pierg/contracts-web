@@ -15,7 +15,7 @@ function SocketSaveComponent(props) {
 
         if (props.component !== null && props.triggerSave) {
             props.setTriggerSave(false)
-            socket.emit('save-component', {component : props.component});
+            socket.emit('save-component', props.component);
             socket.on('component-saved', componentIsSaved)
         }
 

@@ -174,9 +174,11 @@ def save_component(data) -> None:
     """
         get the synthesis created by the user and the examples.
     """
+    print("I'm here !")
+    print(data)
     session_id = str(request.args.get("id"))
     now = time.localtime(time.time())
-    name: str = data["component"]["name"]
+    name: str = data["name"]
 
     emit("component-saved", True, room=request.sid)
 
