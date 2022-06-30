@@ -59,7 +59,7 @@ export default class Contracts extends React.Component {
             triggerSave : bool
         })
     }
-    
+
 
     saveComponent = (component) => {
         console.log(component)
