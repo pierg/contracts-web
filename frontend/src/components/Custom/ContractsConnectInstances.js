@@ -2,55 +2,107 @@ import contractsconnect from "../../_texts/custom/contractsconnect";
 import Button from "../Elements/Button";
 import React from "react";
 import {Classes, Tree} from "@blueprintjs/core";
+import '@blueprintjs/core/lib/css/blueprint.css';
 
-function ContractsConnectInstances(components) {
-    const [tree] = []
+function ContractsConnectInstances(props) {
 
-    const setTree = (tree) => {
-        let treeTmp = []
-        let keys = Object.keys(tree).sort()
-        let node
-        let nbExampleCreation = 0
-        for (let i = 0; i < keys.length; i++) {
-            node = {}
-            node.id = i
-            node.label = keys[i]
-            node.icon = "folder-close"
-            node.isExpanded = false
-            node.childNodes = []
-
-            let childNode
-            for (let j = 0; j < tree[keys[i]].length; j++) {
-                childNode = {}
-                childNode.id = i + "_" + j
-                childNode.label = tree[keys[i]][j].id
-                if (keys[i] === "Your creation") {
-                    nbExampleCreation++
-                }
-                childNode.assumptions = tree[keys[i]][j].assumptions
-                childNode.guarantees = tree[keys[i]][j].guarantees
-                childNode.inputs = tree[keys[i]][j].inputs
-                childNode.outputs = tree[keys[i]][j].outputs
-                node.childNodes[j] = childNode
-            }
-
-            treeTmp[i] = node
+    const changeIsOpen = ({e}) => {
+        console.log(e)
+        if(e.icon) {
+            let arraySplit = e.id.split("-")
+            props.setInstancesOpen(arraySplit[0],arraySplit[1])
         }
-
-        this.setState({
-            tree: treeTmp,
-            nbFolders: keys.length,
-            nbExampleCreation: nbExampleCreation,
-            creationExpanded: false,
-        })
     }
 
+    let instances = []
+    let subtree
+    let node
+    for(let i=0;i<props.instances.length;i++) {
+        subtree = []
+        node = {}
+        node.id = i+"-0"
+        node.label = "inputs"
+        node.icon = "folder-close"
+        node.isExpanded = props.instancesOpen[i][0]
+        node.childNodes = []
+        let childNode
+        for(let j=0;j<props.instances[i].inputs.length;j++) {
+            childNode = {}
+            childNode.id = node.id+"-"+j
+            childNode.label = props.instances[i].inputs[j].name + " (" + props.instances[i].inputs[j].type + ")"
+            node.childNodes[j] = childNode
+        }
+        subtree.push(node)
 
-    return (<>
+        node = {}
+        node.id = i+"-1"
+        node.label = "outputs"
+        node.icon = "folder-close"
+        node.isExpanded = props.instancesOpen[i][1]
+        node.childNodes = []
+        for(let j=0;j<props.instances[i].outputs.length;j++) {
+            childNode = {}
+            childNode.id = node.id+"-"+j
+            childNode.label = props.instances[i].outputs[j].name + " (" + props.instances[i].outputs[j].type + ")"
+            node.childNodes[j] = childNode
+        }
+        subtree.push(node)
+
+        node = {}
+        node.id = i+"-2"
+        node.label = "assumptions"
+        node.icon = "folder-close"
+        node.isExpanded = props.instancesOpen[i][2]
+        node.childNodes = []
+        for (let assump in props.instances[i].assumptions) {
+            childNode = {}
+            childNode.id = node.id+"-"+node.childNodes.length
+            childNode.label = assump
+            childNode.icon = "folder-close"
+            childNode.isExpanded = true
+            childNode.childNodes = []
+            let childChildNode
+            for(let j=0 ; j<props.instances[i].assumptions[assump].length ; j++) {
+                childChildNode = {}
+                childChildNode.id = childNode.id+"-"+j
+                childChildNode.label = props.instances[i].assumptions[assump][j]
+                childNode.childNodes.push(childChildNode)
+            }
+            node.childNodes.push(childNode)
+        }
+        subtree.push(node)
+
+        node = {}
+        node.id = i+"-3"
+        node.label = "guarantees"
+        node.icon = "folder-close"
+        node.isExpanded = props.instancesOpen[i][3]
+        node.childNodes = []
+        subtree.push(node)
+
+        instances.push(
+            <div
+                key={i}
+                className="flex p-3"
+            >
+                <div>
+                    {props.instances[i].title}
+                </div>
+                <Tree
+                    contents={subtree}
+                    className={Classes.TEXT_SMALL}
+                    onNodeClick={e => changeIsOpen({e})}
+                />
+            </div>
+        )
+    }
+
+    return (
+        <>
             <div className="flex p-3">
-            <span className={contractsconnect.instances.instanceStyle}>
-                    {contractsconnect.instances.instancesTitle}
-            </span>
+                <span className={contractsconnect.instances.instanceStyle}>
+                        {contractsconnect.instances.instancesTitle}
+                </span>
 
                 <Button
                     size={contractsconnect.addButton.size}
@@ -58,99 +110,11 @@ function ContractsConnectInstances(components) {
                 >
                     <i className={contractsconnect.addButton.icon}></i>
                 </Button>
-
-                <Tree
-                    contents={tree}
-                    className={Classes.TEXT_SMALL}
-                    onNodeClick={e => changeIsOpen({e: e})}
-                />
             </div>
+
+            {instances}
         </>
-
     )
-}
-
-// const changeIsOpen = ({e}) => {
-//     e.isExpanded = !e.isExpanded
-//     let creationExpanded = this.state.creationExpanded
-//     let sizeFolder = this.state.nbFolders
-//     if(e.id.length !== undefined) {
-//         this.setState({
-//             nameValue : e.label,
-//             assumptionsValue : e.assumptions.join("\n"),
-//             guaranteesValue : e.guarantees.join("\n"),
-//             inputsValue : e.inputs.join(", "),
-//             outputsValue : e.outputs.join(", "),
-//         })
-//     }
-//     else {
-//         if(e.label !== "Your creation") {
-//             if(!e.isExpanded) {
-//                 sizeFolder -= e.childNodes.length
-//             }
-//             else {
-//                 sizeFolder += e.childNodes.length
-//             }
-//         }
-//         else {
-//             creationExpanded = e.isExpanded
-//         }
-//     }
-//     this.setState({
-//         clickedButtonStrix : false,
-//         clickedButtonParallel : false,
-//         triggerSynthesis : false,
-//         graph: null,
-//         simulation: false,
-//         nbFolders: sizeFolder,
-//         creationExpanded: creationExpanded,
-//     })
-// }
-
-
-// setTree = (tree) => {
-//         let treeTmp = []
-//         let keys = Object.keys(tree).sort()
-//         let node
-//         let nbExampleCreation = 0
-//         for(let i=0;i<keys.length;i++) {
-//             node = {}
-//             node.id = i
-//             node.label = keys[i]
-//             node.icon = "folder-close"
-//             node.isExpanded = false
-//             node.childNodes = []
-//
-//             let childNode
-//             for(let j=0;j<tree[keys[i]].length;j++) {
-//                 childNode = {}
-//                 childNode.id = i+"_"+j
-//                 childNode.label = tree[keys[i]][j].id
-//                 if(keys[i] === "Your creation") {
-//                     nbExampleCreation++
-//                 }
-//                 childNode.assumptions = tree[keys[i]][j].assumptions
-//                 childNode.guarantees = tree[keys[i]][j].guarantees
-//                 childNode.inputs = tree[keys[i]][j].inputs
-//                 childNode.outputs = tree[keys[i]][j].outputs
-//                 node.childNodes[j] = childNode
-//             }
-//
-//             treeTmp[i] = node
-//         }
-//
-//         this.setState({
-//             tree : treeTmp,
-//             nbFolders : keys.length,
-//             nbExampleCreation : nbExampleCreation,
-//             creationExpanded: false,
-//         })
-//     }
-
-
-const changeIsOpen = ({e}) => {
-    e.isExpanded = !e.isExpanded
-    console.log(e)
 }
 
 export default ContractsConnectInstances

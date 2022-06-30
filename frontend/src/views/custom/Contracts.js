@@ -9,45 +9,48 @@ import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 
 let tests=[]
 for (let i=0; i<20; i++) {
-    tests.push({
-        "title": "component_"+i,
-        "description" : "here is the description of the component",
-        "inputs":"test inputs",
-        "outputs":"test outputs",
-        "assumptions":"test assumptions",
-        "guarantees":"test guarantees"
-    })
+    tests.push(
+        {
+            "title": "component_"+i,
+            "description" : "here is the description of the component",
+            "inputs":[
+                {"name" : "x", "type" : "float"},
+                {"name" : "a", "type" : "bool"}
+            ],
+            "outputs":[
+                {"name" : "y", "type" : "float"},
+                {"name" : "b", "type" : "bool"}
+            ],
+            "assumptions":{
+                "PL" : ["x <= 84", "x > 5"],
+                "LTL" : ["GF(a)"]
+            },
+            "guarantees":{
+                "PL" : ["y > 2"],
+                "LTL" : ["F(b)"]
+            }
+        }
+    )
 }
 
 export default class Contracts extends React.Component {
     state = {
+        // MAIN PAGE
         headerStates: [true, false, false],
         currentTabOpen: 0,
+
+        // FIRST PAGE
         selectedComponents: [],
         components : tests,
-        triggerComponents : true
-        //components : []
+        triggerComponents : true,
+
+        // SECOND PAGE
+        instances : [],
+        instancesOpen : []
 
     }
 
-    setTriggerComponents = (bool) => {
-        this.setState({
-            triggerComponents : bool
-        })
-    }
-
-    setSelectedComponents = (selectedComponents) => {
-        this.setState({
-            selectedComponents
-        })
-    }
-
-    setComponents = (components) => {
-        this.setState({
-            components
-        })
-    }
-
+    // MAIN PAGE
     toggleNew = (e, actionToggle, disabled) => {
         if (disabled) return
         let newHeaderStates = Array(this.state.headerStates.length).fill(false);
@@ -60,6 +63,50 @@ export default class Contracts extends React.Component {
 
     }
 
+    // FIRST PAGE
+    setTriggerComponents = (bool) => {
+        this.setState({
+            triggerComponents : bool
+        })
+    }
+
+    setSelectedComponents = (selectedComponents) => {
+        let instancesOpen = []
+        for(let i=0; i<this.state.selectedComponents.length; i++) {
+            instancesOpen[i] = Array(4).fill(false)
+        }
+        this.setState({
+            selectedComponents,
+            instances : selectedComponents,
+            instancesOpen : instancesOpen
+        })
+    }
+
+    setComponents = (components) => {
+        this.setState({
+            components
+        })
+    }
+
+    // SECOND PAGE
+    setInstances = (instances) => {
+        let instancesOpen = []
+        for(let i=0; i<this.state.selectedComponents.length; i++) {
+            instancesOpen[i] = Array(4).fill(false)
+        }
+        this.setState({
+            instances,
+            instancesOpen : instancesOpen
+        })
+    }
+
+    setInstancesOpen = (indexInstance, indexGroup) => {
+        let instancesOpen = this.state.instancesOpen
+        instancesOpen[indexInstance][indexGroup] = !instancesOpen[indexInstance][indexGroup]
+        this.setState({
+            instancesOpen : instancesOpen
+        })
+    }
 
     render() {
         const nodes = [
@@ -113,8 +160,6 @@ export default class Contracts extends React.Component {
             },
         ]
 
-        console.log(this.state.components)
-
         const links = [
             {input: 'port-1', output: 'port-4'},
         ]
@@ -127,15 +172,20 @@ export default class Contracts extends React.Component {
                         components={this.state.components}
                     />
         } else if (this.state.headerStates[1]) {
-            page = <ContractsConnect/>
+            page = <ContractsConnect
+                        instances={this.state.instances}
+                        setInstances={this.state.setInstances}
+                        instancesOpen={this.state.instancesOpen}
+                        setInstancesOpen={this.setInstancesOpen}
+                    />
         } else {
             page =
                 <ComponentsDiagram
                     nodes={nodes}
                     links={links}
                 />
-
         }
+
         return (
             <>
                 <SocketIoComponents
@@ -173,7 +223,6 @@ export default class Contracts extends React.Component {
 
                 <div className="mx-40 my-6">
                     {page}
-
                 </div>
             </>
         )
