@@ -1,10 +1,8 @@
 import contractsconnect from "../../_texts/custom/contractsconnect";
 import Button from "../Elements/Button";
 import React from "react";
-import {Classes, Tree} from "@blueprintjs/core";
 
 function ContractsConnectConnections(props) {
-    const [tree] = []
     return (<>
         <div className="flex p-3">
             <span className={contractsconnect.connections.connectionsStyle}>

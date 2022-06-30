@@ -2946,6 +2946,10 @@ select {
     cursor: pointer;
 }
 
+.cursor-not-allowed {
+    cursor: not-allowed;
+}
+
 .block {
     display: block;
 }
@@ -4593,6 +4597,10 @@ select {
 
 .text-right {
     text-align: right;
+}
+
+.text-justify {
+    text-align: justify;
 }
 
 .text-white {

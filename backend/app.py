@@ -11,7 +11,6 @@ from flask_socketio import SocketIO, emit
 from backend.operations.component import ComponentOperation
 from backend.shared.paths import (
     build_path,
-    project_path,
     storage_path,
 )
 
