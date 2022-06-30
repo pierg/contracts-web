@@ -8,33 +8,6 @@ import ContractsConnect from "../../components/Custom/ContractsConnect";
 import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 
-let tests=[]
-for (let i=0; i<20; i++) {
-
-    tests.push(
-        {
-            "title": "component_"+i,
-            "description" : "here is the description of the component",
-            "inputs":[
-                {"name" : "x", "type" : "float"},
-                {"name" : "a", "type" : "bool"}
-            ],
-            "outputs":[
-                {"name" : "y", "type" : "float"},
-                {"name" : "b", "type" : "bool"}
-            ],
-            "assumptions":{
-                "PL" : ["x <= 84", "x > 5"],
-                "LTL" : ["GF(a)"]
-            },
-            "guarantees":{
-                "PL" : ["y > 2"],
-                "LTL" : ["F(b)"]
-            }
-        }
-    )
-}
-
 export default class Contracts extends React.Component {
     state = {
         // MAIN PAGE
@@ -43,7 +16,6 @@ export default class Contracts extends React.Component {
 
         // FIRST PAGE
         selectedComponents: [],
-
         components : [],
         triggerComponents : true,
         triggerSave : false,
@@ -51,28 +23,9 @@ export default class Contracts extends React.Component {
 
         // SECOND PAGE
         instances : [],
-        instancesOpen : []
-    }
-
-    setTriggerSave = (bool) => {
-        this.setState({
-            triggerSave : bool
-        })
-    }
-
-
-    saveComponent = (component) => {
-        console.log(component)
-        this.setState({
-            componentToSave : component,
-            triggerSave : true
-        })
-    }
-
-    componentIsSaved = () => {
-        this.setState({
-            triggerComponents : true
-        })
+        instancesOpen : [],
+        connectors : [],
+        connections : [],
     }
 
     toggleNew = (e, actionToggle, disabled) => {
@@ -96,12 +49,16 @@ export default class Contracts extends React.Component {
 
     setSelectedComponents = (selectedComponents) => {
         let instancesOpen = []
-        for(let i=0; i<this.state.selectedComponents.length; i++) {
-            instancesOpen[i] = Array(4).fill(false)
+        let instances = []
+        for(let i=0; i<selectedComponents.length; i++) {
+            instancesOpen[i] = Array(3).fill(false)
+            instances[i] = {}
+            instances[i] = {...selectedComponents[i]}
+            instances[i].name = "M_"+i+" ("+instances[i].name+")"
         }
         this.setState({
-            selectedComponents,
-            instances : selectedComponents,
+            selectedComponents : selectedComponents,
+            instances : instances,
             instancesOpen : instancesOpen
         })
     }
@@ -112,15 +69,38 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerSave = (bool) => {
+        this.setState({
+            triggerSave : bool
+        })
+    }
+
+
+    saveComponent = (component) => {
+        this.setState({
+            componentToSave : component,
+            triggerSave : true
+        })
+    }
+
+    componentIsSaved = () => {
+        this.setState({
+            triggerComponents : true
+        })
+    }
+
     // SECOND PAGE
-    setInstances = (instances) => {
-        let instancesOpen = []
-        for(let i=0; i<this.state.selectedComponents.length; i++) {
-            instancesOpen[i] = Array(4).fill(false)
-        }
+    addInstances = (component) => {
+        let instances = this.state.instances
+        instances.push(component)
+        console.log(instances[instances.length-1])
+        instances[instances.length-1].name = "M_"+(instances.length-1)+" ("+instances[instances.length-1].name+")"
+        console.log(instances[instances.length-1])
+        let instancesOpen = this.state.instancesOpen
+        instancesOpen.push(Array(3).fill(false))
         this.setState({
             instances,
-            instancesOpen : instancesOpen
+            instancesOpen,
         })
     }
 
@@ -129,6 +109,31 @@ export default class Contracts extends React.Component {
         instancesOpen[indexInstance][indexGroup] = !instancesOpen[indexInstance][indexGroup]
         this.setState({
             instancesOpen : instancesOpen
+        })
+    }
+
+    addConnectors = (connector) => {
+        let connectors = this.state.connectors
+        if(connectors.includes(connector)) {
+            connectors = connectors.filter((e) => e !== connector)
+        }
+        else {
+            connectors.push(connector)
+        }
+        this.setState({
+            connectors : connectors
+        })
+    }
+
+    addConnections = () => {
+        let connections = this.state.connections
+        connections.push({
+            "name" : "C_"+connections.length,
+            "connectors" : []
+        })
+        this.setState({
+            connectors : [],
+            connections : connections
         })
     }
 
@@ -198,10 +203,15 @@ export default class Contracts extends React.Component {
                     />
         } else if (this.state.headerStates[1]) {
             page = <ContractsConnect
+                        selectedComponents={this.state.selectedComponents}
                         instances={this.state.instances}
-                        setInstances={this.state.setInstances}
+                        addInstances={this.addInstances}
                         instancesOpen={this.state.instancesOpen}
                         setInstancesOpen={this.setInstancesOpen}
+                        connectors={this.state.connectors}
+                        addConnectors={this.addConnectors}
+                        connections={this.state.connections}
+                        addConnections={this.addConnections}
                     />
         } else {
             page =

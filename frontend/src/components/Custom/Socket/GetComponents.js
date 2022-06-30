@@ -6,7 +6,6 @@ function SocketIoComponents(props) {
     const socket = useSocket()
 
     const setComponents = useCallback((componentsList) => {
-        console.log(componentsList)
         props.updateComponents(componentsList)
         return () => socket.off('receive-components')
     }, [socket, props])
