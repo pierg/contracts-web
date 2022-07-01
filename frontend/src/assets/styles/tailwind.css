@@ -5455,6 +5455,13 @@ select {
     transition-duration: 1000ms;
 }
 
+.basis-1\/5 {
+    flex-basis: 20%;
+}
+.basis-2\/5{
+    flex-basis: 40%;
+}
+
 @-webkit-keyframes spin {
     to {
         -webkit-transform: rotate(360deg);

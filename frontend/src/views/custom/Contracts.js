@@ -26,6 +26,7 @@ export default class Contracts extends React.Component {
         instancesOpen : [],
         connectors : [],
         connections : [],
+        connectionsOpen : [],
     }
 
     toggleNew = (e, actionToggle, disabled) => {
@@ -93,9 +94,7 @@ export default class Contracts extends React.Component {
     addInstances = (component) => {
         let instances = this.state.instances
         instances.push(component)
-        console.log(instances[instances.length-1])
         instances[instances.length-1].name = "M_"+(instances.length-1)+" ("+instances[instances.length-1].name+")"
-        console.log(instances[instances.length-1])
         let instancesOpen = this.state.instancesOpen
         instancesOpen.push(Array(3).fill(false))
         this.setState({
@@ -129,11 +128,22 @@ export default class Contracts extends React.Component {
         let connections = this.state.connections
         connections.push({
             "name" : "C_"+connections.length,
-            "connectors" : []
+            "connectors" : this.state.connectors
         })
+        let connectionsOpen = this.state.connectionsOpen
+        connectionsOpen.push(false)
         this.setState({
             connectors : [],
-            connections : connections
+            connections : connections,
+            connectionsOpen : connectionsOpen,
+        })
+    }
+
+    setConnectionsOpen = (index) => {
+        let connectionsOpen = this.state.connectionsOpen
+        connectionsOpen[index] = !connectionsOpen[index]
+        this.setState({
+            connectionsOpen : connectionsOpen
         })
     }
 
@@ -212,6 +222,8 @@ export default class Contracts extends React.Component {
                         addConnectors={this.addConnectors}
                         connections={this.state.connections}
                         addConnections={this.addConnections}
+                        connectionsOpen={this.state.connectionsOpen}
+                        setConnectionsOpen={this.setConnectionsOpen}
                     />
         } else {
             page =

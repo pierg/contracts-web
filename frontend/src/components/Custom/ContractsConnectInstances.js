@@ -15,8 +15,7 @@ function ContractsConnectInstances(props) {
             props.setInstancesOpen(arraySplit[0],arraySplit[1])
         }
         else{
-            console.log(e)
-            props.addConnectors(e.id)
+            props.addConnectors(e.id+" "+e.label)
         }
     }
 
@@ -42,10 +41,10 @@ function ContractsConnectInstances(props) {
         for(let j=0;j<props.instances[i].inputs.length;j++) {
             childNode = {}
             childNode.id = node.id+"-"+j
-            if(props.connectors.includes(childNode.id)) {
+            childNode.label = props.instances[i].inputs[j].name + " (" + props.instances[i].inputs[j].type + ")"
+            if(props.connectors.includes(childNode.id+" "+childNode.label)) {
                 childNode.className = "bg-blueGray-500 text-white"
             }
-            childNode.label = props.instances[i].inputs[j].name + " (" + props.instances[i].inputs[j].type + ")"
             node.childNodes[j] = childNode
         }
         subtree.push(node)
@@ -58,10 +57,10 @@ function ContractsConnectInstances(props) {
         for(let j=0;j<props.instances[i].outputs.length;j++) {
             childNode = {}
             childNode.id = node.id+"-"+j
-            if(props.connectors.includes(childNode.id)) {
+            childNode.label = props.instances[i].outputs[j].name + " (" + props.instances[i].outputs[j].type + ")"
+            if(props.connectors.includes(childNode.id+" "+childNode.label)) {
                 childNode.className = "bg-blueGray-500 text-white"
             }
-            childNode.label = props.instances[i].outputs[j].name + " (" + props.instances[i].outputs[j].type + ")"
             node.childNodes[j] = childNode
         }
         subtree.push(node)
