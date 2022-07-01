@@ -80,8 +80,15 @@ export default function ContractContentEditor({
                             <tbody>
                             {items.map((prop, key) => (<>
                                 <tr key={key}>
-                                    <td>{key + 1}</td>
-                                    <td className="w-32">
+                                    <td
+                                        rowSpan={2}
+                                    >
+                                        {key + 1}
+                                    </td>
+                                    <td
+                                        className="w-32"
+                                        rowSpan={2}
+                                    >
                                         <UncontrolledDropdown>
                                             <DropdownToggle
                                                 caret
@@ -119,7 +126,10 @@ export default function ContractContentEditor({
                                         </td>
                                     )}
                                     {prop.pattern !== undefined && (
-                                        <td className="w-5/12">
+                                        <td
+                                            className="w-5/12"
+                                            rowSpan={2}
+                                        >
                                             <CustomSelect
                                                 items={NamesOf(patterns)}
                                                 placeholder={infos.placeholders.pattern}
@@ -134,7 +144,10 @@ export default function ContractContentEditor({
                                     )}
 
                                     {prop.pattern !== undefined && (
-                                        <td className="w-4/12">
+                                        <td
+                                            className="w-4/12"
+                                            rowSpan={2}
+                                        >
                                             <ContractEditArguments
                                                 title={infos.details}
                                                 content={searchPatterns(prop.pattern, patterns)}
@@ -150,7 +163,9 @@ export default function ContractContentEditor({
                                             />
                                         </td>
                                     )}
-                                    <td>
+                                    <td
+                                        rowSpan={2}
+                                    >
                                         <Button
                                             className="btn-icon"
                                             color={infos.deleteButton.color}
@@ -161,16 +176,20 @@ export default function ContractContentEditor({
                                             <i className={infos.deleteButton.icon}/>
                                         </Button>
                                     </td>
-                                    <td>
-                                        <input
-                                            type="text"
-                                            autoComplete="off"
-                                            className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
-                                            name="LT"
-                                            onChange={(e) => {changeParameter(e, false, key)}}
-                                          />
-                                    </td>
                                 </tr>
+                                {prop.pattern === undefined && (
+                                    <tr>
+                                        <td className="w-9/12" colSpan={2}>
+                                            <input
+                                                type="text"
+                                                autoComplete="off"
+                                                className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
+                                                name="LT"
+                                                onChange={(e) => {changeParameter(e, false, key)}}
+                                              />
+                                        </td>
+                                    </tr>
+                                )}
                             </>))}
                             <tr>
                                 <td colSpan="5" className="text-center">
