@@ -3,7 +3,7 @@ import {Button, ModalBody, ModalFooter} from "reactstrap";
 
 
 function ComponentsToInstances(props) {
-    const [componentsToInstances, setComponentsToInstances] = useState([]);
+    let [componentsToInstances, setComponentsToInstances] = useState([]);
 
     const close = () => {
         setComponentsToInstances([])
@@ -11,7 +11,7 @@ function ComponentsToInstances(props) {
     }
 
     const addComponentsToInstances = (component) => {
-        let componentsToInstancesTmp = componentsToInstances
+        let componentsToInstancesTmp = [...componentsToInstances]
         if(componentsToInstancesTmp.includes(component)) {
             componentsToInstancesTmp = componentsToInstancesTmp.filter((e) => e !== component)
         }
@@ -28,25 +28,17 @@ function ComponentsToInstances(props) {
         close()
     }
 
-    let components = []
-    let lineClass="border-b-1 p-2 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+    let componentsClass = []
+    let lineClass
     for (let i = 0; i < props.selectedComponents.length; i++) {
+        lineClass="border-b-1 p-2 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
         if (i===0) {
             lineClass+=" border-t-1"
         }
-        components.push(
-            <li
-                key={i}
-                className={lineClass}
-                onClick={() => addComponentsToInstances(props.selectedComponents[i])}
-            >
-                <div className="flex justify-between" >
-                    <div>
-                       {props.selectedComponents[i].name}
-                    </div>
-                </div>
-            </li>
-        )
+        if (componentsToInstances.includes(props.selectedComponents[i])) {
+            lineClass+=" bg-blueGray-100 font-bold"
+        }
+        componentsClass.push(lineClass)
     }
 
     return (
@@ -70,7 +62,23 @@ function ComponentsToInstances(props) {
                 </div>
                 <div className="overflow-auto max-h-400-px mx-4 mb-4">
                     <ul>
-                        {components}
+                        {
+                            componentsClass.map((prop,key) => {
+                                return(
+                                    <li
+                                        key={key}
+                                        className={prop}
+                                        onClick={() => addComponentsToInstances(props.selectedComponents[key])}
+                                    >
+                                        <div className="flex justify-between" >
+                                            <div>
+                                               {props.selectedComponents[key].name}
+                                            </div>
+                                        </div>
+                                    </li>
+                                )
+                            })
+                        }
                     </ul>
                 </div>
             </ModalBody>
