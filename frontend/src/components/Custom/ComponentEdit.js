@@ -23,12 +23,6 @@ function ComponentEdit(props) {
             case "description":
                 component.description = value;
                 break;
-            case "inputs":
-                component.inputs = value
-                break;
-            case "outputs":
-                component.outputs = value
-                break;
             case "ltl_value":
                 contractTypeIndex.ltl_value = value;
                 break;
@@ -46,7 +40,7 @@ function ComponentEdit(props) {
                 break;
             case "valueName":
                 if (subKey === "inputs")
-                    component.inputs[index].name = value
+                    component.inputs[index].name = value.replace(/ /g, "")
                 else
                     component.outputs[index].name = value
                 console.log(component)

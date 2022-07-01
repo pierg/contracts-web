@@ -13,6 +13,12 @@ import newvalueinfo from "../../_texts/custom/newvalueinfo";
 
 function NewValueEditor(props) {
 
+    const handleChangeWhiteSpace = (e) => {
+        if (e.target.value.includes(" ")) {
+          e.target.value = e.target.value.replace(/ /g, "");
+        }
+    }
+
     return (
         <>
             <div>
@@ -38,7 +44,6 @@ function NewValueEditor(props) {
                                                 color={newvalueinfo.infos.dropdownColor}
                                             >
                                                 {prop.type}
-                                                {console.log(prop.type)}
                                             </DropdownToggle>
                                             <DropdownMenu>
                                                 {newvalueinfo.infos.types.map((infoType, infoTypeKey) => (
@@ -61,7 +66,7 @@ function NewValueEditor(props) {
                                             autoComplete="off"
                                             className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
                                             name="valueName"
-                                            onChange={(e) => props.changeParameter(e, false, key,false ,props.type)}
+                                            onChange={(e) => {handleChangeWhiteSpace(e); props.changeParameter(e, false, key,false ,props.type)}}
                                           />
                                     </td>
                                     <td colSpan="5" className="text-center">
