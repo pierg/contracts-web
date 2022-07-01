@@ -78,7 +78,7 @@ export default function ContractContentEditor({
                             </tr>
                             </thead>
                             <tbody>
-                            {items.map((prop, key) => (
+                            {items.map((prop, key) => (<>
                                 <tr key={key}>
                                     <td>{key + 1}</td>
                                     <td className="w-32">
@@ -161,8 +161,17 @@ export default function ContractContentEditor({
                                             <i className={infos.deleteButton.icon}/>
                                         </Button>
                                     </td>
+                                    <td>
+                                        <input
+                                            type="text"
+                                            autoComplete="off"
+                                            className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
+                                            name="LT"
+                                            onChange={(e) => {changeParameter(e, false, key)}}
+                                          />
+                                    </td>
                                 </tr>
-                            ))}
+                            </>))}
                             <tr>
                                 <td colSpan="5" className="text-center">
                                     <Button

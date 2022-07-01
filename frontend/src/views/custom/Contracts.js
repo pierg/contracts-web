@@ -7,6 +7,7 @@ import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 import ContractsConnect from "../../components/Custom/ContractsConnect";
 import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
+import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 
 export default class Contracts extends React.Component {
     state = {
@@ -26,6 +27,13 @@ export default class Contracts extends React.Component {
         instancesOpen : [],
         connectors : [],
         connections : [],
+        patterns: []
+    }
+
+    getPatterns = (list) => {
+        this.setState({
+            patterns: JSON.parse(list)
+        })
     }
 
     toggleNew = (e, actionToggle, disabled) => {
@@ -200,6 +208,7 @@ export default class Contracts extends React.Component {
                         setComponents={this.setComponents}
                         components={this.state.components}
                         saveComponent={this.saveComponent}
+                        patterns={this.state.patterns}
                     />
         } else if (this.state.headerStates[1]) {
             page = <ContractsConnect
@@ -223,6 +232,9 @@ export default class Contracts extends React.Component {
 
         return (
             <>
+                <SocketIoPatterns
+                    patterns={this.getPatterns}
+                />
                 <SocketIoComponents
                     updateComponents={this.setComponents}
                     triggerComponents={this.state.triggerComponents}
