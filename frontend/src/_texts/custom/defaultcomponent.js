@@ -1,8 +1,8 @@
 const textProps = {
     name: "",
     description: "",
-    inputs: "",
-    outputs: "",
+    inputs: [],
+    outputs: [],
     contract: {
       assumptions: [],
       guarantees: []

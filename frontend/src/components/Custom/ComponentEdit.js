@@ -4,6 +4,7 @@ import Input from "../Elements/Input";
 import ContractContentEditor from "../Custom/ContractContentEditor";
 import contracteditorinfo from "../../_texts/custom/contracteditorinfo";
 import makeListOf from "../../hooks/stringToListConversion";
+import NewValueEditor from "./NewValueEditor";
 
 
 function ComponentEdit(props) {
@@ -34,6 +35,21 @@ function ComponentEdit(props) {
             case "contentName":
                 contractTypeIndex.pattern.name = value;
                 contractTypeIndex.pattern.arguments = [];
+                break;
+            case "valueType":
+                if (subKey === "inputs")
+                    component.inputs[index].type = value
+                else
+                    component.outputs[index].type = value
+
+                console.log(component)
+                break;
+            case "valueName":
+                if (subKey === "inputs")
+                    component.inputs[index].name = value
+                else
+                    component.outputs[index].name = value
+                console.log(component)
                 break;
             case "type":
                 if (value === "Pattern") {
@@ -70,6 +86,16 @@ function ComponentEdit(props) {
         props.edit(component)
     }
 
+    function addValue(type) {
+        component[type].push({name: "", type: ""})
+        props.edit(component)
+    }
+
+    function deleteValue(type, i) {
+        component[type].splice(i,1)
+        props.edit(component)
+    }
+
     return (
         <>
             <div className="modal-header justify-content-center">
@@ -98,24 +124,22 @@ function ComponentEdit(props) {
                     value={component.description}
                     onChange={changeParameter}
                 />
-                <div>
-                    <label htmlFor="inputs" className="title title-up">Inputs</label>
-                    <Input
-                        type="text"
-                        placeholder="inputs"
-                        name="inputs"
-                        value={component.inputs}
-                        onChange={changeParameter}
-                    />
-                    <label htmlFor="outputs" className="title title-up">Outputs</label>
-                    <Input
-                        type="text"
-                        placeholder="outputs"
-                        name="outputs"
-                        value={component.outputs}
-                        onChange={changeParameter}
-                    />
-                </div>
+                <h4 className="title title-up">Inputs</h4>
+                <NewValueEditor
+                    items={component.inputs}
+                    type="inputs"
+                    changeParameter={changeParameter}
+                    addValue={addValue}
+                    deleteValue={deleteValue}
+                />
+                <h4 className="title title-up">Outputs</h4>
+                <NewValueEditor
+                    items={component.outputs}
+                    type="outputs"
+                    changeParameter={changeParameter}
+                    addValue={addValue}
+                    deleteValue={deleteValue}
+                />
                 {props.info.contract.map((prop, key) => (
                     <div key={key}>
                         <h4 className="title title-up">{prop.title}</h4>
