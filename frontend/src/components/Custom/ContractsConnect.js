@@ -5,7 +5,7 @@ import ContractsConnectInstances from "./ContractsConnectInstances";
 function ContractsConnect(props) {
     return (
         <div className="flex flex-row justify-content-around">
-            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md">
+            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit">
                 <ContractsConnectInstances
                     selectedComponents={props.selectedComponents}
                     instances={props.instances}
@@ -17,7 +17,7 @@ function ContractsConnect(props) {
                 />
             </div>
 
-            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md">
+            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit">
                 <ContractsConnectConnections
                     connections={props.connections}
                     addConnections={props.addConnections}
