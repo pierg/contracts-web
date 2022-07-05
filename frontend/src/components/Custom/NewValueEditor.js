@@ -64,7 +64,7 @@ function NewValueEditor(props) {
                                         <input
                                             type="text"
                                             autoComplete="off"
-                                            className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
+                                            className={"w-full border-blueGray-300 placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
                                             name="valueName"
                                             onChange={(e) => {handleChangeWhiteSpace(e); props.changeParameter(e, false, key,false ,props.type)}}
                                           />

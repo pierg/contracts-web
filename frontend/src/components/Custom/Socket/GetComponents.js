@@ -10,6 +10,12 @@ function SocketIoComponents(props) {
         return () => socket.off('receive-components')
     }, [socket, props])
 
+    const componentIsDeleted = useCallback(() => {
+        socket.emit('get-components');
+        socket.on('receive-components', setComponents)
+        socket.off('component-deleted')
+    }, [socket, setComponents]);
+
     useEffect(() => {
         if (socket == null) return
 
@@ -20,6 +26,18 @@ function SocketIoComponents(props) {
         }
 
     }, [props, setComponents, socket]);
+
+    useEffect(() => {
+        if (socket == null) return
+
+        if (props.triggerDelete) {
+            props.setTriggerDelete(false)
+            socket.emit('delete-component', {name : props.componentToDelete.name});
+            socket.on('component-deleted', componentIsDeleted)
+        }
+
+    }, [props, componentIsDeleted, socket]);
+
     return (<></>);
 }
 

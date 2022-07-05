@@ -18,8 +18,10 @@ export default class Contracts extends React.Component {
         // FIRST PAGE
         selectedComponents: [],
         components : [],
+        componentToDelete : null,
         triggerComponents : true,
         triggerSave : false,
+        triggerDelete : false,
         componentToSave : null,
 
         // SECOND PAGE
@@ -53,6 +55,12 @@ export default class Contracts extends React.Component {
     setTriggerComponents = (bool) => {
         this.setState({
             triggerComponents : bool
+        })
+    }
+
+    setTriggerDelete = (bool) => {
+        this.setState({
+            triggerDelete : bool
         })
     }
 
@@ -95,6 +103,13 @@ export default class Contracts extends React.Component {
     componentIsSaved = () => {
         this.setState({
             triggerComponents : true
+        })
+    }
+
+    deleteComponent = (component) => {
+        this.setState({
+            triggerDelete : true,
+            componentToDelete : component
         })
     }
 
@@ -218,6 +233,7 @@ export default class Contracts extends React.Component {
                         setComponents={this.setComponents}
                         components={this.state.components}
                         saveComponent={this.saveComponent}
+                        deleteComponent={this.deleteComponent}
                         patterns={this.state.patterns}
                     />
         } else if (this.state.headerStates[1]) {
@@ -248,9 +264,12 @@ export default class Contracts extends React.Component {
                     patterns={this.getPatterns}
                 />
                 <SocketIoComponents
+                    componentToDelete={this.state.componentToDelete}
+                    triggerDelete={this.state.triggerDelete}
                     updateComponents={this.setComponents}
                     triggerComponents={this.state.triggerComponents}
                     setTriggerComponents={this.setTriggerComponents}
+                    setTriggerDelete={this.setTriggerDelete}
                 />
                 <SocketSaveComponent
                     componentIsSaved={this.componentIsSaved}
