@@ -74,17 +74,28 @@ export default class ComponentsView extends React.Component {
         const tmpComponent = {
             "name":component.name,
             "description": component.description,
-            "inputs" : [{"name" : "x", "type" : "float"},{"name" : "a", "type" : "bool"}],
-            "outputs" : [{"name" : "y", "type" : "float"},{"name" : "b", "type" : "bool"}],
+            "inputs" : component.inputs,
+            "outputs" : component.outputs,
             "assumptions" : {
-                'LTL': ['GF(a)'],
-                'PL': ['x <= 84']
+                'LTL': [],
+                'PL': []
             },
             "guarantees" : {
-                'LTL': ['F(b)'],
-                'PL': ['y > 2']
+                'LTL': [],
+                'PL': []
             }
         }
+
+        for (let i=0; i<component.assumptions.length;i++) {
+            tmpComponent.assumptions.LTL.push(component.assumptions[i].LTL[0])
+            tmpComponent.assumptions.PL.push(component.assumptions[i].PL[0])
+        }
+
+        for (let i=0; i<component.guarantees.length;i++) {
+            tmpComponent.guarantees.LTL.push(component.guarantees[i].LTL[0])
+            tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
+        }
+
         this.props.saveComponent(tmpComponent)
     }
 

@@ -3,9 +3,7 @@ const textProps = {
     description: "",
     inputs: [],
     outputs: [],
-    contract: {
-      assumptions: [],
-      guarantees: []
-    }
+    assumptions: [],
+    guarantees: []
 };
 export default textProps;

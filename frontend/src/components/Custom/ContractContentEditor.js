@@ -59,7 +59,7 @@ export default function ContractContentEditor({
                 value: ""
             }
         }
-        e.target.name = "ltl_value"
+        e.target.name = "ltl"
         e.target.value = string
         changeParameter(e, contractType, key)
     }
@@ -79,7 +79,7 @@ export default function ContractContentEditor({
                             </thead>
                             <tbody>
                             {items.map((prop, key) => (<>
-                                <tr key={key}>
+                                <tr key={key+"_1"}>
                                     <td
                                         rowSpan={2}
                                     >
@@ -115,7 +115,8 @@ export default function ContractContentEditor({
                                     {prop.pattern === undefined && (
                                         <td className="w-9/12" colSpan={2}>
                                             <LTLTextArea
-                                                value={prop.ltl_value}
+                                                value={prop.LTL[0]}
+                                                name="ltl"
                                                 placeholder={infos.placeholders.ltl}
                                                 changeParameter={(string) => changeParameterTmp(string, key)}
                                                 listOfWorldVariables={listOfWorldVariables}
@@ -178,15 +179,19 @@ export default function ContractContentEditor({
                                     </td>
                                 </tr>
                                 {prop.pattern === undefined && (
-                                    <tr>
+                                    <tr key={key+"_2"}>
                                         <td className="w-9/12" colSpan={2}>
-                                            <input
-                                                type="text"
-                                                autoComplete="off"
-                                                className={"w-full placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
-                                                name="LT"
-                                                onChange={(e) => {changeParameter(e, false, key)}}
-                                              />
+                                            <div className={"mb-2 mt-2 ml-2 pt-0 relative"}>
+                                                <input
+                                                    value={prop.PL[0]}
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    placeholder="PL"
+                                                    className={"w-full border-blueGray-300 placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
+                                                    name="pl"
+                                                    onChange={(e) => changeParameter(e, contractType, key)}
+                                                />
+                                            </div>
                                         </td>
                                     </tr>
                                 )}
