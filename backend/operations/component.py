@@ -1,5 +1,4 @@
 import os
-import json
 from os import walk
 from pathlib import Path
 
@@ -80,11 +79,10 @@ class ComponentOperation:
 
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
-            with open(component_folder / filename) as file:
-                json_content = json.load(file)
-                if json_content["name"] == name:
-                    os.remove(component_folder / filename)
-                    return True
+            print(ComponentOperation.__get_name_from_file(component_folder / filename))
+            if ComponentOperation.__get_name_from_file(component_folder / filename).strip() == name:
+                os.remove(component_folder / filename)
+                return True
         return False
 
     @staticmethod
@@ -102,7 +100,7 @@ class ComponentOperation:
 
                 if header:
                     if line_header == NAME_HEADER:
-                        return name[:-1]
+                        return name[:-1].strip()
                     if line == NAME_HEADER:
                         line_header = line
                 else:
