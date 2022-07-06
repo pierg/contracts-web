@@ -48,6 +48,7 @@ function ComponentEdit(props) {
                 contractTypeIndex.PL[0] = value
                 break;
             case "type":
+                contractTypeIndex.type = value
                 if (value === "Pattern") {
                     if (contractTypeIndex.pattern === undefined) {
                         contractTypeIndex.pattern = {name: "", arguments: []};
@@ -63,7 +64,7 @@ function ComponentEdit(props) {
             default:
                 break;
         }
-
+        console.log(component)
         props.edit(component)
     }
 
@@ -73,7 +74,7 @@ function ComponentEdit(props) {
     }
 
     function addContractContent(contractType, key = -1) {
-        component[contractType].push({LTL: [""], PL: [""]})
+        component[contractType].push({LTL: [""], PL: [""], type : "LTL"})
         props.edit(component)
     }
 
@@ -83,7 +84,7 @@ function ComponentEdit(props) {
     }
 
     function addValue(type) {
-        component[type].push({name: "", type: ""})
+        component[type].push({name: "", type: "bool"})
         props.edit(component)
     }
 

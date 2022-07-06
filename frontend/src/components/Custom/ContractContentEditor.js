@@ -52,6 +52,7 @@ export default function ContractContentEditor({
         setOpen(key);
     };
 
+
     let changeParameterTmp = (string, key) => {
         let e = {
             target: {
@@ -78,16 +79,13 @@ export default function ContractContentEditor({
                             </tr>
                             </thead>
                             <tbody>
-                            {items.map((prop, key) => (<>
-                                <tr key={key+"_1"}>
-                                    <td
-                                        rowSpan={2}
-                                    >
+                            {items.map((prop, key) => (
+                                <tr key={key}>
+                                    <td>
                                         {key + 1}
                                     </td>
                                     <td
                                         className="w-32"
-                                        rowSpan={2}
                                     >
                                         <UncontrolledDropdown>
                                             <DropdownToggle
@@ -95,7 +93,7 @@ export default function ContractContentEditor({
                                                 className="btn-round btn-block"
                                                 color={infos.dropdownColor}
                                             >
-                                                {prop.pattern === undefined ? infos.types[0] : infos.types[1]}
+                                                {prop.type}
                                             </DropdownToggle>
                                             <DropdownMenu>
                                                 {infos.types.map((infoType, infoTypeKey) => (
@@ -112,7 +110,7 @@ export default function ContractContentEditor({
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                     </td>
-                                    {prop.pattern === undefined && (
+                                    {prop.type === "LTL" && (
                                         <td className="w-9/12" colSpan={2}>
                                             <LTLTextArea
                                                 value={prop.LTL[0]}
@@ -126,10 +124,9 @@ export default function ContractContentEditor({
                                             />
                                         </td>
                                     )}
-                                    {prop.pattern !== undefined && (
+                                    {prop.type === "Pattern" && (
                                         <td
                                             className="w-5/12"
-                                            rowSpan={2}
                                         >
                                             <CustomSelect
                                                 items={NamesOf(patterns)}
@@ -144,10 +141,9 @@ export default function ContractContentEditor({
                                         </td>
                                     )}
 
-                                    {prop.pattern !== undefined && (
+                                    {prop.type === "Pattern" && (
                                         <td
                                             className="w-4/12"
-                                            rowSpan={2}
                                         >
                                             <ContractEditArguments
                                                 title={infos.details}
@@ -164,8 +160,20 @@ export default function ContractContentEditor({
                                             />
                                         </td>
                                     )}
+                                    {prop.type === "PL" && ( <td className="w-9/12" colSpan={2}>
+                                            <div className={"mb-2 mt-2 ml-2 pt-0 relative"}>
+                                                <input
+                                                    value={prop.PL[0]}
+                                                    type="text"
+                                                    autoComplete="off"
+                                                    placeholder="PL"
+                                                    className={"w-full border-blueGray-300 placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
+                                                    name="pl"
+                                                    onChange={(e) => changeParameter(e, contractType, key)}
+                                                />
+                                            </div>
+                                        </td>)}
                                     <td
-                                        rowSpan={2}
                                     >
                                         <Button
                                             className="btn-icon"
@@ -178,24 +186,7 @@ export default function ContractContentEditor({
                                         </Button>
                                     </td>
                                 </tr>
-                                {prop.pattern === undefined && (
-                                    <tr key={key+"_2"}>
-                                        <td className="w-9/12" colSpan={2}>
-                                            <div className={"mb-2 mt-2 ml-2 pt-0 relative"}>
-                                                <input
-                                                    value={prop.PL[0]}
-                                                    type="text"
-                                                    autoComplete="off"
-                                                    placeholder="PL"
-                                                    className={"w-full border-blueGray-300 placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
-                                                    name="pl"
-                                                    onChange={(e) => changeParameter(e, contractType, key)}
-                                                />
-                                            </div>
-                                        </td>
-                                    </tr>
-                                )}
-                            </>))}
+                            ))}
                             <tr>
                                 <td colSpan="5" className="text-center">
                                     <Button
