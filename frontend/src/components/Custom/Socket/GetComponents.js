@@ -32,7 +32,7 @@ function SocketIoComponents(props) {
 
         if (props.triggerDelete) {
             props.setTriggerDelete(false)
-            socket.emit('delete-component', {name : props.componentToDelete.name});
+            socket.emit('delete-component', props.componentToDelete.name);
             socket.on('component-deleted', componentIsDeleted)
         }
 
