@@ -14,8 +14,8 @@ export default class ComponentsView extends React.Component {
     state = {
         triggerAddComponent: false,
         tmpComponent: false,
-        componentToShow : null,
-        show : false
+        componentToShow: null,
+        show: false
     }
 
     setTriggerAddComponent = (bool) => {
@@ -33,7 +33,7 @@ export default class ComponentsView extends React.Component {
     lineClicked = (i) => {
         let selected = this.props.selectedComponents
         if (selected.includes(this.props.components[i]))
-            selected = selected.filter((e) => e!==this.props.components[i])
+            selected = selected.filter((e) => e !== this.props.components[i])
         else
             selected.push(this.props.components[i])
 
@@ -45,8 +45,70 @@ export default class ComponentsView extends React.Component {
         this.setTriggerAddComponent(true)
     }
 
-    editComponent = (component) => {
+    editComponent = (i) => {
+        const component = this.props.components[i]
+        const tmpComponent = {
+            "name": component.name,
+            "description": component.description,
+            "inputs": component.inputs,
+            "outputs": component.outputs,
+            "assumptions": [],
+            "guarantees": []
+        }
+        console.log(component)
+        for (let i = 0; i < component.assumptions.LTL.length; i++) {
+            tmpComponent.assumptions.push({LTL: [component.assumptions.LTL[i]], PL: [""], type: "LTL"})
+        }
+        for (let i = 0; i < component.assumptions.PL.length; i++) {
+            tmpComponent.assumptions.push({PL: [component.assumptions.PL[i]], LTL: [""], type: "PL"})
+        }
+        for (let i = 0; i < component.guarantees.LTL.length; i++) {
+            tmpComponent.guarantees.push({LTL: [component.guarantees.LTL[i]], PL: [""], type: "LTL"})
+        }
+        for (let i = 0; i < component.guarantees.PL.length; i++) {
+            tmpComponent.guarantees.push({PL: [component.guarantees.PL[i]], LTL: [""], type: "PL"})
+        }
+        console.log(tmpComponent)
+        this.setTmpComponent(tmpComponent)
+        this.setTriggerAddComponent(true)
+    }
+
+    updateComponent = (component) => {
         this.setTmpComponent(component)
+    }
+
+    saveComponent = (component) => {
+        this.setTriggerAddComponent(false)
+        const tmpComponent = {
+            "name": component.name,
+            "description": component.description,
+            "inputs": component.inputs,
+            "outputs": component.outputs,
+            "assumptions": {
+                'LTL': [],
+                'PL': []
+            },
+            "guarantees": {
+                'LTL': [],
+                'PL': []
+            }
+        }
+
+        for (let i = 0; i < component.assumptions.length; i++) {
+            if (component.assumptions[i].LTL[0] !== "")
+                tmpComponent.assumptions.LTL.push(component.assumptions[i].LTL[0])
+            if (component.assumptions[i].PL[0] !== "")
+                tmpComponent.assumptions.PL.push(component.assumptions[i].PL[0])
+        }
+
+        for (let i = 0; i < component.guarantees.length; i++) {
+            if (component.guarantees[i].LTL[0] !== "")
+                tmpComponent.guarantees.LTL.push(component.guarantees[i].LTL[0])
+            if (component.guarantees[i].PL[0] !== "")
+                tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
+        }
+
+        this.props.saveComponent(tmpComponent)
     }
 
     deleteComponent = (i) => {
@@ -71,46 +133,17 @@ export default class ComponentsView extends React.Component {
             this.props.setSelectedComponents([])
     }
 
-    saveComponent = (component) => {
-        this.setTriggerAddComponent(false)
-        const tmpComponent = {
-            "name":component.name,
-            "description": component.description,
-            "inputs" : component.inputs,
-            "outputs" : component.outputs,
-            "assumptions" : {
-                'LTL': [],
-                'PL': []
-            },
-            "guarantees" : {
-                'LTL': [],
-                'PL': []
-            }
-        }
-
-        for (let i=0; i<component.assumptions.length;i++) {
-            tmpComponent.assumptions.LTL.push(component.assumptions[i].LTL[0])
-            tmpComponent.assumptions.PL.push(component.assumptions[i].PL[0])
-        }
-
-        for (let i=0; i<component.guarantees.length;i++) {
-            tmpComponent.guarantees.LTL.push(component.guarantees[i].LTL[0])
-            tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
-        }
-
-        this.props.saveComponent(tmpComponent)
-    }
 
     handleShow = (i) => {
         this.setState({
-            componentToShow : this.props.components[i],
-            show : true
+            componentToShow: this.props.components[i],
+            show: true
         })
     }
 
     handleClose = () => {
         this.setState({
-            show : false
+            show: false
         })
     }
 
@@ -119,47 +152,50 @@ export default class ComponentsView extends React.Component {
         let components = []
         let lineClass = ""
         for (let i = 0; i < this.props.components.length; i++) {
-            lineClass="border-b-1 text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
-            if (i===0) {
-                lineClass+=" border-t-1"
+            lineClass = "border-b-1 text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+            if (i === 0) {
+                lineClass += " border-t-1"
             }
             if (this.props.selectedComponents.includes(this.props.components[i])) {
-                lineClass+=" bg-blueGray-100 font-bold"
+                lineClass += " bg-blueGray-100 font-bold"
             }
 
             components.push(<li key={i} onClick={() => this.lineClicked(i)}
-                                    className={lineClass}>
-                    <div className="flex justify-between" >
-                        <div>
-                           {this.props.components[i].name}
-                        </div>
-                        <div>
-                            <Button size="sm" color="gray" onClick={(e) => {
-                                e.stopPropagation(); this.handleShow(i)
-                            }}>
-                                <i className={componentInfo.info.icon.info}/>
-                            </Button>
-
-                            <Button size="sm" color="gray" onClick={(e) => {
-                                e.stopPropagation(); this.editComponent(i)
-                            }}>
-                                <i className={componentInfo.info.icon.edit}/>
-                            </Button>
-
-                            <Button size="sm" color="red" onClick={(e) => {
-                                e.stopPropagation(); this.deleteComponent(i)
-                            }}>
-                                <i className={componentInfo.info.icon.delete}/>
-                            </Button>
-                        </div>
+                                className={lineClass}>
+                <div className="flex justify-between">
+                    <div>
+                        {this.props.components[i].name}
                     </div>
-                </li>)
+                    <div>
+                        <Button size="sm" color="gray" onClick={(e) => {
+                            e.stopPropagation();
+                            this.handleShow(i)
+                        }}>
+                            <i className={componentInfo.info.icon.info}/>
+                        </Button>
+
+                        <Button size="sm" color="gray" onClick={(e) => {
+                            e.stopPropagation();
+                            this.editComponent(i)
+                        }}>
+                            <i className={componentInfo.info.icon.edit}/>
+                        </Button>
+
+                        <Button size="sm" color="red" onClick={(e) => {
+                            e.stopPropagation();
+                            this.deleteComponent(i)
+                        }}>
+                            <i className={componentInfo.info.icon.delete}/>
+                        </Button>
+                    </div>
+                </div>
+            </li>)
         }
 
         return (<>
             <div className="px-3 pb-3 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
                 <div className="flex justify-between p-4 text-center">
-                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all" /></div>
+                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all"/></div>
                     <div className="fs-4 font-bold text-blueGray-500">
                         {componentInfo.info.texts.component.header.title}
                     </div>
@@ -185,7 +221,7 @@ export default class ComponentsView extends React.Component {
                                 position="right"
                                 arrow="true"
                             >
-                                 {/*#TODO add a onClick on this upload button*/}
+                                {/*#TODO add a onClick on this upload button*/}
                                 <Button
                                     size={componentInfo.info.texts.component.header.uploadButton.size}
                                     color={componentInfo.info.texts.component.header.uploadButton.color}
@@ -203,7 +239,7 @@ export default class ComponentsView extends React.Component {
                             <ComponentEdit
                                 component={this.state.tmpComponent}
                                 patterns={this.props.patterns}
-                                edit={(component) => this.editComponent(component)}
+                                edit={(component) => this.updateComponent(component)}
                                 save={(component) => this.saveComponent(component)}
                                 close={() => this.setTriggerAddComponent(false)}
                                 {...componenteditinfo}

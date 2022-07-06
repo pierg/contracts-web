@@ -62,6 +62,7 @@ function NewValueEditor(props) {
                                     </td>
                                     <td className="w-8/12" colSpan={2}>
                                         <input
+                                            value={prop.name}
                                             type="text"
                                             autoComplete="off"
                                             className={"w-full border-blueGray-300 placeholder-blueGray-200 bg-white rounded-md outline-none border border-solid transition duration-200"}
