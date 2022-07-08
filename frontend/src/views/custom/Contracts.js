@@ -8,6 +8,7 @@ import ContractsConnect from "../../components/Custom/ContractsConnect";
 import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
+import {Tooltip} from "react-tippy"
 
 export default class Contracts extends React.Component {
     state = {
@@ -17,20 +18,20 @@ export default class Contracts extends React.Component {
 
         // FIRST PAGE
         selectedComponents: [],
-        components : [],
-        componentToDelete : null,
-        triggerComponents : true,
-        triggerSave : false,
-        triggerDelete : false,
-        componentToSave : null,
+        components: [],
+        componentToDelete: null,
+        triggerComponents: true,
+        triggerSave: false,
+        triggerDelete: false,
+        componentToSave: null,
 
         // SECOND PAGE
-        instances : [],
-        instancesOpen : [],
-        connectors : [[],[]],
-        connections : [],
+        instances: [],
+        instancesOpen: [],
+        connectors: [[], []],
+        connections: [],
         patterns: [],
-        connectionsOpen : [],
+        connectionsOpen: [],
     }
 
     getPatterns = (list) => {
@@ -54,40 +55,40 @@ export default class Contracts extends React.Component {
     // FIRST PAGE
     setTriggerComponents = (bool) => {
         this.setState({
-            triggerComponents : bool
+            triggerComponents: bool
         })
     }
 
     setTriggerDelete = (bool) => {
         this.setState({
-            triggerDelete : bool
+            triggerDelete: bool
         })
     }
 
     setSelectedComponents = (selectedComponents) => {
         let instancesOpen = []
         let instances = []
-        for(let i=0; i<selectedComponents.length; i++) {
+        for (let i = 0; i < selectedComponents.length; i++) {
             instancesOpen[i] = Array(3).fill(false)
             instances[i] = {}
             instances[i] = {...selectedComponents[i]}
-            instances[i].name = "M_"+i+" ("+instances[i].name+")"
+            instances[i].name = "M_" + i + " (" + instances[i].name + ")"
         }
         this.setState({
-            selectedComponents : selectedComponents,
+            selectedComponents: selectedComponents,
             instances,
             instancesOpen,
-            connectors : [[],[]],
-            connections : [],
-            connectionsOpen : [],
+            connectors: [[], []],
+            connections: [],
+            connectionsOpen: [],
         })
     }
 
     setComponents = (components) => {
         let selectedComponents = []
-        for(let i=0; i<this.state.selectedComponents.length; i++) {
-            for(let j=0; j<components.length; j++) {
-                if(this.state.selectedComponents[i].name === components[j].name) {
+        for (let i = 0; i < this.state.selectedComponents.length; i++) {
+            for (let j = 0; j < components.length; j++) {
+                if (this.state.selectedComponents[i].name === components[j].name) {
                     selectedComponents.push(components[j])
                 }
             }
@@ -100,28 +101,28 @@ export default class Contracts extends React.Component {
 
     setTriggerSave = (bool) => {
         this.setState({
-            triggerSave : bool
+            triggerSave: bool
         })
     }
 
 
     saveComponent = (component) => {
         this.setState({
-            componentToSave : component,
-            triggerSave : true
+            componentToSave: component,
+            triggerSave: true
         })
     }
 
     componentIsSaved = () => {
         this.setState({
-            triggerComponents : true
+            triggerComponents: true
         })
     }
 
     deleteComponent = (component) => {
         this.setState({
-            triggerDelete : true,
-            componentToDelete : component
+            triggerDelete: true,
+            componentToDelete: component
         })
     }
 
@@ -130,13 +131,13 @@ export default class Contracts extends React.Component {
         let instances = this.state.instances
         instances.push(component)
         let maxNbInstance = -1
-        for(let i=0; i<instances.length; i++) {
-            if(maxNbInstance < instances[i].name.split(" ")[0].split("_")[1]) {
+        for (let i = 0; i < instances.length; i++) {
+            if (maxNbInstance < instances[i].name.split(" ")[0].split("_")[1]) {
                 maxNbInstance = instances[i].name.split(" ")[0].split("_")[1]
             }
         }
         maxNbInstance++
-        instances[instances.length-1].name = "M_"+maxNbInstance+" ("+instances[instances.length-1].name+")"
+        instances[instances.length - 1].name = "M_" + maxNbInstance + " (" + instances[instances.length - 1].name + ")"
         let instancesOpen = this.state.instancesOpen
         instancesOpen.push(Array(3).fill(false))
         this.setState({
@@ -152,14 +153,14 @@ export default class Contracts extends React.Component {
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
 
         //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVEC THE INSTANCE WHO WILL BE DELETED
-        for(let i=0; i<this.state.connections.length; i++) {
-            for(let j=0;j<this.state.connections[i].connectors[0].length;j++) {
-                if(parseInt(this.state.connections[i].connectors[0][j].split("-")[0]) === index) {
+        for (let i = 0; i < this.state.connections.length; i++) {
+            for (let j = 0; j < this.state.connections[i].connectors[0].length; j++) {
+                if (parseInt(this.state.connections[i].connectors[0][j].split("-")[0]) === index) {
                     this.deleteConnection(i)
                 }
             }
-            for(let j=0;j<this.state.connections[i].connectors[1].length;j++) {
-                if(parseInt(this.state.connections[i].connectors[1][j].split("-")[0]) === index) {
+            for (let j = 0; j < this.state.connections[i].connectors[1].length; j++) {
+                if (parseInt(this.state.connections[i].connectors[1][j].split("-")[0]) === index) {
                     this.deleteConnection(i)
                 }
             }
@@ -174,36 +175,35 @@ export default class Contracts extends React.Component {
         let instancesOpen = this.state.instancesOpen
         instancesOpen[indexInstance][indexGroup] = !instancesOpen[indexInstance][indexGroup]
         this.setState({
-            instancesOpen : instancesOpen
+            instancesOpen: instancesOpen
         })
     }
 
     addConnectors = (connector) => {
         let connectors = this.state.connectors
         let put = connector.split("-")[1]
-        if(connectors[put-1].includes(connector)) {
-            connectors[put-1] = connectors[put-1].filter((e) => e !== connector)
-        }
-        else {
-            connectors[put-1].push(connector)
+        if (connectors[put - 1].includes(connector)) {
+            connectors[put - 1] = connectors[put - 1].filter((e) => e !== connector)
+        } else {
+            connectors[put - 1].push(connector)
         }
         this.setState({
-            connectors : connectors
+            connectors: connectors
         })
     }
 
     addConnections = () => {
         let connections = this.state.connections
         connections.push({
-            "name" : "C_"+connections.length,
-            "connectors" : this.state.connectors
+            "name": "C_" + connections.length,
+            "connectors": this.state.connectors
         })
         let connectionsOpen = this.state.connectionsOpen
         connectionsOpen.push(Array(3).fill(false))
         this.setState({
-            connectors : [[],[]],
-            connections : connections,
-            connectionsOpen : connectionsOpen,
+            connectors: [[], []],
+            connections: connections,
+            connectionsOpen: connectionsOpen,
         })
     }
 
@@ -214,7 +214,7 @@ export default class Contracts extends React.Component {
         connectionsOpen = connectionsOpen.filter((e) => e !== connectionsOpen[index])
         this.setState({
             connections,
-            connectionsOpen : connectionsOpen,
+            connectionsOpen: connectionsOpen,
         })
     }
 
@@ -222,7 +222,7 @@ export default class Contracts extends React.Component {
         let connectionsOpen = this.state.connectionsOpen
         connectionsOpen[indexConnection][indexGroup] = !connectionsOpen[indexConnection][indexGroup]
         this.setState({
-            connectionsOpen : connectionsOpen
+            connectionsOpen: connectionsOpen
         })
     }
 
@@ -230,30 +230,30 @@ export default class Contracts extends React.Component {
         let page;
         if (this.state.headerStates[0]) {
             page = <ComponentsView
-                        setSelectedComponents={this.setSelectedComponents}
-                        selectedComponents={this.state.selectedComponents}
-                        setComponents={this.setComponents}
-                        components={this.state.components}
-                        saveComponent={this.saveComponent}
-                        deleteComponent={this.deleteComponent}
-                        patterns={this.state.patterns}
-                    />
+                setSelectedComponents={this.setSelectedComponents}
+                selectedComponents={this.state.selectedComponents}
+                setComponents={this.setComponents}
+                components={this.state.components}
+                saveComponent={this.saveComponent}
+                deleteComponent={this.deleteComponent}
+                patterns={this.state.patterns}
+            />
         } else if (this.state.headerStates[1]) {
             page = <ContractsConnect
-                        selectedComponents={this.state.selectedComponents}
-                        instances={this.state.instances}
-                        addInstances={this.addInstances}
-                        deleteInstance={this.deleteInstance}
-                        instancesOpen={this.state.instancesOpen}
-                        setInstancesOpen={this.setInstancesOpen}
-                        connectors={this.state.connectors}
-                        addConnectors={this.addConnectors}
-                        connections={this.state.connections}
-                        addConnections={this.addConnections}
-                        deleteConnection={this.deleteConnection}
-                        connectionsOpen={this.state.connectionsOpen}
-                        setConnectionsOpen={this.setConnectionsOpen}
-                    />
+                selectedComponents={this.state.selectedComponents}
+                instances={this.state.instances}
+                addInstances={this.addInstances}
+                deleteInstance={this.deleteInstance}
+                instancesOpen={this.state.instancesOpen}
+                setInstancesOpen={this.setInstancesOpen}
+                connectors={this.state.connectors}
+                addConnectors={this.addConnectors}
+                connections={this.state.connections}
+                addConnections={this.addConnections}
+                deleteConnection={this.deleteConnection}
+                connectionsOpen={this.state.connectionsOpen}
+                setConnectionsOpen={this.setConnectionsOpen}
+            />
         } else {
             page =
                 <ComponentsDiagram
@@ -289,6 +289,7 @@ export default class Contracts extends React.Component {
                 />
                 <div className="flex justify-evenly relative top--12">
                     <div>
+
                         <CustomNavButton
                             open={this.state.currentTabOpen}
                             itemsLength={this.state.headerStates.length}
@@ -299,13 +300,21 @@ export default class Contracts extends React.Component {
 
                     </div>
                     <div>
-                        <CustomNavButton
-                            open={this.state.currentTabOpen}
-                            itemsLength={this.state.headerStates.length}
-                            type={this.state.currentTabOpen === 0 ? "connect" : "create-system"}
-                            toggleNew={this.toggleNew}
-                            href="#/contracts"
-                        />
+                        <Tooltip
+                            disabled={this.state.currentTabOpen !== 0}
+                            title="Select at least one component to continue"
+                            position="bottom"
+                            arrow={true}
+                        >
+                            <CustomNavButton
+                                disabled={this.state.selectedComponents.length === 0}
+                                open={this.state.currentTabOpen}
+                                itemsLength={this.state.headerStates.length}
+                                type={this.state.currentTabOpen === 0 ? "connect" : "create-system"}
+                                toggleNew={this.toggleNew}
+                                href="#/contracts"
+                            />
+                        </Tooltip>
                     </div>
                 </div>
 
@@ -313,6 +322,6 @@ export default class Contracts extends React.Component {
                     {page}
                 </div>
             </>
-        )
+    )
     }
-}
+    }

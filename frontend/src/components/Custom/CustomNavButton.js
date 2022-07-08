@@ -8,12 +8,12 @@ export default function CustomNavButton(
         itemsLength,
         type,
         noProject,
-        href
+        href,
+        disabled
     }) {
 
-    let disabled
     let actionToggle
-
+if(!disabled){
     if (type === "back") {
         disabled = (open === 0)
         actionToggle = (open - 1 < 0 ? itemsLength - 1 : open - 1)
@@ -21,7 +21,7 @@ export default function CustomNavButton(
         disabled = (open === itemsLength - 1 || noProject)
         actionToggle = (open + 1 > itemsLength - 1 ? 0 : open + 1)
     }
-
+}
     return (
         <a
             href={href}
