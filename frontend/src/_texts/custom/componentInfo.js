@@ -14,6 +14,11 @@ const textProps = {
                         size: "sm",
                         color: "gray",
                         icon: "fa-solid fa-upload fa-2xl text-lightBlue-700",
+                    },
+                    downloadButton: {
+                        size: "sm",
+                        color: "gray",
+                        icon: "fa-solid fa-download fa-2xl text-lightBlue-700",
                     }
                 },
             },
@@ -30,6 +35,7 @@ const textProps = {
             info : "fas fa-info",
             build: "fas fa-2xl fa-arrow-right",
             delete: "fas fa-trash-alt",
+            download: "fas fa-download",
             edit: "fas fa-pen"
         }
 

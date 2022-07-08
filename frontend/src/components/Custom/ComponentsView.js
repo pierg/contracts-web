@@ -185,6 +185,12 @@ export default class ComponentsView extends React.Component {
 
                     <Button size="sm" color="gray" onClick={(e) => {
                         e.stopPropagation();
+                    }}>
+                        <i className={componentInfo.info.icon.download}/>
+                    </Button>
+
+                    <Button size="sm" color="gray" onClick={(e) => {
+                        e.stopPropagation();
                         this.editComponent(i)
                     }}>
                         <i className={componentInfo.info.icon.edit}/>
@@ -220,6 +226,21 @@ export default class ComponentsView extends React.Component {
                                     onClick={() => this.clickAddComponent()}
                                 >
                                     <i className={componentInfo.info.texts.component.header.addButton.icon}></i>
+                                </Button>
+                            </Tooltip>
+                        </div>
+                        <div className="mx-2">
+                            <Tooltip
+                                title="Download components"
+                                position="right"
+                                arrow="true"
+                            >
+                                <Button
+                                    size={componentInfo.info.texts.component.header.downloadButton.size}
+                                    color={componentInfo.info.texts.component.header.downloadButton.color}
+                                    onClick={() => this.clickAddComponent()}
+                                >
+                                    <i className={componentInfo.info.texts.component.header.downloadButton.icon}></i>
                                 </Button>
                             </Tooltip>
                         </div>
