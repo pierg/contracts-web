@@ -121,8 +121,10 @@ export default class ComponentsView extends React.Component {
 
         this.props.setSelectedComponents(selected)
         this.props.setComponents(tmpComponent)*/
-
+        let selected = this.props.selectedComponents
         this.props.deleteComponent(this.props.components[i])
+        selected = selected.filter((e) => e!==this.props.components[i])
+        this.props.setSelectedComponents(selected)
     }
 
 
