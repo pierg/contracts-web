@@ -81,9 +81,18 @@ export default class Contracts extends React.Component {
     }
 
     setComponents = (components) => {
+        let selectedComponents = []
+        for(let i=0; i<this.state.selectedComponents.length; i++) {
+            for(let j=0; j<components.length; j++) {
+                if(this.state.selectedComponents[i].name === components[j].name) {
+                    selectedComponents.push(components[j])
+                }
+            }
+        }
         this.setState({
             components
         })
+        this.setSelectedComponents(selectedComponents)
     }
 
     setTriggerSave = (bool) => {
@@ -117,9 +126,27 @@ export default class Contracts extends React.Component {
     addInstances = (component) => {
         let instances = this.state.instances
         instances.push(component)
-        instances[instances.length-1].name = "M_"+(instances.length-1)+" ("+instances[instances.length-1].name+")"
+        let maxNbInstance = -1
+        for(let i=0; i<instances.length; i++) {
+            if(maxNbInstance < instances[i].name.split(" ")[0].split("_")[1]) {
+                maxNbInstance = instances[i].name.split(" ")[0].split("_")[1]
+            }
+        }
+        maxNbInstance++
+        instances[instances.length-1].name = "M_"+maxNbInstance+" ("+instances[instances.length-1].name+")"
         let instancesOpen = this.state.instancesOpen
         instancesOpen.push(Array(3).fill(false))
+        this.setState({
+            instances,
+            instancesOpen,
+        })
+    }
+
+    deleteInstance = (index) => {
+        let instances = this.state.instances
+        instances = instances.filter((e) => e !== instances[index])
+        let instancesOpen = this.state.instancesOpen
+        instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
         this.setState({
             instances,
             instancesOpen,
@@ -188,6 +215,7 @@ export default class Contracts extends React.Component {
                         selectedComponents={this.state.selectedComponents}
                         instances={this.state.instances}
                         addInstances={this.addInstances}
+                        deleteInstance={this.deleteInstance}
                         instancesOpen={this.state.instancesOpen}
                         setInstancesOpen={this.setInstancesOpen}
                         connectors={this.state.connectors}

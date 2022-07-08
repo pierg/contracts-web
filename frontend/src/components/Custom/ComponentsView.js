@@ -55,7 +55,6 @@ export default class ComponentsView extends React.Component {
             "assumptions": [],
             "guarantees": []
         }
-        console.log(component)
         for (let i = 0; i < component.assumptions.LTL.length; i++) {
             tmpComponent.assumptions.push({LTL: [component.assumptions.LTL[i]], PL: [""], type: "LTL"})
         }
@@ -68,7 +67,6 @@ export default class ComponentsView extends React.Component {
         for (let i = 0; i < component.guarantees.PL.length; i++) {
             tmpComponent.guarantees.push({PL: [component.guarantees.PL[i]], LTL: [""], type: "PL"})
         }
-        console.log(tmpComponent)
         this.setTmpComponent(tmpComponent)
         this.setTriggerAddComponent(true)
     }
@@ -121,10 +119,7 @@ export default class ComponentsView extends React.Component {
 
         this.props.setSelectedComponents(selected)
         this.props.setComponents(tmpComponent)*/
-        let selected = this.props.selectedComponents
         this.props.deleteComponent(this.props.components[i])
-        selected = selected.filter((e) => e!==this.props.components[i])
-        this.props.setSelectedComponents(selected)
     }
 
 

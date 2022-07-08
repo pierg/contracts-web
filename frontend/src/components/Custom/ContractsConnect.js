@@ -10,6 +10,7 @@ function ContractsConnect(props) {
                     selectedComponents={props.selectedComponents}
                     instances={props.instances}
                     addInstances={props.addInstances}
+                    deleteInstance={props.deleteInstance}
                     instancesOpen={props.instancesOpen}
                     setInstancesOpen={props.setInstancesOpen}
                     connectors={props.connectors}

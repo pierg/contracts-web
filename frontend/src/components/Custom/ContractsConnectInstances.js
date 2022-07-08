@@ -5,6 +5,7 @@ import {Tree} from "@blueprintjs/core";
 import '@blueprintjs/core/lib/css/blueprint.css';
 import {Modal} from "reactstrap";
 import ComponentsToInstances from "./ComponentsToInstances";
+import componentInfo from "../../_texts/custom/componentInfo";
 
 function ContractsConnectInstances(props) {
     const [triggerAddInstance, setTriggerAddInstance] = useState(false);
@@ -23,8 +24,13 @@ function ContractsConnectInstances(props) {
         props.setInstancesOpen(index,0)
     }
 
+    const deleteInstance = (index) => {
+        console.log(index)
+        props.deleteInstance(index)
+    }
+
     let instances = []
-    let lineClass="text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+    let lineClass="flex flex-row text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
     let subtree
     let node
     for(let i=0;i<props.instances.length;i++) {
@@ -74,10 +80,28 @@ function ContractsConnectInstances(props) {
                     className="flex flex-col justify-between"
                 >
                     <div
-                        className={lineClass}
+                        className={lineClass + " relative"}
                         onClick={() => lineClicked(i)}
                     >
-                        {props.instances[i].name}
+                        <div
+                            className="mr-2"
+                        >
+                            {props.instances[i].name}
+                        </div>
+                        <div
+                            className="absolute right-0 mr-2"
+                        >
+                            <Button
+                                size="sm"
+                                color="red"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    deleteInstance(i)
+                                }}
+                            >
+                                <i className={componentInfo.info.icon.delete}/>
+                            </Button>
+                        </div>
                     </div>
                     {
                         props.instancesOpen[i][0] &&

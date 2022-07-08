@@ -64,7 +64,6 @@ function ComponentEdit(props) {
             default:
                 break;
         }
-        console.log(component)
         props.edit(component)
     }
 
