@@ -2,7 +2,7 @@ import React from "react";
 import componentInfo from "../../_texts/custom/componentInfo";
 import ComponentEdit from "./ComponentEdit";
 import Button from "../Elements/Button";
-import {Modal} from "reactstrap";
+import {Modal, Table} from "reactstrap";
 import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
@@ -147,6 +147,12 @@ export default class ComponentsView extends React.Component {
         })
     }
 
+    reduceDescription = (input) => {
+        if (input.length > 50) {
+            input = input.substr(0, 50)+"..."
+        }
+        return input
+    }
 
     render() {
         let components = []
@@ -160,40 +166,42 @@ export default class ComponentsView extends React.Component {
                 lineClass += " bg-blueGray-100 font-bold"
             }
 
-            components.push(<li key={i} onClick={() => this.lineClicked(i)}
+            components.push(<tr key={i} onClick={() => this.lineClicked(i)}
                                 className={lineClass}>
-                <div className="flex justify-between">
-                    <div>
-                        {this.props.components[i].name}
-                    </div>
-                    <div>
-                        <Button size="sm" color="gray" onClick={(e) => {
-                            e.stopPropagation();
-                            this.handleShow(i)
-                        }}>
-                            <i className={componentInfo.info.icon.info}/>
-                        </Button>
+                <td className="pr-5">
+                    {this.props.components[i].name}
 
-                        <Button size="sm" color="gray" onClick={(e) => {
-                            e.stopPropagation();
-                            this.editComponent(i)
-                        }}>
-                            <i className={componentInfo.info.icon.edit}/>
-                        </Button>
+                </td>
+                <td >
+                    {this.reduceDescription(this.props.components[i].description)}
+                </td>
+                <td className="text-right">
+                    <Button size="sm" color="gray" onClick={(e) => {
+                        e.stopPropagation();
+                        this.handleShow(i)
+                    }}>
+                        <i className={componentInfo.info.icon.info}/>
+                    </Button>
 
-                        <Button size="sm" color="red" onClick={(e) => {
-                            e.stopPropagation();
-                            this.deleteComponent(i)
-                        }}>
-                            <i className={componentInfo.info.icon.delete}/>
-                        </Button>
-                    </div>
-                </div>
-            </li>)
+                    <Button size="sm" color="gray" onClick={(e) => {
+                        e.stopPropagation();
+                        this.editComponent(i)
+                    }}>
+                        <i className={componentInfo.info.icon.edit}/>
+                    </Button>
+
+                    <Button size="sm" color="red" onClick={(e) => {
+                        e.stopPropagation();
+                        this.deleteComponent(i)
+                    }}>
+                        <i className={componentInfo.info.icon.delete}/>
+                    </Button>
+                </td>
+            </tr>)
         }
 
         return (<>
-            <div className="px-3 pb-3 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
+            <div className="px-3 pb-3 w-9/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
                 <div className="flex justify-between p-4 text-center">
                     <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all"/></div>
                     <div className="fs-4 font-bold text-blueGray-500">
@@ -248,9 +256,18 @@ export default class ComponentsView extends React.Component {
                     </div>
                 </div>
                 <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4">
-                    <ul>
+                    <Table responsive>
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
                         {components}
-                    </ul>
+                        </tbody>
+                    </Table>
                 </div>
             </div>
             <ComponentInfoOffCanvas
