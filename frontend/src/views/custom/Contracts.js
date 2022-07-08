@@ -75,8 +75,11 @@ export default class Contracts extends React.Component {
         }
         this.setState({
             selectedComponents : selectedComponents,
-            instances : instances,
-            instancesOpen : instancesOpen
+            instances,
+            instancesOpen,
+            connectors : [[],[]],
+            connections : [],
+            connectionsOpen : [],
         })
     }
 
@@ -147,6 +150,20 @@ export default class Contracts extends React.Component {
         instances = instances.filter((e) => e !== instances[index])
         let instancesOpen = this.state.instancesOpen
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
+
+        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVEC THE INSTANCE WHO WILL BE DELETED
+        for(let i=0; i<this.state.connections.length; i++) {
+            for(let j=0;j<this.state.connections[i].connectors[0].length;j++) {
+                if(parseInt(this.state.connections[i].connectors[0][j].split("-")[0]) === index) {
+                    this.deleteConnection(i)
+                }
+            }
+            for(let j=0;j<this.state.connections[i].connectors[1].length;j++) {
+                if(parseInt(this.state.connections[i].connectors[1][j].split("-")[0]) === index) {
+                    this.deleteConnection(i)
+                }
+            }
+        }
         this.setState({
             instances,
             instancesOpen,
@@ -182,7 +199,7 @@ export default class Contracts extends React.Component {
             "connectors" : this.state.connectors
         })
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen.push(false)
+        connectionsOpen.push(Array(3).fill(false))
         this.setState({
             connectors : [[],[]],
             connections : connections,
@@ -190,9 +207,20 @@ export default class Contracts extends React.Component {
         })
     }
 
-    setConnectionsOpen = (index) => {
+    deleteConnection = (index) => {
+        let connections = this.state.connections
+        connections = connections.filter((e) => e !== connections[index])
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen[index] = !connectionsOpen[index]
+        connectionsOpen = connectionsOpen.filter((e) => e !== connectionsOpen[index])
+        this.setState({
+            connections,
+            connectionsOpen : connectionsOpen,
+        })
+    }
+
+    setConnectionsOpen = (indexConnection, indexGroup) => {
+        let connectionsOpen = this.state.connectionsOpen
+        connectionsOpen[indexConnection][indexGroup] = !connectionsOpen[indexConnection][indexGroup]
         this.setState({
             connectionsOpen : connectionsOpen
         })
@@ -222,6 +250,7 @@ export default class Contracts extends React.Component {
                         addConnectors={this.addConnectors}
                         connections={this.state.connections}
                         addConnections={this.addConnections}
+                        deleteConnection={this.deleteConnection}
                         connectionsOpen={this.state.connectionsOpen}
                         setConnectionsOpen={this.setConnectionsOpen}
                     />

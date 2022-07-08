@@ -5,7 +5,6 @@ import {Tree} from "@blueprintjs/core";
 import '@blueprintjs/core/lib/css/blueprint.css';
 import {Modal} from "reactstrap";
 import ComponentsToInstances from "./ComponentsToInstances";
-import componentInfo from "../../_texts/custom/componentInfo";
 
 function ContractsConnectInstances(props) {
     const [triggerAddInstance, setTriggerAddInstance] = useState(false);
@@ -24,13 +23,8 @@ function ContractsConnectInstances(props) {
         props.setInstancesOpen(index,0)
     }
 
-    const deleteInstance = (index) => {
-        console.log(index)
-        props.deleteInstance(index)
-    }
-
     let instances = []
-    let lineClass="flex flex-row text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+    let lineClass="flex flex-row relative text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
     let subtree
     let node
     for(let i=0;i<props.instances.length;i++) {
@@ -80,7 +74,7 @@ function ContractsConnectInstances(props) {
                     className="flex flex-col justify-between"
                 >
                     <div
-                        className={lineClass + " relative"}
+                        className={lineClass}
                         onClick={() => lineClicked(i)}
                     >
                         <div
@@ -92,14 +86,14 @@ function ContractsConnectInstances(props) {
                             className="absolute right-0 mr-2"
                         >
                             <Button
-                                size="sm"
-                                color="red"
+                                size={contractsconnect.deleteButton.size}
+                                color={contractsconnect.deleteButton.color}
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    deleteInstance(i)
+                                    props.deleteInstance(i)
                                 }}
                             >
-                                <i className={componentInfo.info.icon.delete}/>
+                                <i className={contractsconnect.deleteButton.icon}/>
                             </Button>
                         </div>
                     </div>
