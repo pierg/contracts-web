@@ -19,10 +19,17 @@ function ContractsConnectConnections(props) {
 
         subtree = []
         let arrayConnector
-        for(let j=0; j<props.connections[i].connectors.length; j++) {
-            arrayConnector = props.connections[i].connectors[j].split(" ")
+        for(let j=0; j<props.connections[i].connectors[0].length; j++) { //input
+            arrayConnector = props.connections[i].connectors[0][j].split(" ")
             subtree.push({
-                "id" : i+"-"+j,
+                "id" : i+"-0-"+j,
+                "label" : "M_"+arrayConnector[0].split("-")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
+            })
+        }
+        for(let j=0; j<props.connections[i].connectors[1].length; j++) { //input
+            arrayConnector = props.connections[i].connectors[1][j].split(" ")
+            subtree.push({
+                "id" : i+"-1-"+j,
                 "label" : "M_"+arrayConnector[0].split("-")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
             })
         }

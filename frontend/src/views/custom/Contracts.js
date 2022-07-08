@@ -27,7 +27,7 @@ export default class Contracts extends React.Component {
         // SECOND PAGE
         instances : [],
         instancesOpen : [],
-        connectors : [],
+        connectors : [[],[]],
         connections : [],
         patterns: [],
         connectionsOpen : [],
@@ -136,11 +136,12 @@ export default class Contracts extends React.Component {
 
     addConnectors = (connector) => {
         let connectors = this.state.connectors
-        if(connectors.includes(connector)) {
-            connectors = connectors.filter((e) => e !== connector)
+        let put = connector.split("-")[1]
+        if(connectors[put-1].includes(connector)) {
+            connectors[put-1] = connectors[put-1].filter((e) => e !== connector)
         }
         else {
-            connectors.push(connector)
+            connectors[put-1].push(connector)
         }
         this.setState({
             connectors : connectors
@@ -156,7 +157,7 @@ export default class Contracts extends React.Component {
         let connectionsOpen = this.state.connectionsOpen
         connectionsOpen.push(false)
         this.setState({
-            connectors : [],
+            connectors : [[],[]],
             connections : connections,
             connectionsOpen : connectionsOpen,
         })
@@ -171,60 +172,6 @@ export default class Contracts extends React.Component {
     }
 
     render() {
-        const nodes = [
-            {
-                id: 'node-1',
-                content: 'Start',
-                coordinates: [100, 150],
-                outputs: [
-                    {id: 'port-1', alignment: 'right'},
-                    {id: 'port-2', alignment: 'right'},
-                ],
-                disableDrag: true,
-                data: {
-                    foo: 'bar',
-                    count: 0,
-                }
-            },
-            {
-                id: 'node-2',
-                content: 'Middle',
-                coordinates: [300, 150],
-                inputs: [
-                    {id: 'port-3', alignment: 'left'},
-                    {id: 'port-4', alignment: 'left'},
-                ],
-                outputs: [
-                    {id: 'port-5', alignment: 'right'},
-                    {id: 'port-6', alignment: 'right'},
-                ],
-                data: {
-                    bar: 'foo',
-                }
-            },
-            {
-                id: 'node-3',
-                content: 'End',
-                coordinates: [600, 150],
-                inputs: [
-                    {id: 'port-7', alignment: 'left'},
-                    {id: 'port-8', alignment: 'left'},
-                ],
-                data: {
-                    foo: true,
-                    bar: false,
-                    some: {
-                        deep: {
-                            object: true,
-                        }
-                    },
-                }
-            },
-        ]
-
-        const links = [
-            {input: 'port-1', output: 'port-4'},
-        ]
         let page;
         if (this.state.headerStates[0]) {
             page = <ComponentsView
@@ -253,8 +200,8 @@ export default class Contracts extends React.Component {
         } else {
             page =
                 <ComponentsDiagram
-                    nodes={nodes}
-                    links={links}
+                    instances={this.state.instances}
+                    connections={this.state.connections}
                 />
         }
 
