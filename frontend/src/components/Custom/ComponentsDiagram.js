@@ -86,11 +86,6 @@ function ComponentsDiagram(props) {
         );
     };
 
-    console.log("props")
-    console.log(props)
-    let width=window.innerWidth
-    console.log(width/4)
-
     let nodes = []
     let node
     let put
