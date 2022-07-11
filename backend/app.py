@@ -176,23 +176,42 @@ def save_component(data) -> None:
     """
     print("I'm here !")
     print(data)
+    print(len(data["inputs"]))
     session_id = str(request.args.get("id"))
     now = time.localtime(time.time())
     name: str = data["name"]
 
-    emit("component-saved", True, room=request.sid)
-
-    try:
-        ComponentOperation.save_component(data, session_id)
-        send_message_to_user(content='The component "' + name + '" has been saved.',
-                             room_id=request.sid, crometype="success")
-    except KeyError as keyError:
+    # Detection error
+    error = 0
+    if len(data["inputs"]) == 0 and len(data["outputs"]) == 0:
+        error = 1
         emit(
             "send-message",
-            strftime("%H:%M:%S", now) + ' The goal "' + name + '" has not been saved. Error with the entry of the '
-                                                               f'LTL/Pattern \n KeyError : {keyError}',
+            strftime("%H:%M:%S", now) + ' The component "' + name + '" has not been saved. There are no inputs and '
+                                                                    'outputs',
             room=request.sid,
         )
+
+    if error == 1:
+        emit(
+            "send-notification",
+            {"crometypes": "error", "content": "The component can't be added, see console for more information"},
+            room=request.sid
+        )
+    else:
+        emit("component-saved", True, room=request.sid)
+
+        try:
+            ComponentOperation.save_component(data, session_id)
+            send_message_to_user(content='The component "' + name + '" has been saved.',
+                                 room_id=request.sid, crometype="success")
+        except KeyError as keyError:
+            emit(
+                "send-message",
+                strftime("%H:%M:%S", now) + ' The component "' + name + '" has not been saved. Error with the entry of the '
+                                                                   f'LTL/Pattern \n KeyError : {keyError}',
+                room=request.sid,
+            )
 
 
 @socketio.on("delete-component")
