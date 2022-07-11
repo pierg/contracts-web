@@ -6,7 +6,7 @@ import {Modal, Table} from "reactstrap";
 import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
-import { saveAs } from 'file-saver';
+import {saveAs} from 'file-saver';
 import Checkbox from "../Elements/Checkbox";
 import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
 import UploadButton from "./UploadButton";
@@ -129,9 +129,9 @@ export default class ComponentsView extends React.Component {
     }
 
     downloadComponent = (i) => {
-        const json = JSON.stringify(this.props.components[i],null,'\t')
-        const blob = new Blob([json], {type : "text/json;charset=utf-8"})
-        const file = new File([blob], this.props.components[i].name+".json")
+        const json = JSON.stringify(this.props.components[i], null, '\t')
+        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
+        const file = new File([blob], this.props.components[i].name + ".json")
         saveAs(file)
     }
 
@@ -211,7 +211,7 @@ export default class ComponentsView extends React.Component {
 
     reduceDescription = (input) => {
         if (input.length > 50) {
-            input = input.substr(0, 50)+"..."
+            input = input.substr(0, 50) + "..."
         }
         return input
     }
@@ -234,43 +234,68 @@ export default class ComponentsView extends React.Component {
                     {this.props.components[i].name}
 
                 </td>
-                <td >
+                <td>
                     {this.reduceDescription(this.props.components[i].description)}
                 </td>
-                <td className="text-right">
-                    <Button size="sm" color="gray" onClick={(e) => {
-                        e.stopPropagation();
-                        this.handleShow(i)
-                    }}>
-                        <i className={componentInfo.info.icon.info}/>
-                    </Button>
+                <td className="float-right">
+                    <Tooltip
+                        html="info"
+                        position="top"
+                        arrow="true"
+                    >
+                        <Button size="sm"  color="gray" onClick={(e) => {
+                            e.stopPropagation();
+                            this.handleShow(i)
+                        }}>
+                            <i className={componentInfo.info.icon.info}/>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip
+                        html="download"
+                        position="top"
+                        arrow="true"
+                    >
+                        <Button size="sm" color="gray" onClick={(e) => {
+                            e.stopPropagation();
+                            this.downloadComponent(i)
+                        }}>
+                            <i className={componentInfo.info.icon.download}/>
+                        </Button>
+                    </Tooltip>
 
-                    <Button size="sm" color="gray" onClick={(e) => {
-                        e.stopPropagation();
-                        this.downloadComponent(i)
-                    }}>
-                        <i className={componentInfo.info.icon.download}/>
-                    </Button>
+                    <Tooltip
+                        html="edit"
+                        position="top"
+                        arrow="true"
+                    >
 
-                    <Button size="sm" color="gray" onClick={(e) => {
-                        e.stopPropagation();
-                        this.editComponent(i)
-                    }}>
-                        <i className={componentInfo.info.icon.edit}/>
-                    </Button>
+                        <Button size="sm" color="gray" onClick={(e) => {
+                            e.stopPropagation();
+                            this.editComponent(i)
+                        }}>
+                            <i className={componentInfo.info.icon.edit}/>
+                        </Button>
+                    </Tooltip>
+                    <Tooltip
+                        html="delete"
+                        position="top"
+                        arrow="true"
+                    >
 
-                    <Button size="sm" color="red" onClick={(e) => {
-                        e.stopPropagation();
-                        this.deleteComponent(i)
-                    }}>
-                        <i className={componentInfo.info.icon.delete}/>
-                    </Button>
+                        <Button size="sm" color="red" onClick={(e) => {
+                            e.stopPropagation();
+                            this.deleteComponent(i)
+                        }}>
+                            <i className={componentInfo.info.icon.delete}/>
+                        </Button>
+                    </Tooltip>
                 </td>
             </tr>)
         }
 
         return (<>
-            <div className="px-3 pb-3 w-9/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
+            <div
+                className="px-3 pb-3 w-9/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
                 <div className="flex justify-between p-4 text-center">
                     <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all"/></div>
                     <div className="fs-4 font-bold text-blueGray-500">
