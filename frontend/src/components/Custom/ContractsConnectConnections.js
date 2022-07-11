@@ -2,6 +2,7 @@ import contractsconnect from "../../_texts/custom/contractsconnect";
 import Button from "../Elements/Button";
 import React from "react";
 import {Tree} from "@blueprintjs/core";
+import {Tooltip} from "react-tippy";
 
 function ContractsConnectConnections(props) {
 
@@ -76,16 +77,22 @@ function ContractsConnectConnections(props) {
                         <div
                             className="absolute right-0 mr-2"
                         >
-                            <Button
-                                size={contractsconnect.deleteButton.size}
-                                color={contractsconnect.deleteButton.color}
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    props.deleteConnection(i)
-                                }}
+                            <Tooltip
+                                title="Delete connection"
+                                position="right"
+                                arrow="true"
                             >
-                                <i className={contractsconnect.deleteButton.icon}/>
-                            </Button>
+                                <Button
+                                    size={contractsconnect.deleteButton.size}
+                                    color={contractsconnect.deleteButton.color}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        props.deleteConnection(i)
+                                    }}
+                                >
+                                    <i className={contractsconnect.deleteButton.icon}/>
+                                </Button>
+                            </Tooltip>
                         </div>
                     </div>
                     {
@@ -108,19 +115,32 @@ function ContractsConnectConnections(props) {
                         {contractsconnect.connections.connectionsTitle}
                 </span>
 
-                <Button
-                    size={contractsconnect.addButton.size}
-                    color={contractsconnect.addButton.color}
-                    onClick={() => props.addConnections()}
+                <Tooltip
+                    title="Add connection"
+                    position="right"
+                    arrow="true"
                 >
-                    <i className={contractsconnect.addButton.icon}></i>
-                </Button>
-                <Button
-                    size={contractsconnect.downloadButton.size}
-                    color={contractsconnect.downloadButton.color}
+                    <Button
+                        size={contractsconnect.addButton.size}
+                        color={contractsconnect.addButton.color}
+                        onClick={() => props.addConnections()}
+                    >
+                        <i className={contractsconnect.addButton.icon}></i>
+                    </Button>
+                </Tooltip>
+
+                <Tooltip
+                    title="Download connections"
+                    position="right"
+                    arrow="true"
                 >
-                    <i className={contractsconnect.downloadButton.icon}/>
-                </Button>
+                    <Button
+                        size={contractsconnect.downloadButton.size}
+                        color={contractsconnect.downloadButton.color}
+                    >
+                        <i className={contractsconnect.downloadButton.icon}/>
+                    </Button>
+                </Tooltip>
             </div>
 
             <ul>

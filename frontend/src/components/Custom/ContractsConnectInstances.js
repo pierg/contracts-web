@@ -5,6 +5,8 @@ import {Tree} from "@blueprintjs/core";
 import '@blueprintjs/core/lib/css/blueprint.css';
 import {Modal} from "reactstrap";
 import ComponentsToInstances from "./ComponentsToInstances";
+import {Tooltip} from "react-tippy";
+import componentInfo from "../../_texts/custom/componentInfo";
 
 function ContractsConnectInstances(props) {
     const [triggerAddInstance, setTriggerAddInstance] = useState(false);
@@ -85,16 +87,22 @@ function ContractsConnectInstances(props) {
                         <div
                             className="absolute right-0 mr-2"
                         >
-                            <Button
-                                size={contractsconnect.deleteButton.size}
-                                color={contractsconnect.deleteButton.color}
-                                onClick={(e) => {
-                                    e.stopPropagation()
-                                    props.deleteInstance(i)
-                                }}
+                            <Tooltip
+                                title="Delete instance"
+                                position="right"
+                                arrow="true"
                             >
-                                <i className={contractsconnect.deleteButton.icon}/>
-                            </Button>
+                                <Button
+                                    size={contractsconnect.deleteButton.size}
+                                    color={contractsconnect.deleteButton.color}
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        props.deleteInstance(i)
+                                    }}
+                                >
+                                    <i className={contractsconnect.deleteButton.icon}/>
+                                </Button>
+                            </Tooltip>
                         </div>
                     </div>
                     {
@@ -114,16 +122,40 @@ function ContractsConnectInstances(props) {
         <>
             <div className="flex p-3">
                 <span className={contractsconnect.instances.instanceStyle}>
-                        {contractsconnect.instances.instancesTitle}
+                    {contractsconnect.instances.instancesTitle}
+                    <Tooltip
+                        html={(
+                            <div className="flex flex-col text-left">
+                                {contractsconnect.instances.messages.map((prop, key) => (
+                                    <div className="mb-2" key={key}>
+                                        <h4 className="font-bold">{prop.title}</h4>
+                                        <div>{prop.content}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                        position="right"
+                        arrow="true"
+                        className="ml-1"
+                    >
+                        <i className="ml-1 text-lightBlue-700 text-lg fas fa-info-circle"/>
+                    </Tooltip>
                 </span>
 
-                <Button
-                    size={contractsconnect.addButton.size}
-                    color={contractsconnect.addButton.color}
-                    onClick={() => setTriggerAddInstance(true)}
+                <Tooltip
+                    title="Add instance(s)"
+                    position="right"
+                    arrow="true"
                 >
-                    <i className={contractsconnect.addButton.icon}></i>
-                </Button>
+                    <Button
+                        size={contractsconnect.addButton.size}
+                        color={contractsconnect.addButton.color}
+                        onClick={() => setTriggerAddInstance(true)}
+                    >
+                        <i className={contractsconnect.addButton.icon}></i>
+                    </Button>
+                </Tooltip>
+
                 <Modal
                     isOpen={triggerAddInstance}
                     autoFocus={false}

@@ -13,73 +13,138 @@ function ComponentsDiagram(props) {
             height = instance.outputs.length*(25+10)
         }
 
+        let rows = []
+
+        for(let i=0; i<instance.inputs.length; i++) {
+            rows[i] = []
+            rows[i][0] = props.instances[instance.inputs[i].props.id.split("_")[1].split("-")[0]].inputs[i].name
+        }
+
+        for(let i=0; i<instance.outputs.length; i++) {
+            if(!Array.isArray(rows[i])) {
+                rows[i] = []
+                rows[i][0] = "empty"
+            }
+            rows[i][1] = props.instances[instance.outputs[i].props.id.split("_")[1].split("-")[0]].outputs[i].name
+        }
+
+        let colPortInput = []
+        let colNameInput = []
+        let colNameOutput = []
+        let colPortOutput = []
+        for(let i=0; i<rows.length; i++) {
+            if(rows[i].length === 1) {
+                rows[i][1] = "empty"
+            }
+            console.log("row")
+            console.log(i)
+            console.log(rows[i])
+            console.log(instance.inputs[i])
+            if(rows[i][0] !== "empty") {
+                colPortInput.push(
+                    React.cloneElement(instance.inputs[i],
+                        {
+                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
+                        }
+                    )
+                )
+                colNameInput.push(
+                    <div
+                        key={i+"-inputName"}
+                        style={{height: '25px', marginLeft: '5px', marginRight: '20px', marginBottom: '10px' }}
+                    >
+                        {rows[i][0]}
+                    </div>
+                )
+            }
+            else {
+                colPortInput.push(
+                    <div
+                        key={i+"-inputPort"}
+                        style={{height: '25px', marginBottom: '10px'}}
+                    >
+
+                    </div>
+                )
+                colNameInput.push(
+                    <div
+                        key={i+"-inputName"}
+                        style={{height: '25px', marginBottom: '10px'}}
+                    >
+
+                    </div>
+                )
+            }
+
+            if(rows[i][1] !== "empty") {
+                colNameOutput.push(
+                    <div
+                        key={i+"-outputName"}
+                        style={{height: '25px', marginRight: '5px', marginBottom: '10px' }}
+                    >
+                        {rows[i][1]}
+                    </div>
+                )
+                colPortOutput.push(
+                    React.cloneElement(instance.outputs[i],
+                        {
+                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
+                        }
+                    )
+                )
+            }
+            else {
+                colNameOutput.push(
+                    <div
+                        key={i+"-outputPort"}
+                        style={{height: '25px', marginBottom: '10px'}}
+                    >
+
+                    </div>
+                )
+                colPortOutput.push(
+                    <div
+                        key={i+"-outputName"}
+                        style={{height: '25px', marginBottom: '10px'}}
+                    >
+
+                    </div>
+                )
+            }
+        }
+
+        console.log(rows)
+
         return (
             <div style={{ background: '#DAE1E7'}} className="border rounded-xl border-blueGray-400">
-                <div style={{ padding: '10px'}}>
+                <div
+                    className="text-center"
+                    style={{ padding: '10px'}}
+                >
                     {instance.content}
                 </div>
-                <div className="pt-2 relative" style={{height: height+"px"}}>
-                    <div className="flex flex-col absolute left-0">
-                        {
-                            instance.inputs.map(
-                                (port) => {
-                                    return (
-                                        React.cloneElement(port,
-                                            {
-                                                style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
-                                            }
-                                        )
-                                    )
-                                }
-                            )
-                        }
+                <div
+                    className="flex flex-row"
+                >
+                    <div
+                        className="flex-col"
+                    >
+                        {colPortInput}
                     </div>
-                    <div className="flex flex-col absolute left-0">
-                        {
-                            instance.inputs.map(
-                                (prop,key) => {
-                                    return (
-                                        <div
-                                            key={key}
-                                            style={{height: '25px', marginBottom: '10px', marginLeft: '33px'}}
-                                        >
-                                            {props.instances[prop.props.id.split("_")[1].split("-")[0]].inputs[key].name}
-                                        </div>
-                                    )
-                                }
-                            )
-                        }
+                    <div
+                        className="flex-col"
+                    >
+                        {colNameInput}
                     </div>
-                    <div className="flex flex-col absolute right-0">
-                        {
-                            instance.outputs.map(
-                                (prop,key) => {
-                                    return (
-                                        <div
-                                            key={key}
-                                            style={{height: '25px', marginBottom: '10px', marginRight: '33px'}}
-                                        >
-                                            {props.instances[prop.props.id.split("_")[1].split("-")[0]].outputs[key].name}
-                                        </div>
-                                    )
-                                }
-                            )
-                        }
+                    <div
+                        className="flex-col"
+                    >
+                        {colNameOutput}
                     </div>
-                    <div className="flex flex-col absolute right-0">
-                        {
-                            instance.outputs.map(
-                                (port) => {
-                                    return (
-                                        React.cloneElement(port,
-                                            {
-                                                style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
-                                            }
-                                        )
-                                    )
-                                }
-                            )
-                        }
+                    <div
+                        className="flex-col"
+                    >
+                        {colPortOutput}
                     </div>
                 </div>
             </div>
