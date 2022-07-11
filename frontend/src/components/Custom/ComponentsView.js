@@ -131,6 +131,18 @@ export default class ComponentsView extends React.Component {
         saveAs(file)
     }
 
+    downloadComponents = () => {
+        if (this.props.components.length === 0) return
+        let components = []
+        for (let i = 0; i < this.props.components.length; i++) {
+            components.push(this.props.components[i])
+        }
+        const json = JSON.stringify(components, null, '\t')
+        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
+        const file = new File([blob], "components.json")
+        saveAs(file)
+    }
+
     selectAllComponents = (e) => {
         if (e.target.checked)
             this.props.setSelectedComponents(this.props.components)
@@ -244,7 +256,7 @@ export default class ComponentsView extends React.Component {
                                 <Button
                                     size={componentInfo.info.texts.component.header.downloadButton.size}
                                     color={componentInfo.info.texts.component.header.downloadButton.color}
-                                    onClick={() => this.clickAddComponent()}
+                                    onClick={() => this.downloadComponents()}
                                 >
                                     <i className={componentInfo.info.texts.component.header.downloadButton.icon}></i>
                                 </Button>
