@@ -9,6 +9,7 @@ import {Tooltip} from 'react-tippy';
 import { saveAs } from 'file-saver';
 import Checkbox from "../Elements/Checkbox";
 import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
+import UploadButton from "./UploadButton";
 
 export default class ComponentsView extends React.Component {
 
@@ -76,38 +77,42 @@ export default class ComponentsView extends React.Component {
         this.setTmpComponent(component)
     }
 
-    saveComponent = (component) => {
-        this.setTriggerAddComponent(false)
-        const tmpComponent = {
-            "name": component.name,
-            "description": component.description,
-            "inputs": component.inputs,
-            "outputs": component.outputs,
-            "assumptions": {
-                'LTL': [],
-                'PL': []
-            },
-            "guarantees": {
-                'LTL': [],
-                'PL': []
+    saveComponent = (component, upload = false) => {
+        if (upload) {
+            this.props.saveComponent(component)
+        } else {
+            this.setTriggerAddComponent(false)
+            const tmpComponent = {
+                "name": component.name,
+                "description": component.description,
+                "inputs": component.inputs,
+                "outputs": component.outputs,
+                "assumptions": {
+                    'LTL': [],
+                    'PL': []
+                },
+                "guarantees": {
+                    'LTL': [],
+                    'PL': []
+                }
             }
-        }
 
-        for (let i = 0; i < component.assumptions.length; i++) {
-            if (component.assumptions[i].LTL[0] !== "")
-                tmpComponent.assumptions.LTL.push(component.assumptions[i].LTL[0])
-            if (component.assumptions[i].PL[0] !== "")
-                tmpComponent.assumptions.PL.push(component.assumptions[i].PL[0])
-        }
+            for (let i = 0; i < component.assumptions.length; i++) {
+                if (component.assumptions[i].LTL[0] !== "")
+                    tmpComponent.assumptions.LTL.push(component.assumptions[i].LTL[0])
+                if (component.assumptions[i].PL[0] !== "")
+                    tmpComponent.assumptions.PL.push(component.assumptions[i].PL[0])
+            }
 
-        for (let i = 0; i < component.guarantees.length; i++) {
-            if (component.guarantees[i].LTL[0] !== "")
-                tmpComponent.guarantees.LTL.push(component.guarantees[i].LTL[0])
-            if (component.guarantees[i].PL[0] !== "")
-                tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
-        }
+            for (let i = 0; i < component.guarantees.length; i++) {
+                if (component.guarantees[i].LTL[0] !== "")
+                    tmpComponent.guarantees.LTL.push(component.guarantees[i].LTL[0])
+                if (component.guarantees[i].PL[0] !== "")
+                    tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
+            }
 
-        this.props.saveComponent(tmpComponent)
+            this.props.saveComponent(tmpComponent)
+        }
     }
 
     deleteComponent = (i) => {
@@ -124,7 +129,6 @@ export default class ComponentsView extends React.Component {
     }
 
     downloadComponent = (i) => {
-        console.log(this.props.components[i])
         const json = JSON.stringify(this.props.components[i],null,'\t')
         const blob = new Blob([json], {type : "text/json;charset=utf-8"})
         const file = new File([blob], this.props.components[i].name+".json")
@@ -141,6 +145,47 @@ export default class ComponentsView extends React.Component {
         const blob = new Blob([json], {type: "text/json;charset=utf-8"})
         const file = new File([blob], "components.json")
         saveAs(file)
+    }
+
+    /**
+     * Verify if a string is convertible to json
+     * @param str
+     * @returns {boolean}
+     */
+    isJsonString = (str) => {
+        try {
+            JSON.parse(str);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+    uploadGoals = (json) => {
+        if (this.isJsonString(json)) {
+            const components = JSON.parse(json)
+            if (components.length) {
+                for (let i = 0; i <= components.length; i++) {
+                    setTimeout(() => {
+                        this.uploadComponent(components[i])
+                    }, 2000)
+                }
+            } else {
+                this.uploadComponent(components)
+            }
+        }
+    }
+
+    /**
+     * Upload one component
+     * @param component
+     */
+    uploadComponent = (component) => {
+        if (component) {
+            if (component.hasOwnProperty("guarantees") && component.hasOwnProperty("name") && component.hasOwnProperty("description")) {
+                this.saveComponent(component, true)
+            }
+        }
     }
 
     selectAllComponents = (e) => {
@@ -269,12 +314,9 @@ export default class ComponentsView extends React.Component {
                                 arrow="true"
                             >
                                 {/*#TODO add a onClick on this upload button*/}
-                                <Button
-                                    size={componentInfo.info.texts.component.header.uploadButton.size}
-                                    color={componentInfo.info.texts.component.header.uploadButton.color}
-                                >
-                                    <i className={componentInfo.info.texts.component.header.uploadButton.icon}></i>
-                                </Button>
+                                <UploadButton
+                                    upload={this.uploadGoals}
+                                />
                             </Tooltip>
                         </div>
                         <Modal
