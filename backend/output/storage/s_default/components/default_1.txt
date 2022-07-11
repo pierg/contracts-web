@@ -1,0 +1,31 @@
+**NAME**
+
+    DEFAULT_1
+
+**DESCRIPTION**
+
+    description of component 1
+
+**INPUTS**
+
+	x (float)
+	a (bool)
+
+**OUTPUTS**
+
+    y (float)
+    b (bool)
+
+**ASSUMPTIONS**
+
+	PL:
+		x <= 84
+	LTL:
+		GF(a)
+
+**GUARANTEES**
+
+	PL:
+		y > 2
+	LTL:
+		F(b)

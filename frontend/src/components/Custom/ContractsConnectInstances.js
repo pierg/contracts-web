@@ -6,7 +6,6 @@ import '@blueprintjs/core/lib/css/blueprint.css';
 import {Modal} from "reactstrap";
 import ComponentsToInstances from "./ComponentsToInstances";
 import {Tooltip} from "react-tippy";
-import componentInfo from "../../_texts/custom/componentInfo";
 
 function ContractsConnectInstances(props) {
     const [triggerAddInstance, setTriggerAddInstance] = useState(false);

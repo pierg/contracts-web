@@ -262,33 +262,37 @@ export default class ComponentsView extends React.Component {
                             <i className={componentInfo.info.icon.download}/>
                         </Button>
                     </Tooltip>
+                    {
+                        !this.props.components[i].default &&
+                        <>
+                            <Tooltip
+                                html="edit"
+                                position="top"
+                                arrow="true"
+                            >
 
-                    <Tooltip
-                        html="edit"
-                        position="top"
-                        arrow="true"
-                    >
+                                <Button size="sm" color="gray" onClick={(e) => {
+                                    e.stopPropagation();
+                                    this.editComponent(i)
+                                }}>
+                                    <i className={componentInfo.info.icon.edit}/>
+                                </Button>
+                            </Tooltip>
 
-                        <Button size="sm" color="gray" onClick={(e) => {
-                            e.stopPropagation();
-                            this.editComponent(i)
-                        }}>
-                            <i className={componentInfo.info.icon.edit}/>
-                        </Button>
-                    </Tooltip>
-                    <Tooltip
-                        html="delete"
-                        position="top"
-                        arrow="true"
-                    >
-
-                        <Button size="sm" color="red" onClick={(e) => {
-                            e.stopPropagation();
-                            this.deleteComponent(i)
-                        }}>
-                            <i className={componentInfo.info.icon.delete}/>
-                        </Button>
-                    </Tooltip>
+                            <Tooltip
+                                html="delete"
+                                position="top"
+                                arrow="true"
+                            >
+                                <Button size="sm" color="red" onClick={(e) => {
+                                    e.stopPropagation();
+                                    this.deleteComponent(i)
+                                }}>
+                                    <i className={componentInfo.info.icon.delete}/>
+                                </Button>
+                            </Tooltip>
+                        </>
+                    }
                 </td>
             </tr>)
         }
