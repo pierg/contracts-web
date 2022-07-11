@@ -6,6 +6,7 @@ import {Modal, Table} from "reactstrap";
 import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
+import { saveAs } from 'file-saver';
 import Checkbox from "../Elements/Checkbox";
 import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
 
@@ -122,6 +123,13 @@ export default class ComponentsView extends React.Component {
         this.props.deleteComponent(this.props.components[i])
     }
 
+    downloadComponent = (i) => {
+        console.log(this.props.components[i])
+        const json = JSON.stringify(this.props.components[i],null,'\t')
+        const blob = new Blob([json], {type : "text/json;charset=utf-8"})
+        const file = new File([blob], this.props.components[i].name+".json")
+        saveAs(file)
+    }
 
     selectAllComponents = (e) => {
         if (e.target.checked)
@@ -182,6 +190,7 @@ export default class ComponentsView extends React.Component {
 
                     <Button size="sm" color="gray" onClick={(e) => {
                         e.stopPropagation();
+                        this.downloadComponent(i)
                     }}>
                         <i className={componentInfo.info.icon.download}/>
                     </Button>
