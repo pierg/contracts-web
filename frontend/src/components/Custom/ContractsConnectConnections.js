@@ -3,8 +3,35 @@ import Button from "../Elements/Button";
 import React from "react";
 import {Tree} from "@blueprintjs/core";
 import {Tooltip} from "react-tippy";
+import {saveAs} from 'file-saver';
 
 function ContractsConnectConnections(props) {
+
+    const downloadConnections = () => {
+        if (props.connections.length === 0) return
+
+        let connections = []
+        for (let i = 0; i < props.connections.length; i++) {
+            connections[i] = {}
+            connections[i].name = props.connections[i].name
+            let inputs = []
+            for(let j=0 ; j<props.connections[i].connectors[0].length ; j++) {
+                inputs.push(props.connections[i].connectors[0][j].split(" ")[1]+" "+props.connections[i].connectors[0][j].split(" ")[2])
+            }
+            let outputs = []
+            for(let j=0 ; j<props.connections[i].connectors[1].length ; j++) {
+                outputs.push(props.connections[i].connectors[1][j].split(" ")[1]+" "+props.connections[i].connectors[1][j].split(" ")[2])
+            }
+            connections[i].connectors = {
+                "inputs" : inputs,
+                "outputs" : outputs,
+            }
+        }
+        const json = JSON.stringify(connections, null, '\t')
+        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
+        const file = new File([blob], "connections.json")
+        saveAs(file)
+    }
 
     const changeIsOpen = ({e}) => {
         let arraySplit = e.id.split("-")
@@ -137,6 +164,7 @@ function ContractsConnectConnections(props) {
                     <Button
                         size={contractsconnect.downloadButton.size}
                         color={contractsconnect.downloadButton.color}
+                        onClick={() => downloadConnections()}
                     >
                         <i className={contractsconnect.downloadButton.icon}/>
                     </Button>

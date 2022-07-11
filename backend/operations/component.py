@@ -13,6 +13,7 @@ class ComponentOperation:
     @staticmethod
     def get_components(session_id) -> list:
         list_components = []
+
         # We get default components
         default_folder = storage_path / "s_default" / "components"
         if os.path.isdir(default_folder):
@@ -26,7 +27,6 @@ class ComponentOperation:
 
         # We get components of the current session
         component_folder = component_path(session_id)
-
         if os.path.isdir(component_folder):
             _, _, filenames = next(walk(component_folder))
             for filename in filenames:
