@@ -10,22 +10,25 @@ function ContractsConnectConnections(props) {
     const downloadConnections = () => {
         if (props.connections.length === 0) return
 
+        let instances = []
+
         let connections = []
         for (let i = 0; i < props.connections.length; i++) {
             connections[i] = {}
             connections[i].name = props.connections[i].name
-            let inputs = []
-            for(let j=0 ; j<props.connections[i].connectors[0].length ; j++) {
-                inputs.push(props.connections[i].connectors[0][j].split(" ")[1]+" "+props.connections[i].connectors[0][j].split(" ")[2])
+            let ports = []
+            let arrayConnector
+            let instanceName
+            let name
+            let type
+            for(let j=0 ; j<props.connections[i].connectors.length ; j++) {
+                arrayConnector = props.connections[i].connectors[j].split(" ")
+                instanceName = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]
+                name = props.connections[i].connectors[j].split(" ")[1]
+                type = props.connections[i].connectors[j].split(" ")[2]
+                ports.push(instanceName+"."+name+" "+type)
             }
-            let outputs = []
-            for(let j=0 ; j<props.connections[i].connectors[1].length ; j++) {
-                outputs.push(props.connections[i].connectors[1][j].split(" ")[1]+" "+props.connections[i].connectors[1][j].split(" ")[2])
-            }
-            connections[i].connectors = {
-                "inputs" : inputs,
-                "outputs" : outputs,
-            }
+            connections[i].connectors = ports
         }
         const json = JSON.stringify(connections, null, '\t')
         const blob = new Blob([json], {type: "text/json;charset=utf-8"})
@@ -33,15 +36,8 @@ function ContractsConnectConnections(props) {
         saveAs(file)
     }
 
-    const changeIsOpen = ({e}) => {
-        let arraySplit = e.id.split("-")
-        if(arraySplit.length === 2) {
-            props.setConnectionsOpen(arraySplit[0],parseInt(arraySplit[1])+1)
-        }
-    }
-
     const lineClicked = (index) => {
-        props.setConnectionsOpen(index,0)
+        props.setConnectionsOpen(index)
     }
 
     let connections = []
@@ -54,35 +50,14 @@ function ContractsConnectConnections(props) {
         }
 
         subtree = []
-        node = {}
-        node.id = i+"-0"
-        node.label = "INPUTS"
-        node.isExpanded = props.connectionsOpen[i][1]
-        node.childNodes = []
-        let childNode
         let arrayConnector
-        for(let j=0; j<props.connections[i].connectors[0].length; j++) { //input
-            childNode = {}
-            childNode.id = node.id+"-"+j
-            arrayConnector = props.connections[i].connectors[0][j].split(" ")
-            childNode.label = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
-            node.childNodes[j] = childNode
+        for(let j=0; j<props.connections[i].connectors.length; j++) {
+            node = {}
+            node.id = i+"-"+j
+            arrayConnector = props.connections[i].connectors[j].split(" ")
+            node.label = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
+            subtree.push(node)
         }
-        subtree.push(node)
-
-        node = {}
-        node.id = i+"-1"
-        node.label = "OUTPUTS"
-        node.isExpanded = props.connectionsOpen[i][2]
-        node.childNodes = []
-        for(let j=0; j<props.connections[i].connectors[1].length; j++) { //input
-            childNode = {}
-            childNode.id = node.id+"-"+j
-            arrayConnector = props.connections[i].connectors[1][j].split(" ")
-            childNode.label = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
-            node.childNodes[j] = childNode
-        }
-        subtree.push(node)
 
         connections.push(
             <li
@@ -123,11 +98,10 @@ function ContractsConnectConnections(props) {
                         </div>
                     </div>
                     {
-                        props.connectionsOpen[i][0] &&
+                        props.connectionsOpen[i] &&
                         <Tree
                             contents={subtree}
                             className="bp4-text-small"
-                            onNodeClick={e => changeIsOpen({e})}
                         />
                     }
                 </div>

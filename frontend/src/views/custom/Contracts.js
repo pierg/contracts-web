@@ -31,7 +31,7 @@ export default class Contracts extends React.Component {
         // SECOND PAGE
         instances: [],
         instancesOpen: [],
-        connectors: [[], []],
+        connectors: [],
         connections: [],
         patterns: [],
         connectionsOpen: [],
@@ -81,7 +81,7 @@ export default class Contracts extends React.Component {
             selectedComponents: selectedComponents,
             instances,
             instancesOpen,
-            connectors: [[], []],
+            connectors: [],
             connections: [],
             connectionsOpen: [],
         })
@@ -168,15 +168,10 @@ export default class Contracts extends React.Component {
         let instancesOpen = this.state.instancesOpen
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
 
-        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVEC THE INSTANCE WHO WILL BE DELETED
+        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
         for (let i = 0; i < this.state.connections.length; i++) {
-            for (let j = 0; j < this.state.connections[i].connectors[0].length; j++) {
-                if (parseInt(this.state.connections[i].connectors[0][j].split("-")[0]) === index) {
-                    this.deleteConnection(i)
-                }
-            }
-            for (let j = 0; j < this.state.connections[i].connectors[1].length; j++) {
-                if (parseInt(this.state.connections[i].connectors[1][j].split("-")[0]) === index) {
+            for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
+                if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
                     this.deleteConnection(i)
                 }
             }
@@ -197,11 +192,10 @@ export default class Contracts extends React.Component {
 
     addConnectors = (connector) => {
         let connectors = this.state.connectors
-        let put = connector.split("-")[1]
-        if (connectors[put - 1].includes(connector)) {
-            connectors[put - 1] = connectors[put - 1].filter((e) => e !== connector)
+        if (connectors.includes(connector)) {
+            connectors = connectors.filter((e) => e !== connector)
         } else {
-            connectors[put - 1].push(connector)
+            connectors.push(connector)
         }
         this.setState({
             connectors: connectors
@@ -215,9 +209,9 @@ export default class Contracts extends React.Component {
             "connectors": this.state.connectors
         })
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen.push(Array(3).fill(false))
+        connectionsOpen.push(false)
         this.setState({
-            connectors: [[], []],
+            connectors: [],
             connections: connections,
             connectionsOpen: connectionsOpen,
         })
@@ -234,9 +228,9 @@ export default class Contracts extends React.Component {
         })
     }
 
-    setConnectionsOpen = (indexConnection, indexGroup) => {
+    setConnectionsOpen = (indexConnection) => {
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen[indexConnection][indexGroup] = !connectionsOpen[indexConnection][indexGroup]
+        connectionsOpen[indexConnection] = !connectionsOpen[indexConnection]
         this.setState({
             connectionsOpen: connectionsOpen
         })
