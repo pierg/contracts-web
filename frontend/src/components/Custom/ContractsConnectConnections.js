@@ -11,6 +11,12 @@ function ContractsConnectConnections(props) {
         if (props.connections.length === 0) return
 
         let instances = []
+        for (let i = 0; i < props.instances.length; i++) {
+            instances[i] = {}
+            instances[i].name = props.instances[i].name
+            instances[i].inputs = props.instances[i].inputs
+            instances[i].outputs = props.instances[i].outputs
+        }
 
         let connections = []
         for (let i = 0; i < props.connections.length; i++) {
@@ -30,18 +36,14 @@ function ContractsConnectConnections(props) {
             }
             connections[i].connectors = ports
         }
-        const json = JSON.stringify(connections, null, '\t')
+        const json = JSON.stringify({"instances":instances,"connections":connections}, null, '\t')
         const blob = new Blob([json], {type: "text/json;charset=utf-8"})
         const file = new File([blob], "connections.json")
         saveAs(file)
     }
 
-    const lineClicked = (index) => {
-        props.setConnectionsOpen(index)
-    }
-
     let connections = []
-    let lineClass="flex flex-row relative text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+    let lineClass="flex flex-row relative text-lg pt-3 px-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900"
     let subtree
     let node
     for(let i=0;i<props.connections.length;i++) {
@@ -62,14 +64,13 @@ function ContractsConnectConnections(props) {
         connections.push(
             <li
                 key={i}
-                className="border-b-1"
+                className="pb-3"
             >
                 <div
                     className="flex flex-col justify-between"
                 >
                     <div
                         className={lineClass}
-                        onClick={() => lineClicked(i)}
                     >
                         <div
                             className="mr-2"
@@ -97,13 +98,10 @@ function ContractsConnectConnections(props) {
                             </Tooltip>
                         </div>
                     </div>
-                    {
-                        props.connectionsOpen[i] &&
-                        <Tree
-                            contents={subtree}
-                            className="bp4-text-small"
-                        />
-                    }
+                    <Tree
+                        contents={subtree}
+                        className="bp4-text-small"
+                    />
                 </div>
             </li>
         )

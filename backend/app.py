@@ -158,6 +158,21 @@ def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
     )
 
 
+@socketio.on("display-message")
+def get_components(data) -> None:
+    now = time.localtime(time.time())
+    emit(
+        "send-notification",
+        {"crometypes": data["type"], "content": data["messageNotif"]},
+        room=request.sid
+    )
+    emit(
+        "send-message",
+        strftime("%H:%M:%S", now) + " " + data["messageSideBar"],
+        room=request.sid,
+    )
+
+
 @socketio.on("get-components")
 def get_components() -> None:
     """

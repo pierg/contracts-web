@@ -10,12 +10,17 @@ import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
 import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComponent";
+import SocketIoMessage from "../../components/Custom/Socket/Message";
 
 export default class Contracts extends React.Component {
     state = {
         // MAIN PAGE
         headerStates: [true, false, false],
         currentTabOpen: 0,
+        triggerMessage: false,
+        messageType: "",
+        messageNotif: "",
+        messageSideBar: "",
 
         // FIRST PAGE
         selectedComponents: [],
@@ -53,6 +58,12 @@ export default class Contracts extends React.Component {
             }
         )
 
+    }
+
+    setTriggerMessage = (bool) => {
+        this.setState({
+            triggerMessage: bool
+        })
     }
 
     // FIRST PAGE
@@ -203,18 +214,47 @@ export default class Contracts extends React.Component {
     }
 
     addConnections = () => {
-        let connections = this.state.connections
-        connections.push({
-            "name": "C_" + connections.length,
-            "connectors": this.state.connectors
-        })
-        let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen.push(false)
-        this.setState({
-            connectors: [],
-            connections: connections,
-            connectionsOpen: connectionsOpen,
-        })
+        let error = 0
+        if(this.state.connectors.length < 2) {
+            error = 1
+            this.setState({
+                messageType: "error",
+                messageNotif: "The connection can't be created, see console for more information.",
+                messageSideBar: "Not enough variables selected.",
+                connectors: [],
+            })
+            this.setTriggerMessage(true)
+        }
+        else {
+            let type = this.state.connectors[0].split(" ")[2]
+            for(let i=1; i<this.state.connectors.length; i++) {
+                if(type !== this.state.connectors[i].split(" ")[2]) {
+                    error = 1
+                    this.setState({
+                        messageType: "error",
+                        messageNotif: "The connection can't be created, see console for more information.",
+                        messageSideBar: "Variables selected have not the same type.",
+                        connectors: [],
+                    })
+                    this.setTriggerMessage(true)
+                    i = this.state.connectors.length
+                }
+            }
+        }
+        if(error === 0) {
+            let connections = this.state.connections
+            connections.push({
+                "name": "C_" + connections.length,
+                "connectors": this.state.connectors
+            })
+            let connectionsOpen = this.state.connectionsOpen
+            connectionsOpen.push(false)
+            this.setState({
+                connectors: [],
+                connections: connections,
+                connectionsOpen: connectionsOpen,
+            })
+        }
     }
 
     deleteConnection = (index) => {
@@ -277,6 +317,13 @@ export default class Contracts extends React.Component {
             <>
                 <SocketIoPatterns
                     patterns={this.getPatterns}
+                />
+                <SocketIoMessage
+                    triggerMessage={this.state.triggerMessage}
+                    setTriggerMessage={this.setTriggerMessage}
+                    type={this.state.messageType}
+                    messageNotif={this.state.messageNotif}
+                    messageSideBar={this.state.messageSideBar}
                 />
                 <SocketIoComponents
                     componentToDelete={this.state.componentToDelete}

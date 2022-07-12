@@ -6,7 +6,6 @@ import {Modal, Table} from "reactstrap";
 import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
-import {saveAs} from 'file-saver';
 import Checkbox from "../Elements/Checkbox";
 import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
 import UploadButton from "./UploadButton";
