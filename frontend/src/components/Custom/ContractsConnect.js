@@ -22,7 +22,7 @@ function ContractsConnect(props) {
                 <ContractsConnectConnections
                     instances={props.instances}
                     connections={props.connections}
-                    addConnections={props.addConnections}
+                    checkAddConnections={props.checkAddConnections}
                     deleteConnection={props.deleteConnection}
                     connectionsOpen={props.connectionsOpen}
                     setConnectionsOpen={props.setConnectionsOpen}

@@ -6,7 +6,6 @@ import {Tooltip} from "react-tippy";
 import {saveAs} from 'file-saver';
 
 function ContractsConnectConnections(props) {
-
     const downloadConnections = () => {
         if (props.connections.length === 0) return
 
@@ -43,7 +42,7 @@ function ContractsConnectConnections(props) {
     }
 
     let connections = []
-    let lineClass="flex flex-row relative text-lg pt-3 px-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900"
+    let lineClass="flex flex-row relative text-lg pt-2 px-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900"
     let subtree
     let node
     for(let i=0;i<props.connections.length;i++) {
@@ -73,7 +72,7 @@ function ContractsConnectConnections(props) {
                         className={lineClass}
                     >
                         <div
-                            className="mr-2"
+                            className="mr-2 pt-1"
                         >
                             {props.connections[i].name}
                         </div>
@@ -122,7 +121,7 @@ function ContractsConnectConnections(props) {
                     <Button
                         size={contractsconnect.addButton.size}
                         color={contractsconnect.addButton.color}
-                        onClick={() => props.addConnections()}
+                        onClick={() => props.checkAddConnections()}
                     >
                         <i className={contractsconnect.addButton.icon}></i>
                     </Button>

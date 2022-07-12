@@ -11,6 +11,8 @@ import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
 import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComponent";
 import SocketIoMessage from "../../components/Custom/Socket/Message";
+import {Modal} from "reactstrap";
+import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 
 export default class Contracts extends React.Component {
     state = {
@@ -37,6 +39,7 @@ export default class Contracts extends React.Component {
         instances: [],
         instancesOpen: [],
         connectors: [],
+        triggerAddConnection: false,
         connections: [],
         patterns: [],
         connectionsOpen: [],
@@ -213,7 +216,7 @@ export default class Contracts extends React.Component {
         })
     }
 
-    addConnections = () => {
+    checkAddConnections = () => {
         let error = 0
         if(this.state.connectors.length < 2) {
             error = 1
@@ -242,19 +245,30 @@ export default class Contracts extends React.Component {
             }
         }
         if(error === 0) {
-            let connections = this.state.connections
-            connections.push({
-                "name": "C_" + connections.length,
-                "connectors": this.state.connectors
-            })
-            let connectionsOpen = this.state.connectionsOpen
-            connectionsOpen.push(false)
-            this.setState({
-                connectors: [],
-                connections: connections,
-                connectionsOpen: connectionsOpen,
-            })
+            this.setTriggerAddConnection(true)
         }
+    }
+
+    setTriggerAddConnection = (bool) => {
+        this.setState({
+            triggerAddConnection: bool
+        })
+    }
+
+    addConnections = (name) => {
+        let connections = this.state.connections
+        connections.push({
+            "name": name,
+            "connectors": this.state.connectors
+        })
+        let connectionsOpen = this.state.connectionsOpen
+        connectionsOpen.push(false)
+        this.setState({
+            connectors: [],
+            connections: connections,
+            connectionsOpen: connectionsOpen,
+            triggerAddConnection: false,
+        })
     }
 
     deleteConnection = (index) => {
@@ -290,21 +304,35 @@ export default class Contracts extends React.Component {
                 patterns={this.state.patterns}
             />
         } else if (this.state.headerStates[1]) {
-            page = <ContractsConnect
-                selectedComponents={this.state.selectedComponents}
-                instances={this.state.instances}
-                addInstances={this.addInstances}
-                deleteInstance={this.deleteInstance}
-                instancesOpen={this.state.instancesOpen}
-                setInstancesOpen={this.setInstancesOpen}
-                connectors={this.state.connectors}
-                addConnectors={this.addConnectors}
-                connections={this.state.connections}
-                addConnections={this.addConnections}
-                deleteConnection={this.deleteConnection}
-                connectionsOpen={this.state.connectionsOpen}
-                setConnectionsOpen={this.setConnectionsOpen}
-            />
+            page =
+                <>
+                    <ContractsConnect
+                        selectedComponents={this.state.selectedComponents}
+                        instances={this.state.instances}
+                        addInstances={this.addInstances}
+                        deleteInstance={this.deleteInstance}
+                        instancesOpen={this.state.instancesOpen}
+                        setInstancesOpen={this.setInstancesOpen}
+                        connectors={this.state.connectors}
+                        addConnectors={this.addConnectors}
+                        connections={this.state.connections}
+                        checkAddConnections={this.checkAddConnections}
+                        deleteConnection={this.deleteConnection}
+                        connectionsOpen={this.state.connectionsOpen}
+                        setConnectionsOpen={this.setConnectionsOpen}
+                    />
+                    <Modal
+                        isOpen={this.state.triggerAddConnection}
+                        autoFocus={false}
+                        toggle={() => this.state.setTriggerAddConnection(false)}
+                        className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
+                    >
+                        <ConnectionEdit
+                            add={(name) => this.addConnections(name)}
+                            close={() => this.state.setTriggerAddConnection(false)}
+                        />
+                    </Modal>
+                </>
         } else {
             page =
                 <ComponentsDiagram
