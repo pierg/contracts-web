@@ -229,5 +229,21 @@ def delete_component(name) -> None:
     emit("component-deleted", is_deleted, room=request.sid)
 
 
+@socketio.on("download-components")
+def download_components(data):
+    """
+        Download the txt file of component(s)
+    """
+    print("Je suis la !")
+    list_component = []
+    session_id = request.args.get("id")
+    for name in data["names"]:
+        raw = ComponentOperation.get_raw_component(name, session_id)
+        if raw:
+            data = {"name": name, "file": raw}
+            list_component.append(data)
+    emit("components-downloaded", list_component, room=request.sid)
+
+
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0")

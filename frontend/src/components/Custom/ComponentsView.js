@@ -129,22 +129,16 @@ export default class ComponentsView extends React.Component {
     }
 
     downloadComponent = (i) => {
-        const json = JSON.stringify(this.props.components[i], null, '\t')
-        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
-        const file = new File([blob], this.props.components[i].name + ".json")
-        saveAs(file)
+        this.props.downloadComponents([this.props.components[i].name])
     }
 
     downloadComponents = () => {
-        if (this.props.components.length === 0) return
-        let components = []
-        for (let i = 0; i < this.props.components.length; i++) {
-            components.push(this.props.components[i])
+         if (this.props.components.length === 0) return
+        let componentsName = []
+        for (let i = 0; i < this.props.components.length; i++){
+            componentsName.push(this.props.components[i].name)
         }
-        const json = JSON.stringify(components, null, '\t')
-        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
-        const file = new File([blob], "components.json")
-        saveAs(file)
+        this.props.downloadComponents(componentsName)
     }
 
     /**

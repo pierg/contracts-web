@@ -9,6 +9,7 @@ import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
+import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComponent";
 
 export default class Contracts extends React.Component {
     state = {
@@ -19,10 +20,12 @@ export default class Contracts extends React.Component {
         // FIRST PAGE
         selectedComponents: [],
         components: [],
+        componentsToDownloads: [],
         componentToDelete: null,
         triggerComponents: true,
         triggerSave: false,
         triggerDelete: false,
+        triggerDownload: false,
         componentToSave: null,
 
         // SECOND PAGE
@@ -105,6 +108,12 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerDownload = (bool) => {
+        this.setState({
+            triggerDownload: bool
+        })
+    }
+
 
     saveComponent = (component) => {
         this.setState({
@@ -123,6 +132,13 @@ export default class Contracts extends React.Component {
         this.setState({
             triggerDelete: true,
             componentToDelete: component
+        })
+    }
+
+    downloadComponents = (componentName) => {
+        this.setState({
+            triggerDownload: true,
+            componentsToDownloads: componentName
         })
     }
 
@@ -236,6 +252,7 @@ export default class Contracts extends React.Component {
                 components={this.state.components}
                 saveComponent={this.saveComponent}
                 deleteComponent={this.deleteComponent}
+                downloadComponents={this.downloadComponents}
                 patterns={this.state.patterns}
             />
         } else if (this.state.headerStates[1]) {
@@ -281,6 +298,11 @@ export default class Contracts extends React.Component {
                     setTriggerSave={this.setTriggerSave}
                     component={this.state.componentToSave}
                 />
+                <SocketDownloadComponent
+                    componentsToDownloads={this.state.componentsToDownloads}
+                    triggerDownload={this.state.triggerDownload}
+                    setTriggerDownload={this.setTriggerDownload}
+                    />
                 <CustomHeader
                     {...cromecontractsheaderscards}
                     color={"purple"}
