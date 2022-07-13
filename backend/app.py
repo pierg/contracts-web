@@ -260,5 +260,19 @@ def download_components(data):
     emit("components-downloaded", list_component, room=request.sid)
 
 
+@socketio.on("upload-component")
+def upload_component(component_file):
+    """
+        Upload a component
+    """
+    session_id = request.args.get("id")
+    is_saved = ComponentOperation.save_component_file(component_file, session_id)
+    emit("upload-done", True, room=request.sid)
+    if not is_saved:
+        send_message_to_user("The file does not have the right structure", request.sid, "error")
+    else:
+        send_message_to_user("The component has been uploaded", request.sid, "success")
+
+
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0")

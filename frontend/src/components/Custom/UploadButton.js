@@ -21,7 +21,7 @@ function UploadButton(props) {
     return (<Button
                 size={componentInfo.info.texts.component.header.uploadButton.size}
                 color={componentInfo.info.texts.component.header.uploadButton.color}
-                onClick={() => openFileSelector()}
+                onClick={() => {openFileSelector(); setSave(false)}}
             >
                 <i className={componentInfo.info.texts.component.header.uploadButton.icon}></i>
             </Button>);
