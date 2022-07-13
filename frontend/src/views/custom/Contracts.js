@@ -10,6 +10,7 @@ import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
 import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComponent";
+import SocketUploadComponent from "../../components/Custom/Socket/UploadComponent";
 import SocketIoMessage from "../../components/Custom/Socket/Message";
 import {Modal} from "reactstrap";
 import ConnectionEdit from "../../components/Custom/ConnectionEdit";
@@ -29,10 +30,12 @@ export default class Contracts extends React.Component {
         components: [],
         componentsToDownloads: [],
         componentToDelete: null,
+        componentToUpload: null,
         triggerComponents: true,
         triggerSave: false,
         triggerDelete: false,
         triggerDownload: false,
+        triggerUpload: false,
         componentToSave: null,
 
         // SECOND PAGE
@@ -128,6 +131,11 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerUpload = (bool) => {
+        this.setState({
+            triggerUpload: bool
+        })
+    }
 
     saveComponent = (component) => {
         this.setState({
@@ -153,6 +161,13 @@ export default class Contracts extends React.Component {
         this.setState({
             triggerDownload: true,
             componentsToDownloads: componentName
+        })
+    }
+
+    uploadComponents = (componentFile) => {
+        this.setState({
+            triggerUpload: true,
+            componentToUpload: componentFile
         })
     }
 
@@ -301,6 +316,7 @@ export default class Contracts extends React.Component {
                 saveComponent={this.saveComponent}
                 deleteComponent={this.deleteComponent}
                 downloadComponents={this.downloadComponents}
+                uploadComponent={this.uploadComponents}
                 patterns={this.state.patterns}
             />
         } else if (this.state.headerStates[1]) {
@@ -371,7 +387,12 @@ export default class Contracts extends React.Component {
                     componentsToDownloads={this.state.componentsToDownloads}
                     triggerDownload={this.state.triggerDownload}
                     setTriggerDownload={this.setTriggerDownload}
-                    />
+                />
+                <SocketUploadComponent
+                    componentToUpload={this.state.componentToUpload}
+                    triggerUpload={this.state.triggerUpload}
+                    setTriggerUpload={this.setTriggerUpload}
+                />
                 <CustomHeader
                     {...cromecontractsheaderscards}
                     color={"purple"}

@@ -140,47 +140,6 @@ export default class ComponentsView extends React.Component {
         this.props.downloadComponents(componentsName)
     }
 
-    /**
-     * Verify if a string is convertible to json
-     * @param str
-     * @returns {boolean}
-     */
-    isJsonString = (str) => {
-        try {
-            JSON.parse(str);
-        } catch (e) {
-            return false;
-        }
-        return true;
-    }
-
-    uploadGoals = (json) => {
-        if (this.isJsonString(json)) {
-            const components = JSON.parse(json)
-            if (components.length) {
-                for (let i = 0; i <= components.length; i++) {
-                    setTimeout(() => {
-                        this.uploadComponent(components[i])
-                    }, 2000)
-                }
-            } else {
-                this.uploadComponent(components)
-            }
-        }
-    }
-
-    /**
-     * Upload one component
-     * @param component
-     */
-    uploadComponent = (component) => {
-        if (component) {
-            if (component.hasOwnProperty("guarantees") && component.hasOwnProperty("name") && component.hasOwnProperty("description")) {
-                this.saveComponent(component, true)
-            }
-        }
-    }
-
     selectAllComponents = (e) => {
         if (e.target.checked)
             this.props.setSelectedComponents(this.props.components)
@@ -335,9 +294,8 @@ export default class ComponentsView extends React.Component {
                                 position="right"
                                 arrow="true"
                             >
-                                {/*#TODO add a onClick on this upload button*/}
                                 <UploadButton
-                                    upload={this.uploadGoals}
+                                    upload={this.props.uploadComponent}
                                 />
                             </Tooltip>
                         </div>
