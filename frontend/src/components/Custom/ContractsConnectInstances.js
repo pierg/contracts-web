@@ -43,7 +43,7 @@ function ContractsConnectInstances(props) {
             childNode = {}
             childNode.id = node.id+"-"+j
             childNode.label = props.instances[i].inputs[j].name + " (" + props.instances[i].inputs[j].type + ")"
-            if(props.connectors[0].includes(childNode.id+" "+childNode.label)) {
+            if(props.connectors.includes(childNode.id+" "+childNode.label)) {
                 childNode.className = "bg-blueGray-500 text-white"
             }
             node.childNodes[j] = childNode
@@ -59,7 +59,7 @@ function ContractsConnectInstances(props) {
             childNode = {}
             childNode.id = node.id+"-"+j
             childNode.label = props.instances[i].outputs[j].name + " (" + props.instances[i].outputs[j].type + ")"
-            if(props.connectors[1].includes(childNode.id+" "+childNode.label)) {
+            if(props.connectors.includes(childNode.id+" "+childNode.label)) {
                 childNode.className = "bg-blueGray-500 text-white"
             }
             node.childNodes[j] = childNode

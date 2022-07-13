@@ -99,6 +99,18 @@ class ComponentOperation:
         return False
 
     @staticmethod
+    def get_raw_component(name, session_id):
+        component_folder = component_path(session_id)
+        _, _, filenames = next(walk(component_folder))
+        for filename in filenames:
+            if ComponentOperation.__get_name_from_file(component_folder / filename) == name:
+                with open(component_folder / filename, "r") as file:
+                    reads = file.readlines()
+                    data = "".join(reads)
+                    return data
+        return False
+
+    @staticmethod
     def __get_name_from_file(file_path) -> str:
         if not os.path.exists(file_path):
             return ""

@@ -158,6 +158,21 @@ def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
     )
 
 
+@socketio.on("display-message")
+def get_components(data) -> None:
+    now = time.localtime(time.time())
+    emit(
+        "send-notification",
+        {"crometypes": data["type"], "content": data["messageNotif"]},
+        room=request.sid
+    )
+    emit(
+        "send-message",
+        strftime("%H:%M:%S", now) + " " + data["messageSideBar"],
+        room=request.sid,
+    )
+
+
 @socketio.on("get-components")
 def get_components() -> None:
     """
@@ -227,6 +242,22 @@ def delete_component(name) -> None:
     else:
         send_message_to_user(f"The component '{name}' has not been deleted", request.sid, "error")
     emit("component-deleted", is_deleted, room=request.sid)
+
+
+@socketio.on("download-components")
+def download_components(data):
+    """
+        Download the txt file of component(s)
+    """
+    print("Je suis la !")
+    list_component = []
+    session_id = request.args.get("id")
+    for name in data["names"]:
+        raw = ComponentOperation.get_raw_component(name, session_id)
+        if raw:
+            data = {"name": name, "file": raw}
+            list_component.append(data)
+    emit("components-downloaded", list_component, room=request.sid)
 
 
 if __name__ == "__main__":

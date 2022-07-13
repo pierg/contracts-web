@@ -8,11 +8,6 @@ import Button from "../Elements/Button";
 function ComponentsDiagram(props) {
 
     const CustomNode = (instance) => {
-        let height = instance.inputs.length * (25+10)
-        if(height < instance.outputs.length*(25+10)) {
-            height = instance.outputs.length*(25+10)
-        }
-
         let rows = []
 
         for(let i=0; i<instance.inputs.length; i++) {
@@ -36,10 +31,6 @@ function ComponentsDiagram(props) {
             if(rows[i].length === 1) {
                 rows[i][1] = "empty"
             }
-            console.log("row")
-            console.log(i)
-            console.log(rows[i])
-            console.log(instance.inputs[i])
             if(rows[i][0] !== "empty") {
                 colPortInput.push(
                     React.cloneElement(instance.inputs[i],
@@ -113,8 +104,6 @@ function ComponentsDiagram(props) {
             }
         }
 
-        console.log(rows)
-
         return (
             <div style={{ background: '#DAE1E7'}} className="border rounded-xl border-blueGray-400">
                 <div
@@ -132,12 +121,12 @@ function ComponentsDiagram(props) {
                         {colPortInput}
                     </div>
                     <div
-                        className="flex-col"
+                        className="flex-col w-50"
                     >
                         {colNameInput}
                     </div>
                     <div
-                        className="flex-col"
+                        className="flex-col w-50 text-right"
                     >
                         {colNameOutput}
                     </div>
@@ -182,11 +171,11 @@ function ComponentsDiagram(props) {
     let link
     for(let i=0;i<props.connections.length;i++) {
         link = {}
-        for(let j=0;j<props.connections[i].connectors[0].length;j++) {
-            for(let k=0;k<props.connections[i].connectors[1].length;k++) {
+        for(let j=0;j<props.connections[i].connectors.length;j++) {
+            for(let k=j+1;k<props.connections[i].connectors.length;k++) {
                 link.label = props.connections[i].name
-                link.input = "port_"+props.connections[i].connectors[0][j].split(" ")[0]
-                link.output = "port_"+props.connections[i].connectors[1][k].split(" ")[0]
+                link.input = "port_"+props.connections[i].connectors[j].split(" ")[0]
+                link.output = "port_"+props.connections[i].connectors[k].split(" ")[0]
                 links.push(link)
                 link = {}
             }

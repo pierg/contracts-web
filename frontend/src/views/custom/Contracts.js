@@ -9,26 +9,40 @@ import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
+import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComponent";
+import SocketUploadComponent from "../../components/Custom/Socket/UploadComponent";
+import SocketIoMessage from "../../components/Custom/Socket/Message";
+import {Modal} from "reactstrap";
+import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 
 export default class Contracts extends React.Component {
     state = {
         // MAIN PAGE
         headerStates: [true, false, false],
         currentTabOpen: 0,
+        triggerMessage: false,
+        messageType: "",
+        messageNotif: "",
+        messageSideBar: "",
 
         // FIRST PAGE
         selectedComponents: [],
         components: [],
+        componentsToDownloads: [],
         componentToDelete: null,
+        componentToUpload: null,
         triggerComponents: true,
         triggerSave: false,
         triggerDelete: false,
+        triggerDownload: false,
+        triggerUpload: false,
         componentToSave: null,
 
         // SECOND PAGE
         instances: [],
         instancesOpen: [],
-        connectors: [[], []],
+        connectors: [],
+        triggerAddConnection: false,
         connections: [],
         patterns: [],
         connectionsOpen: [],
@@ -50,6 +64,12 @@ export default class Contracts extends React.Component {
             }
         )
 
+    }
+
+    setTriggerMessage = (bool) => {
+        this.setState({
+            triggerMessage: bool
+        })
     }
 
     // FIRST PAGE
@@ -78,7 +98,7 @@ export default class Contracts extends React.Component {
             selectedComponents: selectedComponents,
             instances,
             instancesOpen,
-            connectors: [[], []],
+            connectors: [],
             connections: [],
             connectionsOpen: [],
         })
@@ -105,6 +125,17 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerDownload = (bool) => {
+        this.setState({
+            triggerDownload: bool
+        })
+    }
+
+    setTriggerUpload = (bool) => {
+        this.setState({
+            triggerUpload: bool
+        })
+    }
 
     saveComponent = (component) => {
         this.setState({
@@ -123,6 +154,20 @@ export default class Contracts extends React.Component {
         this.setState({
             triggerDelete: true,
             componentToDelete: component
+        })
+    }
+
+    downloadComponents = (componentName) => {
+        this.setState({
+            triggerDownload: true,
+            componentsToDownloads: componentName
+        })
+    }
+
+    uploadComponents = (componentFile) => {
+        this.setState({
+            triggerUpload: true,
+            componentToUpload: componentFile
         })
     }
 
@@ -152,15 +197,10 @@ export default class Contracts extends React.Component {
         let instancesOpen = this.state.instancesOpen
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
 
-        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVEC THE INSTANCE WHO WILL BE DELETED
+        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
         for (let i = 0; i < this.state.connections.length; i++) {
-            for (let j = 0; j < this.state.connections[i].connectors[0].length; j++) {
-                if (parseInt(this.state.connections[i].connectors[0][j].split("-")[0]) === index) {
-                    this.deleteConnection(i)
-                }
-            }
-            for (let j = 0; j < this.state.connections[i].connectors[1].length; j++) {
-                if (parseInt(this.state.connections[i].connectors[1][j].split("-")[0]) === index) {
+            for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
+                if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
                     this.deleteConnection(i)
                 }
             }
@@ -181,29 +221,68 @@ export default class Contracts extends React.Component {
 
     addConnectors = (connector) => {
         let connectors = this.state.connectors
-        let put = connector.split("-")[1]
-        if (connectors[put - 1].includes(connector)) {
-            connectors[put - 1] = connectors[put - 1].filter((e) => e !== connector)
+        if (connectors.includes(connector)) {
+            connectors = connectors.filter((e) => e !== connector)
         } else {
-            connectors[put - 1].push(connector)
+            connectors.push(connector)
         }
         this.setState({
             connectors: connectors
         })
     }
 
-    addConnections = () => {
+    checkAddConnections = () => {
+        let error = 0
+        if(this.state.connectors.length < 2) {
+            error = 1
+            this.setState({
+                messageType: "error",
+                messageNotif: "The connection can't be created, see console for more information.",
+                messageSideBar: "Not enough variables selected.",
+                connectors: [],
+            })
+            this.setTriggerMessage(true)
+        }
+        else {
+            let type = this.state.connectors[0].split(" ")[2]
+            for(let i=1; i<this.state.connectors.length; i++) {
+                if(type !== this.state.connectors[i].split(" ")[2]) {
+                    error = 1
+                    this.setState({
+                        messageType: "error",
+                        messageNotif: "The connection can't be created, see console for more information.",
+                        messageSideBar: "Variables selected have not the same type.",
+                        connectors: [],
+                    })
+                    this.setTriggerMessage(true)
+                    i = this.state.connectors.length
+                }
+            }
+        }
+        if(error === 0) {
+            this.setTriggerAddConnection(true)
+        }
+    }
+
+    setTriggerAddConnection = (bool) => {
+        this.setState({
+            triggerAddConnection: bool
+        })
+    }
+
+    addConnections = (name) => {
         let connections = this.state.connections
         connections.push({
-            "name": "C_" + connections.length,
+            "name": name,
             "connectors": this.state.connectors
         })
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen.push(Array(3).fill(false))
+        connectionsOpen.push(false)
         this.setState({
-            connectors: [[], []],
+            connectors: [],
             connections: connections,
             connectionsOpen: connectionsOpen,
+            triggerAddConnection: false,
         })
     }
 
@@ -218,9 +297,9 @@ export default class Contracts extends React.Component {
         })
     }
 
-    setConnectionsOpen = (indexConnection, indexGroup) => {
+    setConnectionsOpen = (indexConnection) => {
         let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen[indexConnection][indexGroup] = !connectionsOpen[indexConnection][indexGroup]
+        connectionsOpen[indexConnection] = !connectionsOpen[indexConnection]
         this.setState({
             connectionsOpen: connectionsOpen
         })
@@ -236,24 +315,40 @@ export default class Contracts extends React.Component {
                 components={this.state.components}
                 saveComponent={this.saveComponent}
                 deleteComponent={this.deleteComponent}
+                downloadComponents={this.downloadComponents}
+                uploadComponent={this.uploadComponents}
                 patterns={this.state.patterns}
             />
         } else if (this.state.headerStates[1]) {
-            page = <ContractsConnect
-                selectedComponents={this.state.selectedComponents}
-                instances={this.state.instances}
-                addInstances={this.addInstances}
-                deleteInstance={this.deleteInstance}
-                instancesOpen={this.state.instancesOpen}
-                setInstancesOpen={this.setInstancesOpen}
-                connectors={this.state.connectors}
-                addConnectors={this.addConnectors}
-                connections={this.state.connections}
-                addConnections={this.addConnections}
-                deleteConnection={this.deleteConnection}
-                connectionsOpen={this.state.connectionsOpen}
-                setConnectionsOpen={this.setConnectionsOpen}
-            />
+            page =
+                <>
+                    <ContractsConnect
+                        selectedComponents={this.state.selectedComponents}
+                        instances={this.state.instances}
+                        addInstances={this.addInstances}
+                        deleteInstance={this.deleteInstance}
+                        instancesOpen={this.state.instancesOpen}
+                        setInstancesOpen={this.setInstancesOpen}
+                        connectors={this.state.connectors}
+                        addConnectors={this.addConnectors}
+                        connections={this.state.connections}
+                        checkAddConnections={this.checkAddConnections}
+                        deleteConnection={this.deleteConnection}
+                        connectionsOpen={this.state.connectionsOpen}
+                        setConnectionsOpen={this.setConnectionsOpen}
+                    />
+                    <Modal
+                        isOpen={this.state.triggerAddConnection}
+                        autoFocus={false}
+                        toggle={() => this.state.setTriggerAddConnection(false)}
+                        className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
+                    >
+                        <ConnectionEdit
+                            add={(name) => this.addConnections(name)}
+                            close={() => this.state.setTriggerAddConnection(false)}
+                        />
+                    </Modal>
+                </>
         } else {
             page =
                 <ComponentsDiagram
@@ -266,6 +361,13 @@ export default class Contracts extends React.Component {
             <>
                 <SocketIoPatterns
                     patterns={this.getPatterns}
+                />
+                <SocketIoMessage
+                    triggerMessage={this.state.triggerMessage}
+                    setTriggerMessage={this.setTriggerMessage}
+                    type={this.state.messageType}
+                    messageNotif={this.state.messageNotif}
+                    messageSideBar={this.state.messageSideBar}
                 />
                 <SocketIoComponents
                     componentToDelete={this.state.componentToDelete}
@@ -280,6 +382,16 @@ export default class Contracts extends React.Component {
                     triggerSave={this.state.triggerSave}
                     setTriggerSave={this.setTriggerSave}
                     component={this.state.componentToSave}
+                />
+                <SocketDownloadComponent
+                    componentsToDownloads={this.state.componentsToDownloads}
+                    triggerDownload={this.state.triggerDownload}
+                    setTriggerDownload={this.setTriggerDownload}
+                />
+                <SocketUploadComponent
+                    componentToUpload={this.state.componentToUpload}
+                    triggerUpload={this.state.triggerUpload}
+                    setTriggerUpload={this.setTriggerUpload}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}

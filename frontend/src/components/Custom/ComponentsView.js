@@ -6,7 +6,6 @@ import {Modal, Table} from "reactstrap";
 import componenteditinfo from "../../_texts/custom/componenteditinfo";
 import defaultcomponent from "../../_texts/custom/defaultcomponent";
 import {Tooltip} from 'react-tippy';
-import {saveAs} from 'file-saver';
 import Checkbox from "../Elements/Checkbox";
 import ComponentInfoOffCanvas from "./ComponentInfoOffCanvas";
 import UploadButton from "./UploadButton";
@@ -128,25 +127,6 @@ export default class ComponentsView extends React.Component {
         this.props.deleteComponent(this.props.components[i])
     }
 
-    downloadComponent = (i) => {
-        const json = JSON.stringify(this.props.components[i], null, '\t')
-        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
-        const file = new File([blob], this.props.components[i].name + ".json")
-        saveAs(file)
-    }
-
-    downloadComponents = () => {
-        if (this.props.components.length === 0) return
-        let components = []
-        for (let i = 0; i < this.props.components.length; i++) {
-            components.push(this.props.components[i])
-        }
-        const json = JSON.stringify(components, null, '\t')
-        const blob = new Blob([json], {type: "text/json;charset=utf-8"})
-        const file = new File([blob], "components.json")
-        saveAs(file)
-    }
-
     /**
      * Verify if a string is convertible to json
      * @param str
@@ -186,6 +166,19 @@ export default class ComponentsView extends React.Component {
                 }, 5000);
             }
         }
+    }
+
+    downloadComponent = (i) => {
+        this.props.downloadComponents([this.props.components[i].name])
+    }
+
+    downloadComponents = () => {
+        if (this.props.components.length === 0) return
+        let componentsName = []
+        for (let i = 0; i < this.props.components.length; i++) {
+            componentsName.push(this.props.components[i].name)
+        }
+        this.props.downloadComponents(componentsName)
     }
 
     selectAllComponents = (e) => {
@@ -243,7 +236,7 @@ export default class ComponentsView extends React.Component {
                         position="top"
                         arrow="true"
                     >
-                        <Button size="sm"  color="gray" onClick={(e) => {
+                        <Button size="sm" color="gray" onClick={(e) => {
                             e.stopPropagation();
                             this.handleShow(i)
                         }}>
@@ -343,8 +336,8 @@ export default class ComponentsView extends React.Component {
                                 arrow="true"
                             >
                                 <UploadButton
-                                    upload={this.uploadComponents}
-                                />
+                                    upload={this.props.uploadComponent}
+                                    />
                             </Tooltip>
                         </div>
                         <Modal
@@ -384,6 +377,7 @@ export default class ComponentsView extends React.Component {
                 handleClose={this.handleClose}
                 component={this.state.componentToShow}
             />
-        </>);
+        </>
+    );
     }
 }
