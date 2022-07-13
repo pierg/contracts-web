@@ -6,6 +6,7 @@ function SocketDownloadComponent(props){
     const socket = useSocket()
 
     const componentFile = useCallback((components)=>{
+        socket.off('components-downloaded')
         if (components === null) return
         if (components === []) return
         for (let i  = 0; i < components.length; i++){
@@ -14,7 +15,6 @@ function SocketDownloadComponent(props){
                         })
             saveAs(blob, components[i]["name"]+".txt")
         }
-        return () => socket.off('components-downloaded')
     },[socket] )
 
     useEffect(() => {
