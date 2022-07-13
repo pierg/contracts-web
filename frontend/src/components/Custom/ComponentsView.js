@@ -161,14 +161,12 @@ export default class ComponentsView extends React.Component {
         return true;
     }
 
-    uploadGoals = (json) => {
+    uploadComponents = (json) => {
         if (this.isJsonString(json)) {
             const components = JSON.parse(json)
             if (components.length) {
                 for (let i = 0; i <= components.length; i++) {
-                    setTimeout(() => {
-                        this.uploadComponent(components[i])
-                    }, 2000)
+                    this.uploadComponent(components[i])
                 }
             } else {
                 this.uploadComponent(components)
@@ -183,7 +181,9 @@ export default class ComponentsView extends React.Component {
     uploadComponent = (component) => {
         if (component) {
             if (component.hasOwnProperty("guarantees") && component.hasOwnProperty("name") && component.hasOwnProperty("description")) {
-                this.saveComponent(component, true)
+                setTimeout(() => {
+                    this.saveComponent(component, true)
+                }, 5000);
             }
         }
     }
@@ -342,9 +342,8 @@ export default class ComponentsView extends React.Component {
                                 position="right"
                                 arrow="true"
                             >
-                                {/*#TODO add a onClick on this upload button*/}
                                 <UploadButton
-                                    upload={this.uploadGoals}
+                                    upload={this.uploadComponents}
                                 />
                             </Tooltip>
                         </div>
