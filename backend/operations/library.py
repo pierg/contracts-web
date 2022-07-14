@@ -1,7 +1,8 @@
 import os.path
 from os import walk
 
-from backend.shared.paths import component_path
+from backend.operations.component import ComponentOperation
+from backend.shared.paths import component_path, library_path
 from crome_component.component import Component
 
 
@@ -30,3 +31,12 @@ class LibraryOperation:
                 result.update(dict_library)
 
         return result
+
+    @staticmethod
+    def add_to_library(library_name, list_components, session_id) -> None:
+        library_folder = library_path(session_id, library_name)
+        if not os.path.exists(library_folder):
+            os.makedirs(library_folder)
+
+        for component in list_components:
+            ComponentOperation.save_component(component, library_folder)

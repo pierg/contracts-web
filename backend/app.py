@@ -12,7 +12,7 @@ from backend.operations.component import ComponentOperation
 from backend.operations.library import LibraryOperation
 from backend.shared.paths import (
     build_path,
-    storage_path,
+    storage_path, component_path,
 )
 
 parser = argparse.ArgumentParser(description="Launching Flask Backend")
@@ -185,25 +185,12 @@ def get_components() -> None:
     emit("receive-components", list_examples, room=request.sid)
 
 
-@socketio.on("get_library")
-def get_library() -> None:
-    """
-        Get all the library that exists in the session folder
-    """
-    session_id = str(request.args.get("id"))
-    list_library = LibraryOperation.get_library(session_id)
-
-    emit("receive-library", list_library, room=request.sid)
-
-
+# The signal for the component
 @socketio.on("save-component")
 def save_component(data) -> None:
     """
         get the synthesis created by the user and the examples.
     """
-    print("I'm here !")
-    print(data)
-    print(len(data["inputs"]))
     session_id = str(request.args.get("id"))
     now = time.localtime(time.time())
     name: str = data["name"]
@@ -229,7 +216,7 @@ def save_component(data) -> None:
         emit("component-saved", True, room=request.sid)
 
         try:
-            ComponentOperation.save_component(data, session_id)
+            ComponentOperation.save_component(data, component_path(session_id))
             send_message_to_user(content='The component "' + name + '" has been saved.',
                                  room_id=request.sid, crometype="success")
         except KeyError as keyError:
@@ -284,6 +271,35 @@ def upload_component(component_file):
         send_message_to_user("The file does not have the right structure", request.sid, "error")
     else:
         send_message_to_user("The component has been uploaded", request.sid, "success")
+
+
+# The signal for the library
+@socketio.on("get_library")
+def get_library() -> None:
+    """
+        Get all the library that exists in the session folder
+    """
+    session_id = str(request.args.get("id"))
+    list_library = LibraryOperation.get_library(session_id)
+
+    emit("receive-library", list_library, room=request.sid)
+
+
+@socketio.on("add-components-to-library")
+def add_components_to_library(data) -> None:
+    """
+        Add components to the library wanted
+    """
+    session_id = str(request.args.get("id"))
+    are_added = LibraryOperation.add_to_library(data["name"], data["components"], session_id)
+
+    emit("add-to-library-done", are_added, room=request.sid)
+    if are_added:
+        send_message_to_user(f"The components have been added to the library {data['name']}", request.sid, "success")
+    else:
+        send_message_to_user(f"The components have not been added to the library {data['name']}", request.sid,
+                             "error")
+
 
 
 if __name__ == "__main__":

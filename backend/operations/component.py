@@ -40,8 +40,8 @@ class ComponentOperation:
         return list_components
 
     @staticmethod
-    def save_component(data, session_id) -> None:
-        component_folder = component_path(session_id)
+    def save_component(data, component_folder) -> None:
+
         if not os.path.exists(component_folder):
             os.makedirs(component_folder)
 
