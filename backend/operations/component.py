@@ -94,7 +94,7 @@ class ComponentOperation:
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
             with open(component_folder / filename) as file:
-                if ComponentOperation.__get_name_from_file(file).strip() == name:
+                if ComponentOperation.get_name_from_file(file).strip() == name:
                     os.remove(component_folder / filename)
                     return True
         return False
@@ -105,9 +105,9 @@ class ComponentOperation:
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
             with open(component_folder / filename) as file:
-                if ComponentOperation.__get_name_from_file(file) == name:
-                    with open(component_folder / filename, "r") as file:
-                        reads = file.readlines()
+                if ComponentOperation.get_name_from_file(file) == name:
+                    with open(component_folder / filename, "r") as ifile:
+                        reads = ifile.readlines()
                         data = "".join(reads)
                         return data
         return False
@@ -125,7 +125,7 @@ class ComponentOperation:
         _, _, filenames = next(walk(component_folder))
         greatest_id = -1 if len(filenames) == 0 else int(max(filenames)[0:4])
         greatest_id += 1
-        name = ComponentOperation.__get_name_from_file(component_file.split("\n"))
+        name = ComponentOperation.get_name_from_file(component_file.split("\n"))
         file_checked = ComponentOperation.__check_if_component_exist(name, component_folder)
         if file_checked:
             file = component_folder / file_checked
@@ -136,7 +136,7 @@ class ComponentOperation:
         return True
 
     @staticmethod
-    def __get_name_from_file(file) -> str:
+    def get_name_from_file(file) -> str:
         line_header = ""
         name = ""
         for line in file:
@@ -161,7 +161,7 @@ class ComponentOperation:
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
             with open(component_folder / filename) as file:
-                name_found = ComponentOperation.__get_name_from_file(file)
+                name_found = ComponentOperation.get_name_from_file(file)
             if name_found == name:
                 return filename
 

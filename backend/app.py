@@ -222,8 +222,8 @@ def save_component(data) -> None:
         except KeyError as keyError:
             emit(
                 "send-message",
-                strftime("%H:%M:%S", now) + ' The component "' + name + '" has not been saved. Error with the entry of the '
-                                                                   f'LTL/Pattern \n KeyError : {keyError}',
+                strftime("%H:%M:%S", now) + ' The component "' + name + '" has not been saved. Error with the entry '
+                                                                        f'of the LTL/Pattern \n KeyError : {keyError}',
                 room=request.sid,
             )
 
@@ -248,7 +248,6 @@ def download_components(data):
     """
         Download the txt file of component(s)
     """
-    print("Je suis la !")
     list_component = []
     session_id = request.args.get("id")
     for name in data["names"]:
@@ -291,15 +290,21 @@ def add_components_to_library(data) -> None:
         Add components to the library wanted
     """
     session_id = str(request.args.get("id"))
-    are_added = LibraryOperation.add_to_library(data["name"], data["components"], session_id)
+    LibraryOperation.add_to_library(data["name"], data["components"], session_id)
 
-    emit("add-to-library-done", are_added, room=request.sid)
-    if are_added:
-        send_message_to_user(f"The components have been added to the library {data['name']}", request.sid, "success")
-    else:
-        send_message_to_user(f"The components have not been added to the library {data['name']}", request.sid,
-                             "error")
+    emit("add-to-library-done", True, room=request.sid)
+    send_message_to_user(f"The components have been added to the library {data['name']}", request.sid, "success")
 
+
+@socketio.on("remove-component-from-library")
+def remove_component_from_library(data) -> None:
+    """
+        Remove a component from a library
+    """
+    session_id = str(request.args.get("id"))
+    LibraryOperation.remove_from_library(data["name"], data["component"], session_id)
+
+    emit("remove-from-library-done", True, room=request.sid)
 
 
 if __name__ == "__main__":

@@ -40,3 +40,17 @@ class LibraryOperation:
 
         for component in list_components:
             ComponentOperation.save_component(component, library_folder)
+
+    @staticmethod
+    def remove_from_library(library_name, component_name, session_id):
+        library_folder = library_path(session_id, library_name)
+        if not os.path.exists(library_folder):
+            return
+
+        _, _, filenames = next(walk(library_folder))
+
+        for filename in filenames:
+            with open(library_folder / filename) as file:
+                if ComponentOperation.get_name_from_file(file).strip() == component_name:
+                    os.remove(library_folder / filename)
+                    return
