@@ -19,3 +19,8 @@ session_path: Callable[[str], Path] = lambda s: storage_path / f"s_{s}"
 component_path: Callable[str, Path] = (
     lambda s: storage_path / f"s_{s}" / "components"
 )
+
+# Usage: library_path(_SESSION_ID_, _LIBRARY_NAME_)
+library_path: Callable([[str, str], Path]) = (
+    lambda s, n: component_path(s) / f"l_{n}"
+)

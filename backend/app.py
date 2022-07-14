@@ -9,6 +9,7 @@ from flask import Flask, Response, request
 from flask_socketio import SocketIO, emit
 
 from backend.operations.component import ComponentOperation
+from backend.operations.library import LibraryOperation
 from backend.shared.paths import (
     build_path,
     storage_path,
@@ -159,7 +160,7 @@ def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
 
 
 @socketio.on("display-message")
-def get_components(data) -> None:
+def display_message(data) -> None:
     now = time.localtime(time.time())
     emit(
         "send-notification",
@@ -182,6 +183,17 @@ def get_components() -> None:
     list_examples = ComponentOperation.get_components(session_id)
 
     emit("receive-components", list_examples, room=request.sid)
+
+
+@socketio.on("get_library")
+def get_library() -> None:
+    """
+        Get all the library that exists in the session folder
+    """
+    session_id = str(request.args.get("id"))
+    list_library = LibraryOperation.get_library(session_id)
+
+    emit("receive-library", list_library, room=request.sid)
 
 
 @socketio.on("save-component")
