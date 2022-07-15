@@ -155,6 +155,24 @@
     height: fit-content;
 }
 
+.stroke-uniquePort .bi-link-path {
+    stroke: rgba(251, 207, 232, var(--tw-bg-opacity)) !important;
+    stroke-width: .25rem !important;
+    fill: transparent !important;
+    pointer-events: stroke !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
+.stroke-dualPort .bi-link-path {
+    stroke: rgba(186, 230, 253, var(--tw-bg-opacity)) !important;
+    stroke-width: .25rem !important;
+    fill: transparent !important;
+    pointer-events: stroke !important;
+    cursor: pointer !important;
+    user-select: none !important;
+}
+
 
 @media (min-width: 640px) {
     .sm\:c-m-w-70 {

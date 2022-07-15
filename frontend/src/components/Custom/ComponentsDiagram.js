@@ -7,42 +7,120 @@ import Button from "../Elements/Button";
 
 function ComponentsDiagram(props) {
 
-    const CustomNode = (instance) => {
-        let rows = []
+    const CustomInstance = (instance) => {
+        return (
+            <div style={{ background: '#DAE1E7'}} className="border rounded-xl border-blueGray-400">
+                <div
+                    className="text-center fs-4"
+                    style={{ padding: '10px'}}
+                >
+                    {instance.content}
+                </div>
+            </div>
+        )
+    }
 
-        for(let i=0; i<instance.inputs.length; i++) {
-            rows[i] = []
-            rows[i][0] = props.instances[instance.inputs[i].props.id.split("_")[1].split("-")[0]].inputs[i].name
+    const CustomUniquePort = (port) => {
+        let instance = port.inputs[0].props.id.split("_")[1].split("-")[0]
+        let nbVar
+        let rows = []
+        for(let i=0; i<port.inputs.length; i++) {
+            nbVar = port.inputs[i].props.id.split("_")[1].split("-")[2]
+            if(parseInt(port.inputs[i].props.id.split("_")[1].split("-")[1]) === 1) {
+                rows.push(
+                    <div
+                        key={i}
+                        className="w-100 text-center"
+                    >
+                        {props.instances[instance].inputs[nbVar].name}
+                    </div>
+                )
+            }
+            else {
+                rows.push(
+                    <div
+                        key={i}
+                        className="w-100 text-center"
+                    >
+                        {props.instances[instance].outputs[nbVar].name}
+                    </div>
+                )
+            }
         }
 
-        for(let i=0; i<instance.outputs.length; i++) {
+        return (
+            <div className="border rounded-xl border-blueGray-400 bg-pink-200">
+                <div
+                    className="text-center font-bold fs-6 border-b-1 border-blueGray-400"
+                    style={{ padding: '10px'}}
+                >
+                    {port.content}
+                </div>
+                <div
+                    className="flex flex-col my-2"
+                >
+                    {rows}
+                </div>
+            </div>
+        );
+    };
+
+    const CustomPort = (port) => {
+        let rows = []
+        let instance
+        let nbVar
+
+        for(let i=0; i<port.inputs.length; i++) {
+            rows[i] = []
+            instance = port.inputs[i].props.id.split("_")[1].split("-")[0]
+            nbVar = port.inputs[i].props.id.split("_")[1].split("-")[2]
+            if(parseInt(port.inputs[i].props.id.split("_")[1].split("-")[1]) === 1) {
+                rows[i][0] = props.instances[instance].inputs[nbVar].name
+            }
+            else {
+                rows[i][0] = props.instances[instance].outputs[nbVar].name
+            }
+        }
+
+        for(let i=0; i<port.outputs.length; i++) {
+            instance = port.outputs[i].props.id.split("_")[1].split("-")[0]
+            nbVar = port.outputs[i].props.id.split("_")[1].split("-")[2]
             if(!Array.isArray(rows[i])) {
                 rows[i] = []
                 rows[i][0] = "empty"
             }
-            rows[i][1] = props.instances[instance.outputs[i].props.id.split("_")[1].split("-")[0]].outputs[i].name
+            if(parseInt(port.outputs[i].props.id.split("_")[1].split("-")[1]) === 1) {
+                rows[i][1] = props.instances[instance].inputs[nbVar].name
+            }
+            else {
+                rows[i][1] = props.instances[instance].outputs[nbVar].name
+            }
         }
 
         let colPortInput = []
         let colNameInput = []
         let colNameOutput = []
         let colPortOutput = []
+        let marginBottom = 10
         for(let i=0; i<rows.length; i++) {
             if(rows[i].length === 1) {
                 rows[i][1] = "empty"
             }
+            if(i === rows.length-1) {
+                marginBottom = 0
+            }
             if(rows[i][0] !== "empty") {
                 colPortInput.push(
-                    React.cloneElement(instance.inputs[i],
+                    React.cloneElement(port.inputs[i],
                         {
-                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
+                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: marginBottom+'px' }
                         }
                     )
                 )
                 colNameInput.push(
                     <div
                         key={i+"-inputName"}
-                        style={{height: '25px', marginLeft: '5px', marginRight: '20px', marginBottom: '10px' }}
+                        style={{height: '25px', marginLeft: '5px', marginRight: '20px', marginBottom: marginBottom+'px' }}
                     >
                         {rows[i][0]}
                     </div>
@@ -52,7 +130,7 @@ function ComponentsDiagram(props) {
                 colPortInput.push(
                     <div
                         key={i+"-inputPort"}
-                        style={{height: '25px', marginBottom: '10px'}}
+                        style={{height: '25px', marginBottom: marginBottom+'px'}}
                     >
 
                     </div>
@@ -60,7 +138,7 @@ function ComponentsDiagram(props) {
                 colNameInput.push(
                     <div
                         key={i+"-inputName"}
-                        style={{height: '25px', marginBottom: '10px'}}
+                        style={{height: '25px', marginBottom: marginBottom+'px'}}
                     >
 
                     </div>
@@ -71,15 +149,15 @@ function ComponentsDiagram(props) {
                 colNameOutput.push(
                     <div
                         key={i+"-outputName"}
-                        style={{height: '25px', marginRight: '5px', marginBottom: '10px' }}
+                        style={{height: '25px', marginRight: '5px', marginBottom: marginBottom+'px' }}
                     >
                         {rows[i][1]}
                     </div>
                 )
                 colPortOutput.push(
-                    React.cloneElement(instance.outputs[i],
+                    React.cloneElement(port.outputs[i],
                         {
-                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: '10px' }
+                            style: { width: '30px', height: '25px', background: 'rgba(0, 0, 0, 0.08)', marginBottom: marginBottom+'px' }
                         }
                     )
                 )
@@ -88,7 +166,7 @@ function ComponentsDiagram(props) {
                 colNameOutput.push(
                     <div
                         key={i+"-outputPort"}
-                        style={{height: '25px', marginBottom: '10px'}}
+                        style={{height: '25px', marginBottom: marginBottom+'px'}}
                     >
 
                     </div>
@@ -96,7 +174,7 @@ function ComponentsDiagram(props) {
                 colPortOutput.push(
                     <div
                         key={i+"-outputName"}
-                        style={{height: '25px', marginBottom: '10px'}}
+                        style={{height: '25px', marginBottom: marginBottom+'px'}}
                     >
 
                     </div>
@@ -105,15 +183,15 @@ function ComponentsDiagram(props) {
         }
 
         return (
-            <div style={{ background: '#DAE1E7'}} className="border rounded-xl border-blueGray-400">
+            <div className="border rounded-xl border-blueGray-400 bg-lightBlue-200">
                 <div
-                    className="text-center"
+                    className="text-center font-bold fs-6 border-b-1 border-blueGray-400"
                     style={{ padding: '10px'}}
                 >
-                    {instance.content}
+                    {port.content}
                 </div>
                 <div
-                    className="flex flex-row"
+                    className="flex flex-row my-2"
                 >
                     <div
                         className="flex-col"
@@ -140,6 +218,15 @@ function ComponentsDiagram(props) {
         );
     };
 
+    let distancePos = 200
+    let cptDoubleLink = 0
+    for(let i=0;i<props.instances.length;i++) {
+
+    }
+    if(props.instances.length < 4) {
+        distancePos = 300
+    }
+
     let nodes = []
     let node
     let put
@@ -147,37 +234,81 @@ function ComponentsDiagram(props) {
         node = {}
         node.id = "instance"+i
         node.content = props.instances[i].name
-        node.coordinates = [30+(i%3)*300, 30+(Math.floor(i/3))*200]
-        node.inputs = []
-        for(let j=0;j<props.instances[i].inputs.length;j++) {
-            put = {}
-            put.id = "port_"+i+"-1-"+j
-            put.alignment = "left"
-            //put.content = props.instances[i].inputs.name
-            node.inputs.push(put)
-        }
-        node.outputs = []
-        for(let j=0;j<props.instances[i].outputs.length;j++) {
-            put = {}
-            put.id = "port_"+i+"-2-"+j
-            put.alignment = "right"
-            node.outputs.push(put)
-        }
-        node.render = CustomNode
+        node.coordinates = [50+(i%4)*distancePos, 130+(Math.floor(i/4))*300]
+        node.render = CustomInstance
         nodes.push(node)
     }
 
     let links = []
-    let link
+    let link = {}
+    let portIn
+    let portOut
+
     for(let i=0;i<props.connections.length;i++) {
-        link = {}
-        for(let j=0;j<props.connections[i].connectors.length;j++) {
-            for(let k=j+1;k<props.connections[i].connectors.length;k++) {
-                link.label = props.connections[i].name
-                link.input = "port_"+props.connections[i].connectors[j].split(" ")[0]
-                link.output = "port_"+props.connections[i].connectors[k].split(" ")[0]
-                links.push(link)
+        //create node who contain ports
+        node = {}
+        node.id = "port"+i
+        node.content = props.connections[i].name
+        if(props.connections[i].boolUniquePort) {
+            node.coordinates = [10+(i%4)*distancePos, 10+(Math.floor(i/4))*300]
+            node.inputs = []
+            portIn = props.connections[i].connectors[0].split("-")[0]
+            for(let j=0;j<props.connections[i].connectors.length;j++) {
+                put = {}
+                put.id = "port_"+props.connections[i].connectors[j].split(" ")[0]
+                node.inputs.push(put)
+            }
+            node.render = CustomUniquePort
+        }
+        else {
+            node.coordinates = [150+(cptDoubleLink%4)*distancePos, 200+(Math.floor(cptDoubleLink/4))*300]
+            node.inputs = []
+            node.outputs = []
+            portIn = props.connections[i].connectors[0].split("-")[0]
+            for(let j=0;j<props.connections[i].connectors.length;j++) {
+                put = {}
+                put.id = "port_"+props.connections[i].connectors[j].split(" ")[0]
+                if(portIn === props.connections[i].connectors[j].split("-")[0]) {
+                    put.alignment = "left"
+                    node.inputs.push(put)
+                }
+                else {
+                    put.alignment = "right"
+                    node.outputs.push(put)
+                }
+            }
+            node.render = CustomPort
+            cptDoubleLink++
+        }
+        nodes.push(node)
+
+        //create link between instance and ports
+        if(props.connections[i].boolUniquePort) {
+            link = {}
+            link.input = "instance"+portIn
+            link.output = "port"+i
+            link.className = "stroke-uniquePort"
+            link.readonly = true
+            links.push(link)
+        }
+        else {
+            for(let j=0;j<props.connections[i].connectors.length;j++) {
                 link = {}
+                if(portIn === props.connections[i].connectors[j].split("-")[0]) {
+                    link.input = "instance"+portIn
+                    link.output = "port_"+props.connections[i].connectors[j].split(" ")[0]
+                    link.className = "stroke-dualPort"
+                    link.readonly = true
+                    links.push(link)
+                }
+                else {
+                    portOut = props.connections[i].connectors[j].split("-")[0]
+                    link.input = "port_"+props.connections[i].connectors[j].split(" ")[0]
+                    link.output = "instance"+portOut
+                    link.className = "stroke-dualPort"
+                    link.readonly = true
+                    links.push(link)
+                }
             }
         }
     }

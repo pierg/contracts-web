@@ -234,7 +234,7 @@ export default class Contracts extends React.Component {
 
     checkAddConnections = () => {
         let error = 0
-        if(this.state.connectors.length < 2) {
+        if(this.state.connectors.length < 1) {
             error = 1
             this.setState({
                 messageType: "error",
@@ -273,9 +273,17 @@ export default class Contracts extends React.Component {
 
     addConnections = (name) => {
         let connections = this.state.connections
+        let boolUniquePort = true
+        let instanceUsed = this.state.connectors[0].split("-")[0]
+        for(let i=1; i<this.state.connectors.length; i++) {
+            if(instanceUsed !== this.state.connectors[i].split("-")[0]) {
+                boolUniquePort = false
+            }
+        }
         connections.push({
             "name": name,
-            "connectors": this.state.connectors
+            "connectors": this.state.connectors,
+            "boolUniquePort": boolUniquePort
         })
         let connectionsOpen = this.state.connectionsOpen
         connectionsOpen.push(false)
@@ -344,12 +352,12 @@ export default class Contracts extends React.Component {
                     <Modal
                         isOpen={this.state.triggerAddConnection}
                         autoFocus={false}
-                        toggle={() => this.state.setTriggerAddConnection(false)}
+                        toggle={() => this.setTriggerAddConnection(false)}
                         className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
                     >
                         <ConnectionEdit
                             add={(name) => this.addConnections(name)}
-                            close={() => this.state.setTriggerAddConnection(false)}
+                            close={() => this.setTriggerAddConnection(false)}
                         />
                     </Modal>
                 </>
