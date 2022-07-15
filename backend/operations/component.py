@@ -2,6 +2,7 @@ import os
 from os import walk
 from pathlib import Path
 
+from backend.operations.library import LibraryOperation
 from backend.shared.paths import component_path, storage_path
 from crome_component.component import Component
 from crome_component.component.component_spec import NAME_HEADER, _check_header, INPUTS_HEADER, OUTPUTS_HEADER, \
@@ -95,6 +96,7 @@ class ComponentOperation:
             with open(component_folder / filename) as file:
                 if ComponentOperation.get_name_from_file(file).strip() == name:
                     os.remove(component_folder / filename)
+                    LibraryOperation.component_removed(name, session_id)
                     return True
         return False
 
