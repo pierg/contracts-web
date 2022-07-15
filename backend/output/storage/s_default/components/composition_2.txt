@@ -1,0 +1,24 @@
+**NAME**
+
+    COMPOSITION_2
+
+**DESCRIPTION**
+
+    A buffer
+
+**INPUTS**
+
+	i (float)
+
+**OUTPUTS**
+
+    o (float)
+
+**ASSUMPTIONS**
+
+	PL:
+		i <= 1
+**GUARANTEES**
+
+	PL:
+		o == i

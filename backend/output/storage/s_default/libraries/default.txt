@@ -1,0 +1,8 @@
+**NAME**
+
+	DEFAULT
+
+**COMPONENTS**
+
+	DEFAULT_1
+	DEFAULT_2
