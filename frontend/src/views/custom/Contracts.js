@@ -15,6 +15,7 @@ import SocketIoMessage from "../../components/Custom/Socket/Message";
 import {Modal} from "reactstrap";
 import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 import LibraryView from "../../components/Custom/LibraryView";
+import SocketLibrary from "../../components/Custom/Socket/Library";
 
 export default class Contracts extends React.Component {
     state = {
@@ -32,12 +33,16 @@ export default class Contracts extends React.Component {
         componentsToDownloads: [],
         componentToDelete: null,
         componentToUpload: null,
+        componentToSave: null,
         triggerComponents: true,
         triggerSave: false,
         triggerDelete: false,
         triggerDownload: false,
         triggerUpload: false,
-        componentToSave: null,
+        triggerLibrary: true,
+        triggerDeleteLibrary: false,
+        libraries: [],
+        libraryToDelete: null,
 
         // SECOND PAGE
         instances: [],
@@ -120,6 +125,12 @@ export default class Contracts extends React.Component {
         this.setSelectedComponents(selectedComponents)
     }
 
+    setLibraries = (libraries) => {
+        this.setState({
+            libraries: libraries
+        })
+    }
+
     setTriggerSave = (bool) => {
         this.setState({
             triggerSave: bool
@@ -135,6 +146,18 @@ export default class Contracts extends React.Component {
     setTriggerUpload = (bool) => {
         this.setState({
             triggerUpload: bool
+        })
+    }
+
+    setTriggerLibrary = (bool) => {
+        this.setState({
+            triggerLibrary: bool
+        })
+    }
+
+    setTriggerDeleteLibrary = (bool) => {
+        this.setState({
+            triggerDeleteLibrary: bool
         })
     }
 
@@ -169,6 +192,13 @@ export default class Contracts extends React.Component {
         this.setState({
             triggerUpload: true,
             componentToUpload: componentFile
+        })
+    }
+
+    deleteLibrary = (libraryName) => {
+        this.setState({
+            triggerDeleteLibrary: true,
+            libraryToDelete: libraryName
         })
     }
 
@@ -318,7 +348,10 @@ export default class Contracts extends React.Component {
         let page;
         if (this.state.headerStates[0]) {
             page =  <div className="flex flex-row items-stretch">
-                <LibraryView />
+                <LibraryView
+                    libraries={this.state.libraries}
+                    deleteLibrary={this.deleteLibrary}
+                />
                 <ComponentsView
                     setSelectedComponents={this.setSelectedComponents}
                     selectedComponents={this.state.selectedComponents}
@@ -404,6 +437,15 @@ export default class Contracts extends React.Component {
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}
+                />
+                <SocketLibrary
+                    libraries={this.state.libraries}
+                    triggerLibrary={this.state.triggerLibrary}
+                    setTriggerLibrary={this.setTriggerLibrary}
+                    setLibraries={this.setLibraries}
+                    libraryToDelete={this.state.libraryToDelete}
+                    triggerDelete={this.state.triggerDeleteLibrary}
+                    setTriggerDelete={this.setTriggerDeleteLibrary}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}

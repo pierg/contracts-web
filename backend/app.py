@@ -273,14 +273,13 @@ def upload_component(component_file):
 
 
 # The signal for the library
-@socketio.on("get_library")
+@socketio.on("get-library")
 def get_library() -> None:
     """
         Get all the library that exists in the session folder
     """
     session_id = str(request.args.get("id"))
     list_library = LibraryOperation.get_library(session_id)
-
     emit("receive-library", list_library, room=request.sid)
 
 

@@ -2,8 +2,7 @@ import os
 from os import walk
 from pathlib import Path
 
-from backend.shared.paths import component_path
-from backend.shared.paths import storage_path
+from backend.shared.paths import component_path, storage_path
 from crome_component.component import Component
 from crome_component.component.component_spec import NAME_HEADER, _check_header, INPUTS_HEADER, OUTPUTS_HEADER, \
     ASSUMPTION_HEADER, GUARANTEES_HEADER

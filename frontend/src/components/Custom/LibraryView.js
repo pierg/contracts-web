@@ -2,6 +2,7 @@ import React from 'react';
 import librariesviewsinfo from "../../_texts/custom/librariesviewinfo";
 import {Tooltip} from "react-tippy";
 import Button from "../Elements/Button";
+import componentInfo from "../../_texts/custom/componentInfo";
 
 function LibraryView(props) {
 
@@ -14,9 +15,14 @@ function LibraryView(props) {
             setSelectedRow(null)
     }
 
+    function deleteLibrary(i) {
+        props.deleteLibrary(props.libraries[i].name)
+    }
+
     const tmp_libraries = []
     let libraryClass = ""
-    for (let i = 0; i < 100; i += 1) {
+    console.log(props.libraries)
+    for (let i = 0; i < props.libraries.length; i++) {
 
         libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer"
         if (i === 0) libraryClass += " border-t-1"
@@ -25,12 +31,34 @@ function LibraryView(props) {
         } else
             libraryClass += "  hover:bg-blueGray-100"
 
-        tmp_libraries.push(<li key={i} className={libraryClass}
-                               onClick={() => selectLibrary(i)}>library_{i}</li>)
+        tmp_libraries.push(
+            <li key={i} className={libraryClass}
+                               onClick={() => selectLibrary(i)}>{props.libraries[i].name}
+                {
+                    !props.libraries[i].default &&
+                    <>
+                    <div className="float-right">
+                        <Tooltip
+                            html="delete"
+                            position="top"
+                            arrow="true"
+                        >
+                            <Button size={librariesviewsinfo.info.deleteLibrary.size}
+                                    color={librariesviewsinfo.info.deleteLibrary.color} onClick={(e) => {
+                                e.stopPropagation();
+                                deleteLibrary(i)
+                            }}>
+                                <i className={librariesviewsinfo.info.deleteLibrary.icon}/>
+                            </Button>
+                        </Tooltip>
+                    </div>
+                    </>
+                }
+            </li>)
     }
 
     return (
-        <div className="px-3 w-4/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md">
+        <div className="px-3 w-4/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md h-fit">
             <div className="flex justify-between p-4 text-center">
                 <span className="fs-4 font-bold text-blueGray-500">{librariesviewsinfo.info.title}</span>
                 <div className="mx-2">

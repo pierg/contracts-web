@@ -12,8 +12,8 @@ COMMENT_CHAR = "#"
 class LibraryOperation:
 
     @staticmethod
-    def get_library(session_id) -> dict[str, list]:
-        result = {}
+    def get_library(session_id) -> list[dict]:
+        result = []
         list_session = ["default", session_id]
 
         for session in list_session:
@@ -26,7 +26,7 @@ class LibraryOperation:
                     data = file.readlines()
                     library_name = LibraryOperation.get_name(data)
                     component_list = LibraryOperation.get_component(data)
-                    result.update({library_name: component_list})
+                    result.append({"name": library_name, "components": component_list, "default": session == "default"})
 
         return result
 
