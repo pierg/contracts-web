@@ -1,5 +1,5 @@
 import React from "react";
-import cromecontractsheaderscards from "../../_texts/custom/cromecontractsheaderscards";
+import cromecontractsheaderscards from "../../_texts/custom/contractsheaderscards";
 import ComponentsView from "../../components/Custom/ComponentsView";
 import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";

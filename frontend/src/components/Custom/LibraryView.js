@@ -16,7 +16,7 @@ function LibraryView(props) {
 
     const tmp_libraries = []
     let libraryClass = ""
-    for (let i = 0; i < 2; i += 1) {
+    for (let i = 0; i < 100; i += 1) {
         let select = true
         libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer"
         if (i === 0) libraryClass += " border-t-1"
