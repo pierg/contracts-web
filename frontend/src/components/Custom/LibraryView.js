@@ -2,17 +2,16 @@ import React from 'react';
 import librariesviewsinfo from "../../_texts/custom/librariesviewinfo";
 import {Tooltip} from "react-tippy";
 import Button from "../Elements/Button";
-import componentInfo from "../../_texts/custom/componentInfo";
 
 function LibraryView(props) {
 
-    const [selectedRow, setSelectedRow] = React.useState(null)
-
     function selectLibrary(id) {
-        if (id !== selectedRow)
-            setSelectedRow(id)
-        else
-            setSelectedRow(null)
+        if (props.libraries[id] !== props.selectedLibrary) {
+            props.setSelectedLibrary(id)
+        }
+        else {
+            props.setSelectedLibrary(null)
+        }
     }
 
     function deleteLibrary(i) {
@@ -21,19 +20,22 @@ function LibraryView(props) {
 
     const tmp_libraries = []
     let libraryClass = ""
-    console.log(props.libraries)
     for (let i = 0; i < props.libraries.length; i++) {
 
         libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer"
         if (i === 0) libraryClass += " border-t-1"
-        if (i === selectedRow) {
+        if (props.libraries[i] === props.selectedLibrary) {
             libraryClass += " bg-blueGray-200 hover:bg-blueGray-300"
         } else
             libraryClass += "  hover:bg-blueGray-100"
 
         tmp_libraries.push(
-            <li key={i} className={libraryClass}
-                               onClick={() => selectLibrary(i)}>{props.libraries[i].name}
+            <li
+                key={i}
+                className={libraryClass}
+                onClick={() => selectLibrary(i)}
+            >
+                {props.libraries[i].name}
                 {
                     !props.libraries[i].default &&
                     <>

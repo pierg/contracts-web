@@ -28,6 +28,7 @@ export default class Contracts extends React.Component {
         messageSideBar: "",
 
         // FIRST PAGE
+        selectedLibrary: null,
         selectedComponents: [],
         components: [],
         componentsToDownloads: [],
@@ -79,6 +80,35 @@ export default class Contracts extends React.Component {
     }
 
     // FIRST PAGE
+    setLibraries = (libraries) => {
+        this.setState({
+            libraries: libraries
+        })
+    }
+
+    setSelectedLibrary = (index) => {
+        if(index === null) {
+            this.setSelectedComponents([])
+            this.setState({
+                selectedLibrary: null
+            })
+            return
+        }
+        let library = this.state.libraries[index]
+        let selectedComponent = []
+        for(let i=0; i<library.components.length; i++) {
+            for(let j=0; j<this.state.components.length; j++) {
+                if(library.components[i] === this.state.components[j].name) {
+                    selectedComponent.push(this.state.components[j])
+                }
+            }
+        }
+        this.setSelectedComponents(selectedComponent)
+        this.setState({
+            selectedLibrary: library
+        })
+    }
+
     setTriggerComponents = (bool) => {
         this.setState({
             triggerComponents: bool
@@ -123,12 +153,6 @@ export default class Contracts extends React.Component {
             components
         })
         this.setSelectedComponents(selectedComponents)
-    }
-
-    setLibraries = (libraries) => {
-        this.setState({
-            libraries: libraries
-        })
     }
 
     setTriggerSave = (bool) => {
@@ -350,9 +374,14 @@ export default class Contracts extends React.Component {
             page =  <div className="flex flex-row items-stretch">
                 <LibraryView
                     libraries={this.state.libraries}
+                    selectedLibrary={this.state.selectedLibrary}
+                    setSelectedLibrary={this.setSelectedLibrary}
                     deleteLibrary={this.deleteLibrary}
+                    components={this.state.components}
+                    setSelectedComponents={this.setSelectedComponents}
                 />
                 <ComponentsView
+                    selectedLibrary={this.state.selectedLibrary}
                     setSelectedComponents={this.setSelectedComponents}
                     selectedComponents={this.state.selectedComponents}
                     setComponents={this.setComponents}

@@ -32,6 +32,9 @@ export default class ComponentsView extends React.Component {
     }
 
     lineClicked = (i) => {
+        if(this.props.selectedLibrary !== null) {
+            return
+        }
         let selected = this.props.selectedComponents
         if (selected.includes(this.props.components[i]))
             selected = selected.filter((e) => e !== this.props.components[i])
@@ -213,7 +216,13 @@ export default class ComponentsView extends React.Component {
         let components = []
         let lineClass = ""
         for (let i = 0; i < this.props.components.length; i++) {
-            lineClass = "border-b-1 text-lg p-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900 cursor-pointer"
+            lineClass = "border-b-1 text-lg p-3 rounded text-blueGray-700"
+            if(this.props.selectedLibrary === null) {
+                lineClass += " hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer"
+            }
+            else {
+                lineClass += " cursor-not-allowed"
+            }
             if (i === 0) {
                 lineClass += " border-t-1"
             }
@@ -221,73 +230,77 @@ export default class ComponentsView extends React.Component {
                 lineClass += " bg-blueGray-100 font-bold"
             }
 
-            components.push(<tr key={i} onClick={() => this.lineClicked(i)}
-                                className={lineClass}>
-                <td className="pr-5">
-                    {this.props.components[i].name}
+            components.push(
+                <tr
+                    key={i}
+                    onClick={() => this.lineClicked(i)}
+                    className={lineClass}
+                >
+                    <td className="pr-5">
+                        {this.props.components[i].name}
+                    </td>
+                    <td>
+                        {this.reduceDescription(this.props.components[i].description)}
+                    </td>
+                    <td className="float-right border-0">
+                        <Tooltip
+                            html="info"
+                            position="top"
+                            arrow="true"
+                        >
+                            <Button size="sm" color="gray" onClick={(e) => {
+                                e.stopPropagation();
+                                this.handleShow(i)
+                            }}>
+                                <i className={componentInfo.info.icon.info}/>
+                            </Button>
+                        </Tooltip>
+                        <Tooltip
+                            html="download"
+                            position="top"
+                            arrow="true"
+                        >
+                            <Button size="sm" color="gray" onClick={(e) => {
+                                e.stopPropagation();
+                                this.downloadComponent(i)
+                            }}>
+                                <i className={componentInfo.info.icon.download}/>
+                            </Button>
+                        </Tooltip>
+                        {
+                            !this.props.components[i].default &&
+                            <>
+                                <Tooltip
+                                    html="edit"
+                                    position="top"
+                                    arrow="true"
+                                >
 
-                </td>
-                <td>
-                    {this.reduceDescription(this.props.components[i].description)}
-                </td>
-                <td className="float-right">
-                    <Tooltip
-                        html="info"
-                        position="top"
-                        arrow="true"
-                    >
-                        <Button size="sm" color="gray" onClick={(e) => {
-                            e.stopPropagation();
-                            this.handleShow(i)
-                        }}>
-                            <i className={componentInfo.info.icon.info}/>
-                        </Button>
-                    </Tooltip>
-                    <Tooltip
-                        html="download"
-                        position="top"
-                        arrow="true"
-                    >
-                        <Button size="sm" color="gray" onClick={(e) => {
-                            e.stopPropagation();
-                            this.downloadComponent(i)
-                        }}>
-                            <i className={componentInfo.info.icon.download}/>
-                        </Button>
-                    </Tooltip>
-                    {
-                        !this.props.components[i].default &&
-                        <>
-                            <Tooltip
-                                html="edit"
-                                position="top"
-                                arrow="true"
-                            >
+                                    <Button size="sm" color="gray" onClick={(e) => {
+                                        e.stopPropagation();
+                                        this.editComponent(i)
+                                    }}>
+                                        <i className={componentInfo.info.icon.edit}/>
+                                    </Button>
+                                </Tooltip>
 
-                                <Button size="sm" color="gray" onClick={(e) => {
-                                    e.stopPropagation();
-                                    this.editComponent(i)
-                                }}>
-                                    <i className={componentInfo.info.icon.edit}/>
-                                </Button>
-                            </Tooltip>
-
-                            <Tooltip
-                                html="delete"
-                                position="top"
-                                arrow="true"
-                            >
-                                <Button size="sm" color="red" onClick={(e) => {
-                                    e.stopPropagation();
-                                    this.deleteComponent(i)
-                                }}>
-                                    <i className={componentInfo.info.icon.delete}/>
-                                </Button>
-                            </Tooltip>
-                        </>
-                    }
-                </td>
-            </tr>)
+                                <Tooltip
+                                    html="delete"
+                                    position="top"
+                                    arrow="true"
+                                >
+                                    <Button size="sm" color="red" onClick={(e) => {
+                                        e.stopPropagation();
+                                        this.deleteComponent(i)
+                                    }}>
+                                        <i className={componentInfo.info.icon.delete}/>
+                                    </Button>
+                                </Tooltip>
+                            </>
+                        }
+                    </td>
+                </tr>
+            )
         }
 
         return (<>
