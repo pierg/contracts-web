@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from "react";
 import librariesviewsinfo from "../../_texts/custom/librariesviewinfo";
 import {Tooltip} from "react-tippy";
 import Button from "../Elements/Button";
+import {Modal} from "reactstrap";
+import ModalLibrary from "./ModalLibrary";
 
 function LibraryView(props) {
+    const [triggerAddLibrary, setTriggerAddLibrary] = useState(false);
 
     function selectLibrary(id) {
         if (props.libraries[id] !== props.selectedLibrary) {
@@ -72,10 +75,23 @@ function LibraryView(props) {
                         <Button
                             size={librariesviewsinfo.info.addLibrary.size}
                             color={librariesviewsinfo.info.addLibrary.color}
+                            onClick={() => setTriggerAddLibrary(true)}
                         >
                             <i className={librariesviewsinfo.info.addLibrary.icon}></i>
                         </Button>
                     </Tooltip>
+                    <Modal
+                        isOpen={triggerAddLibrary}
+                        autoFocus={false}
+                        toggle={() => setTriggerAddLibrary(false)}
+                        className={"modal-dialog-centered"}
+                    >
+                        <ModalLibrary
+                            components={props.components}
+                            addLibrary={(libraryName, componentsName) => props.addLibrary(libraryName, componentsName)}
+                            close={() => setTriggerAddLibrary(false)}
+                        />
+                    </Modal>
                 </div>
             </div>
             <div className="overflow-auto max-h-400-px mt-3 mx-4 mb-4">

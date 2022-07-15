@@ -28,7 +28,11 @@ export default class Contracts extends React.Component {
         messageSideBar: "",
 
         // FIRST PAGE
+        triggerLibrary: true,
         selectedLibrary: null,
+        triggerAddLibrary: false,
+        libraryNameToAdd: "",
+        componentsLibraryToAdd: [],
         selectedComponents: [],
         components: [],
         componentsToDownloads: [],
@@ -40,7 +44,6 @@ export default class Contracts extends React.Component {
         triggerDelete: false,
         triggerDownload: false,
         triggerUpload: false,
-        triggerLibrary: true,
         triggerDeleteLibrary: false,
         libraries: [],
         libraryToDelete: null,
@@ -80,9 +83,29 @@ export default class Contracts extends React.Component {
     }
 
     // FIRST PAGE
+    setTriggerLibrary = (bool) => {
+        this.setState({
+            triggerLibrary: bool
+        })
+    }
+
     setLibraries = (libraries) => {
         this.setState({
             libraries: libraries
+        })
+    }
+
+    setTriggerAddLibrary = (bool) => {
+        this.setState({
+            triggerAddLibrary: bool
+        })
+    }
+
+    addLibrary = (libraryName, componentsNames) => {
+        this.setState({
+            libraryNameToAdd : libraryName,
+            componentsLibraryToAdd : componentsNames,
+            triggerAddLibrary: true,
         })
     }
 
@@ -106,6 +129,13 @@ export default class Contracts extends React.Component {
         this.setSelectedComponents(selectedComponent)
         this.setState({
             selectedLibrary: library
+        })
+    }
+
+    deleteLibrary = (libraryName) => {
+        this.setState({
+            triggerDeleteLibrary: true,
+            libraryToDelete: libraryName
         })
     }
 
@@ -173,12 +203,6 @@ export default class Contracts extends React.Component {
         })
     }
 
-    setTriggerLibrary = (bool) => {
-        this.setState({
-            triggerLibrary: bool
-        })
-    }
-
     setTriggerDeleteLibrary = (bool) => {
         this.setState({
             triggerDeleteLibrary: bool
@@ -216,13 +240,6 @@ export default class Contracts extends React.Component {
         this.setState({
             triggerUpload: true,
             componentToUpload: componentFile
-        })
-    }
-
-    deleteLibrary = (libraryName) => {
-        this.setState({
-            triggerDeleteLibrary: true,
-            libraryToDelete: libraryName
         })
     }
 
@@ -374,6 +391,7 @@ export default class Contracts extends React.Component {
             page =  <div className="flex flex-row items-stretch">
                 <LibraryView
                     libraries={this.state.libraries}
+                    addLibrary={this.addLibrary}
                     selectedLibrary={this.state.selectedLibrary}
                     setSelectedLibrary={this.setSelectedLibrary}
                     deleteLibrary={this.deleteLibrary}
@@ -443,6 +461,24 @@ export default class Contracts extends React.Component {
                     messageNotif={this.state.messageNotif}
                     messageSideBar={this.state.messageSideBar}
                 />
+                <SocketLibrary
+                    //get
+                    libraries={this.state.libraries}
+                    triggerLibrary={this.state.triggerLibrary}
+                    setTriggerLibrary={this.setTriggerLibrary}
+                    setLibraries={this.setLibraries}
+
+                    //add
+                    triggerAddLibrary={this.state.triggerAddLibrary}
+                    setTriggerAddLibrary={this.setTriggerAddLibrary}
+                    libraryName={this.state.libraryNameToAdd}
+                    componentsNames={this.state.componentsLibraryToAdd}
+
+                    //delete
+                    libraryToDelete={this.state.libraryToDelete}
+                    triggerDelete={this.state.triggerDeleteLibrary}
+                    setTriggerDelete={this.setTriggerDeleteLibrary}
+                />
                 <SocketIoComponents
                     componentToDelete={this.state.componentToDelete}
                     triggerDelete={this.state.triggerDelete}
@@ -466,15 +502,6 @@ export default class Contracts extends React.Component {
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}
-                />
-                <SocketLibrary
-                    libraries={this.state.libraries}
-                    triggerLibrary={this.state.triggerLibrary}
-                    setTriggerLibrary={this.setTriggerLibrary}
-                    setLibraries={this.setLibraries}
-                    libraryToDelete={this.state.libraryToDelete}
-                    triggerDelete={this.state.triggerDeleteLibrary}
-                    setTriggerDelete={this.setTriggerDeleteLibrary}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}
@@ -517,6 +544,6 @@ export default class Contracts extends React.Component {
                     {page}
                 </div>
             </>
-    )
+        )
     }
-    }
+}

@@ -155,6 +155,10 @@
     height: fit-content;
 }
 
+.w-fit {
+    width: fit-content;
+}
+
 .stroke-uniquePort .bi-link-path {
     stroke: rgba(251, 207, 232, var(--tw-bg-opacity)) !important;
     stroke-width: .25rem !important;
