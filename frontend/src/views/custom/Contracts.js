@@ -14,6 +14,7 @@ import SocketUploadComponent from "../../components/Custom/Socket/UploadComponen
 import SocketIoMessage from "../../components/Custom/Socket/Message";
 import {Modal} from "reactstrap";
 import ConnectionEdit from "../../components/Custom/ConnectionEdit";
+import LibraryView from "../../components/Custom/LibraryView";
 
 export default class Contracts extends React.Component {
     state = {
@@ -308,17 +309,20 @@ export default class Contracts extends React.Component {
     render() {
         let page;
         if (this.state.headerStates[0]) {
-            page = <ComponentsView
-                setSelectedComponents={this.setSelectedComponents}
-                selectedComponents={this.state.selectedComponents}
-                setComponents={this.setComponents}
-                components={this.state.components}
-                saveComponent={this.saveComponent}
-                deleteComponent={this.deleteComponent}
-                downloadComponents={this.downloadComponents}
-                uploadComponent={this.uploadComponents}
-                patterns={this.state.patterns}
-            />
+            page =  <div className="flex flex-row">
+                <LibraryView />
+                <ComponentsView
+                    setSelectedComponents={this.setSelectedComponents}
+                    selectedComponents={this.state.selectedComponents}
+                    setComponents={this.setComponents}
+                    components={this.state.components}
+                    saveComponent={this.saveComponent}
+                    deleteComponent={this.deleteComponent}
+                    downloadComponents={this.downloadComponents}
+                    uploadComponent={this.uploadComponents}
+                    patterns={this.state.patterns}
+                />
+            </div>
         } else if (this.state.headerStates[1]) {
             page =
                 <>

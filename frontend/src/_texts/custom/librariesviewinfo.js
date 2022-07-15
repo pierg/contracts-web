@@ -8,3 +8,5 @@ const textProps = {
         }
     }
 }
+
+export default textProps;
