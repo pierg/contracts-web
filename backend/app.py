@@ -302,9 +302,23 @@ def remove_component_from_library(data) -> None:
         Remove a component from a library
     """
     session_id = str(request.args.get("id"))
-    LibraryOperation.remove_from_library(data["name"], data["component"], session_id)
+    is_deleted = LibraryOperation.remove_from_library(data["name"], data["component"], session_id)
 
-    emit("remove-from-library-done", True, room=request.sid)
+    emit("remove-from-library-done", is_deleted, room=request.sid)
+
+
+@socketio.on("remove-library")
+def remove_library(library_name) -> None:
+    """
+        Remove a library
+    """
+    session_id = str(request.args.get("id"))
+    is_deleted = LibraryOperation.remove_library(library_name, session_id)
+    emit("remove-library-done", is_deleted, room=request.sid)
+    if is_deleted:
+        send_message_to_user(f"The library {library_name} has been deleted.", request.sid, "success")
+    else:
+        send_message_to_user(f"The library {library_name} has not been deleted.", request.sid, "error")
 
 
 if __name__ == "__main__":

@@ -62,7 +62,7 @@ class LibraryOperation:
                 file.write(f"\t{elt}\n")
 
     @staticmethod
-    def remove_from_library(library_name, component_name, session_id):
+    def remove_from_library(library_name, component_name, session_id) -> bool:
         library_folder = library_path(session_id)
 
         _, _, filenames = next(walk(library_folder))
@@ -80,6 +80,18 @@ class LibraryOperation:
                     file.write(f"\n{COMPONENT_HEADER}\n\n")
                     for elt in component_list:
                         file.write(f"\t{elt}\n")
+                    return True
+        return False
+
+    @staticmethod
+    def remove_library(library_name, session_id) -> bool:
+        library_folder = library_path(session_id)
+
+        _, _, filenames = next(walk(library_folder))
+        for filename in filenames:
+            with open(library_folder / filename) as file:
+                if LibraryOperation.get_name(file) == library_name:
+                    os.remove(library_folder / filename)
                     return True
         return False
 
@@ -128,7 +140,7 @@ class LibraryOperation:
         return ""
 
     @staticmethod
-    def check_if_library_exist(name, folder):
+    def check_if_library_exist(name, folder) -> str:
         if not os.path.exists(folder):
             return ""
         _, _, filenames = next(walk(folder))
