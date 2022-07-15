@@ -309,7 +309,7 @@ export default class Contracts extends React.Component {
     render() {
         let page;
         if (this.state.headerStates[0]) {
-            page =  <div className="flex flex-row">
+            page =  <div className="flex flex-row items-stretch">
                 <LibraryView />
                 <ComponentsView
                     setSelectedComponents={this.setSelectedComponents}

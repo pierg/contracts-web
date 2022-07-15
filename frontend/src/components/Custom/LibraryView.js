@@ -16,7 +16,7 @@ function LibraryView(props) {
 
     const tmp_libraries = []
     let libraryClass = ""
-    for (let i = 0; i < 1000; i += 1) {
+    for (let i = 0; i < 2; i += 1) {
         let select = true
         libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer"
         if (i === 0) libraryClass += " border-t-1"
@@ -32,7 +32,7 @@ function LibraryView(props) {
     }
 
     return (
-        <div className="px-3  w-4/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-lg">
+        <div className="px-3 w-4/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md">
             <div className="flex justify-between p-4 text-center">
                 <span className="fs-4 font-bold text-blueGray-500">{librariesviewsinfo.info.title}</span>
                 <div className="mx-2">
@@ -50,7 +50,7 @@ function LibraryView(props) {
                     </Tooltip>
                 </div>
             </div>
-            <div className="overflow-auto max-h-400-px mt-3 mx-4">
+            <div className="overflow-auto max-h-400-px mt-3 mx-4 mb-4">
                 <ul>
                     {tmp_libraries}
                 </ul>
