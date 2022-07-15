@@ -15,7 +15,7 @@ function UploadButton(props) {
              setSave(true)
              props.upload(filesContent[0].content)
         }
-    }, [props, filesContent])
+    }, [props, save, filesContent])
 
 
     return (<Button
