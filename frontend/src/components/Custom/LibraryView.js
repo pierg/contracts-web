@@ -7,8 +7,8 @@ function LibraryView(props) {
 
     const [selectedRow, setSelectedRow] = React.useState(null)
 
-    function selectLibrary(id, selected) {
-        if (selected)
+    function selectLibrary(id) {
+        if (id !== selectedRow)
             setSelectedRow(id)
         else
             setSelectedRow(null)
@@ -17,18 +17,16 @@ function LibraryView(props) {
     const tmp_libraries = []
     let libraryClass = ""
     for (let i = 0; i < 100; i += 1) {
-        let select = true
+
         libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer"
         if (i === 0) libraryClass += " border-t-1"
         if (i === selectedRow) {
             libraryClass += " bg-blueGray-200 hover:bg-blueGray-300"
-            select = false
-            console.log(select)
         } else
             libraryClass += "  hover:bg-blueGray-100"
 
         tmp_libraries.push(<li key={i} className={libraryClass}
-                               onClick={() => selectLibrary(i, {select})}>library_{i}</li>)
+                               onClick={() => selectLibrary(i)}>library_{i}</li>)
     }
 
     return (
