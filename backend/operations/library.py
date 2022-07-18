@@ -1,7 +1,8 @@
 import os.path
+import shutil
 from os import walk
 
-from backend.shared.paths import library_path
+from backend.shared.paths import session_path, library_description_file, library_path
 
 HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
@@ -18,43 +19,35 @@ class LibraryOperation:
 
         for session in list_session:
             is_default = session == "default"
-            library_folder = library_path(session)
-            if not os.path.exists(library_folder):
+            session_folder = session_path(session)
+            if not os.path.exists(session_folder):
                 continue
-            _, _, filenames = next(walk(library_folder))
-            for library in filenames:
-                with open(library_folder / library) as file:
-                    data = file.readlines()
-                    library_name = LibraryOperation.get_name(data)
-                    component_list = LibraryOperation.get_component(data)
-                    result.append({"name": library_name, "components": component_list, "default": is_default})
+            _, dir_names, _ = next(walk(session_folder))
+            for dir_name in dir_names:
+                if dir_name[:2] == "l_":
+                    with open(library_description_file(session, dir_name[2:])) as file:
+                        data = file.readlines()
+                        library_name = LibraryOperation.get_name(data)
+                        component_list = LibraryOperation.get_component(data)
+                        result.append({"name": library_name, "components": component_list, "default": is_default})
 
         return result
 
     @staticmethod
     def add_to_library(library_name, list_components, session_id) -> None:
-        library_folder = library_path(session_id)
+        library_folder = library_path(session_id, library_name)
         component_to_add = list_components
+        description_file = library_description_file(session_id, library_name)
         if not os.path.exists(library_folder):
             os.makedirs(library_folder)
-
-        _, _, filenames = next(walk(library_folder))
-
-        greatest_id = -1 if len(filenames) == 0 else int(max(filenames)[0:4])
-        greatest_id += 1
-
-        file_checked = LibraryOperation.check_if_library_exist(library_name, library_folder)
-        if file_checked:
-            file = library_folder / file_checked
-            with open(file) as ifile:
+        else:
+            with open(description_file) as ifile:
                 component_exits = LibraryOperation.get_component(ifile)
             for component in component_exits:
                 if component not in component_to_add:
                     component_to_add.append(component)
-        else:
-            file = library_folder / f"{str(greatest_id).zfill(4)}.txt"
 
-        with open(file, "w") as file:
+        with open(description_file, "w") as file:
             file.write(f"{NAME_HEADER}\n\n")
             file.write(f"\t{library_name}\n")
 
@@ -64,78 +57,78 @@ class LibraryOperation:
 
     @staticmethod
     def remove_from_library(library_name, component_name, session_id) -> bool:
-        library_folder = library_path(session_id)
+        description_file = library_description_file(session_id, library_name)
 
-        _, _, filenames = next(walk(library_folder))
-        for filename in filenames:
-            with open(library_folder / filename, "r") as file:
-                data = file.readlines()
-            if LibraryOperation.get_name(data) == library_name:
-                component_list = LibraryOperation.get_component(data)
-                component_list.remove(component_name)
+        if not os.path.exists(description_file):
+            return False
 
-                with open(library_folder / filename, "w") as file:
-                    file.write(f"{NAME_HEADER}\n\n")
-                    file.write(f"\t{library_name}\n")
+        with open(description_file, 'r') as file:
+            data = file.readlines()
 
-                    file.write(f"\n{COMPONENT_HEADER}\n\n")
-                    for elt in component_list:
-                        file.write(f"\t{elt}\n")
-                    return True
-        return False
+        component_list = LibraryOperation.get_component(data)
+        component_list.remove(component_name)
+        with open(description_file, "w") as file:
+            file.write(f"{NAME_HEADER}\n\n")
+            file.write(f"\t{library_name}\n")
+
+            file.write(f"\n{COMPONENT_HEADER}\n\n")
+            for elt in component_list:
+                file.write(f"\t{elt}\n")
+            return True
 
     @staticmethod
     def remove_library(library_name, session_id) -> bool:
-        library_folder = library_path(session_id)
-
-        _, _, filenames = next(walk(library_folder))
-        for filename in filenames:
-            with open(library_folder / filename) as file:
-                if LibraryOperation.get_name(file) == library_name:
-                    os.remove(library_folder / filename)
-                    return True
+        library_folder = library_path(session_id, library_name)
+        if os.path.exists(library_folder):
+            shutil.rmtree(library_folder)
+            return True
         return False
 
     @staticmethod
     def component_removed(component_name, session_id):
-        library_folder = library_path(session_id)
+        session_folder = session_path(session_id)
 
-        _, _, filenames = next(walk(library_folder))
-        for filename in filenames:
-            with open(library_folder / filename) as file:
-                data = file.readlines()
-            component_list = LibraryOperation.get_component(data)
-            if component_name in component_list:
-                component_list.remove(component_name)
+        _, dir_names, _ = next(walk(session_folder))
 
-                with open(library_folder / filename, "w") as file:
-                    file.write(f"{NAME_HEADER}\n\n")
-                    file.write(f"\t{LibraryOperation.get_name(data)}\n")
+        for dir_name in dir_names:
+            if dir_name[:2] == "l_":
+                library_name = dir_name[2:]
+                with open(library_description_file(session_id, library_name)) as file:
+                    data = file.readlines()
+                component_list = LibraryOperation.get_component(data)
+                if component_name in component_list:
+                    component_list.remove(component_name)
 
-                    file.write(f"\n{COMPONENT_HEADER}\n\n")
-                    for elt in component_list:
-                        file.write(f"\t{elt}\n")
+                    with open(library_description_file(session_id, library_name), "w") as file:
+                        file.write(f"{NAME_HEADER}\n\n")
+                        file.write(f"\t{library_name}\n")
+
+                        file.write(f"\n{COMPONENT_HEADER}\n\n")
+                        for elt in component_list:
+                            file.write(f"\t{elt}\n")
 
     @staticmethod
     def name_component_changed(old_name, new_name, session_id):
-        library_folder = library_path(session_id)
+        session_folder = session_path(session_id)
 
-        _, _, filenames = next(walk(library_folder))
-        for filename in filenames:
-            with open(library_folder / filename) as file:
-                data = file.readlines()
-            component_list = LibraryOperation.get_component(data)
-            if old_name in component_list:
-                component_list.remove(old_name)
-                component_list.append(new_name)
+        _, dir_names, _ = next(walk(session_folder))
+        for dir_name in dir_names:
+            if dir_name[:2] == "l_":
+                library_name = dir_name[2:]
+                with open(library_description_file(session_id, library_name)) as file:
+                    data = file.readlines()
+                component_list = LibraryOperation.get_component(data)
+                if old_name in component_list:
+                    component_list.remove(old_name)
+                    component_list.append(new_name)
 
-                with open(library_folder / filename, "w") as file:
-                    file.write(f"{NAME_HEADER}\n\n")
-                    file.write(f"\t{LibraryOperation.get_name(data)}\n")
+                    with open(library_description_file(session_id, library_name), "w") as file:
+                        file.write(f"{NAME_HEADER}\n\n")
+                        file.write(f"\t{LibraryOperation.get_name(data)}\n")
 
-                    file.write(f"\n{COMPONENT_HEADER}\n\n")
-                    for elt in component_list:
-                        file.write(f"\t{elt}\n")
+                        file.write(f"\n{COMPONENT_HEADER}\n\n")
+                        for elt in component_list:
+                            file.write(f"\t{elt}\n")
 
     @staticmethod
     def get_component(file) -> list:
