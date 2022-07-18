@@ -214,8 +214,8 @@ export default class ComponentsView extends React.Component {
     }
 
     reduceDescription = (input) => {
-        if (input.length > 40) {
-            input = input.substr(0, 40) + "..."
+        if (input.length > 30) {
+            input = input.substr(0, 30) + "..."
         }
         return input
     }
