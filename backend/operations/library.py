@@ -17,6 +17,7 @@ class LibraryOperation:
         list_session = ["default", session_id]
 
         for session in list_session:
+            is_default = session == "default"
             library_folder = library_path(session)
             if not os.path.exists(library_folder):
                 continue
@@ -26,7 +27,7 @@ class LibraryOperation:
                     data = file.readlines()
                     library_name = LibraryOperation.get_name(data)
                     component_list = LibraryOperation.get_component(data)
-                    result.append({"name": library_name, "components": component_list, "default": session == "default"})
+                    result.append({"name": library_name, "components": component_list, "default": is_default})
 
         return result
 

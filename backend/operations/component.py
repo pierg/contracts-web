@@ -3,7 +3,7 @@ from os import walk
 from pathlib import Path
 
 from backend.operations.library import LibraryOperation
-from backend.shared.paths import component_path, storage_path
+from backend.shared.paths import component_path
 from crome_component.component import Component
 from crome_component.component.component_spec import NAME_HEADER, _check_header, INPUTS_HEADER, OUTPUTS_HEADER, \
     ASSUMPTION_HEADER, GUARANTEES_HEADER, DESCRIPTION_HEADER
@@ -14,28 +14,19 @@ class ComponentOperation:
     @staticmethod
     def get_components(session_id) -> list:
         list_components = []
+        list_session = ["default", session_id]
 
-        # We get default components
-        default_folder = storage_path / "s_default" / "components"
-        if os.path.isdir(default_folder):
-            _, _, filenames = next(walk(default_folder))
-            for filename in filenames:
-                component = Component.from_file(default_folder / filename)
-                list_components.append({"name": component.name, "description": component.description,
-                                        "inputs": component.spec.i, "outputs": component.spec.o,
-                                        "assumptions": component.spec.a, "guarantees": component.spec.g,
-                                        "default": True})
-
-        # We get components of the current session
-        component_folder = component_path(session_id)
-        if os.path.isdir(component_folder):
-            _, _, filenames = next(walk(component_folder))
-            for filename in filenames:
-                component = Component.from_file(component_folder / filename)
-                list_components.append({"name": component.name, "description": component.description,
-                                        "inputs": component.spec.i, "outputs": component.spec.o,
-                                        "assumptions": component.spec.a, "guarantees": component.spec.g,
-                                        "default": False})
+        for session in list_session:
+            is_default = session == "default"
+            component_folder = component_path(session)
+            if os.path.isdir(component_folder):
+                _, _, filenames = next(walk(component_folder))
+                for filename in filenames:
+                    component = Component.from_file(component_folder / filename)
+                    list_components.append({"name": component.name, "description": component.description,
+                                            "inputs": component.spec.i, "outputs": component.spec.o,
+                                            "assumptions": component.spec.a, "guarantees": component.spec.g,
+                                            "default": is_default})
 
         return list_components
 
