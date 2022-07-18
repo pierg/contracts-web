@@ -5,9 +5,7 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import "./assets/styles/bootstrap.min.css";
 import "./assets/scss/now-ui-kit.css";
 
-import "./assets/demo/demo.css";
-import "./assets/demo/react-demo.css";
-import "./assets/demo/nucleo-icons-page-styles.css";
+
 
 // styles from Notus template
 import "@fortawesome/fontawesome-free/css/all.css";
