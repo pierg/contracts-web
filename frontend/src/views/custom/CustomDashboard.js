@@ -12,9 +12,11 @@ import consoleinfo from "../../_texts/custom/console";
 import SocketIoConsoleMessage from "../../components/Custom/Socket/GetConsoleMessage";
 import CustomSidebar from "../../components/Custom/CustomSidebar";
 import LandingPageContracts from "./LandingPageContracts";
+import {useParams} from "react-router";
 
 
-export default function CustomDashboard(props) {
+export default function CustomDashboard() {
+    const page = useParams().id
     const location = useLocation();
     const [id, setId] = useLocalStorage('id');
     const [cookie] = useLocalStorage('cookie')
@@ -45,20 +47,24 @@ export default function CustomDashboard(props) {
                 id={id}
                 setId={setId}
                 cookie={cookie}
-                page={props.page}
+                page={page}
             />
             <Console {...consoleinfo} customText={message}/>
             <SocketIoConsoleMessage modifyMessage={(e) => updateMessage(e)} session={id}/>
             <div className="relative bg-blueGray-100 min-h-screen">
                 {(() => {
-                    switch (props.page) {
+                    switch (page) {
+                        case 'contracts':
+                            return (
+                               <Contracts/>
+                                )
                         case 'index':
                             return (
                                <LandingPageContracts/>
                                 )
                         default:
                             return (
-                                <Contracts/>
+                                <LandingPageContracts/>
                             )
                     }
                 })()}
