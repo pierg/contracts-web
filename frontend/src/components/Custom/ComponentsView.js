@@ -16,6 +16,7 @@ export default class ComponentsView extends React.Component {
         triggerAddComponent: false,
         tmpComponent: false,
         componentToShow: null,
+        oldName: null,
         show: false
     }
 
@@ -28,6 +29,12 @@ export default class ComponentsView extends React.Component {
     setTmpComponent = (tmpComponent) => {
         this.setState({
             tmpComponent: tmpComponent
+        })
+    }
+
+    setOldName = (oldName) => {
+        this.setState({
+            oldName: oldName
         })
     }
 
@@ -51,6 +58,7 @@ export default class ComponentsView extends React.Component {
 
     editComponent = (i) => {
         const component = this.props.components[i]
+        this.setOldName(component.name)
         const tmpComponent = {
             "name": component.name,
             "description": component.description,
@@ -113,7 +121,7 @@ export default class ComponentsView extends React.Component {
                     tmpComponent.guarantees.PL.push(component.guarantees[i].PL[0])
             }
 
-            this.props.saveComponent(tmpComponent)
+            this.props.saveComponent(tmpComponent, this.state.oldName)
         }
     }
 

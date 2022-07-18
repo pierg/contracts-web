@@ -8,6 +8,7 @@ function SocketSaveComponent(props) {
     const componentIsSaved = useCallback(() => {
         props.componentIsSaved()
         socket.off('component-saved')
+        props.triggerGetLibrary(true)
     }, [socket, props]);
 
     useEffect(() => {
@@ -15,7 +16,7 @@ function SocketSaveComponent(props) {
 
         if (props.component !== null && props.triggerSave) {
             props.setTriggerSave(false)
-            socket.emit('save-component', props.component);
+            socket.emit('save-component', {"new_component": props.component, "old_name": props.componentOldName});
             socket.on('component-saved', componentIsSaved)
         }
 

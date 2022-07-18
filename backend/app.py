@@ -193,11 +193,13 @@ def save_component(data) -> None:
     """
     session_id = str(request.args.get("id"))
     now = time.localtime(time.time())
-    name: str = data["name"]
+    component = data["new_component"]
+    print(f"Old Name : {data['old_name']}")
+    name: str = component["name"]
 
     # Detection error
     error = 0
-    if len(data["inputs"]) == 0 and len(data["outputs"]) == 0:
+    if len(component["inputs"]) == 0 and len(component["outputs"]) == 0:
         error = 1
         emit(
             "send-message",
@@ -216,7 +218,7 @@ def save_component(data) -> None:
         emit("component-saved", True, room=request.sid)
 
         try:
-            ComponentOperation.save_component(data, component_path(session_id))
+            ComponentOperation.save_component(data=component, old_name=data["old_name"], session_id=session_id)
             send_message_to_user(content='The component "' + name + '" has been saved.',
                                  room_id=request.sid, crometype="success")
         except KeyError as keyError:

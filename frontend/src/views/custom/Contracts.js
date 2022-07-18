@@ -39,6 +39,7 @@ export default class Contracts extends React.Component {
         componentToDelete: null,
         componentToUpload: null,
         componentToSave: null,
+        componentOldName: null,
         triggerComponents: true,
         triggerSave: false,
         triggerDelete: false,
@@ -209,9 +210,10 @@ export default class Contracts extends React.Component {
         })
     }
 
-    saveComponent = (component) => {
+    saveComponent = (component, componentOldName = null) => {
         this.setState({
             componentToSave: component,
+            componentOldName: componentOldName,
             triggerSave: true
         })
     }
@@ -492,6 +494,8 @@ export default class Contracts extends React.Component {
                     triggerSave={this.state.triggerSave}
                     setTriggerSave={this.setTriggerSave}
                     component={this.state.componentToSave}
+                    componentOldName={this.state.componentOldName}
+                    triggerGetLibrary={this.setTriggerLibrary}
                 />
                 <SocketDownloadComponent
                     componentsToDownloads={this.state.componentsToDownloads}
