@@ -35,7 +35,7 @@
     "uuid": "^8.3.2"
   },
   "resolutions": {
-    "autoprefixer": "10.4.7"
+    "autoprefixer": "10.4.5"
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
