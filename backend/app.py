@@ -10,9 +10,10 @@ from flask_socketio import SocketIO, emit
 
 from backend.operations.component import ComponentOperation
 from backend.operations.library import LibraryOperation
+from backend.operations.connection import ConnectionOperation
 from backend.shared.paths import (
     build_path,
-    storage_path, component_path,
+    storage_path,
 )
 
 parser = argparse.ArgumentParser(description="Launching Flask Backend")
@@ -320,6 +321,18 @@ def remove_library(library_name) -> None:
         send_message_to_user(f"The library {library_name} has been deleted.", request.sid, "success")
     else:
         send_message_to_user(f"The library {library_name} has not been deleted.", request.sid, "error")
+
+
+# Connections Handler
+
+@socketio.on("save-connection")
+def save_connection(data):
+    """
+        Save a connection
+    """
+    session_id = str(request.args.get("id"))
+    ConnectionOperation.save_connection(data, session_id)
+    emit("save-connection-done", True, room=request.sid)
 
 
 if __name__ == "__main__":
