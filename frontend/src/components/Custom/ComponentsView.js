@@ -123,15 +123,6 @@ export default class ComponentsView extends React.Component {
     }
 
     deleteComponent = (i) => {
-
-        /*let tmpComponent = this.props.components
-        let selected = this.props.selectedComponents
-
-        selected = selected.filter((e) => e!==this.props.components[i])
-        tmpComponent.splice(i,1)
-
-        this.props.setSelectedComponents(selected)
-        this.props.setComponents(tmpComponent)*/
         this.props.deleteComponent(this.props.components[i])
     }
 
@@ -267,7 +258,7 @@ export default class ComponentsView extends React.Component {
                             </Button>
                         </Tooltip>
                         {
-                            !this.props.components[i].default &&
+                            !this.props.default &&
                             <>
                                 <Tooltip
                                     html="edit"

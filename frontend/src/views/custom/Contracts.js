@@ -90,9 +90,19 @@ export default class Contracts extends React.Component {
     }
 
     setLibraries = (libraries) => {
+        console.log(libraries)
         this.setState({
             libraries: libraries
         })
+
+        if (this.state.selectedLibrary != null) {
+            for (let i=0; i<=this.state.libraries.length; i++) {
+                if (this.state.libraries[i].name === this.state.selectedLibrary.name) {
+                    this.setSelectedLibrary(i)
+                    break;
+                }
+            }
+        }
     }
 
     setTriggerAddLibrary = (bool) => {
@@ -211,7 +221,7 @@ export default class Contracts extends React.Component {
 
     componentIsSaved = () => {
         this.setState({
-            triggerComponents: true
+            triggerLibrary: true
         })
     }
 
@@ -402,6 +412,7 @@ export default class Contracts extends React.Component {
                     downloadComponents={this.downloadComponents}
                     uploadComponent={this.uploadComponents}
                     patterns={this.state.patterns}
+                    default={this.state.selectedLibrary !== null ? this.state.selectedLibrary.default : false}
                 />
             </div>
         } else if (this.state.headerStates[1]) {
@@ -474,6 +485,7 @@ export default class Contracts extends React.Component {
                 />
                 <SocketSaveComponent
                     componentIsSaved={this.componentIsSaved}
+                    library={this.state.selectedLibrary}
                     triggerSave={this.state.triggerSave}
                     setTriggerSave={this.setTriggerSave}
                     component={this.state.componentToSave}
