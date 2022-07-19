@@ -15,9 +15,9 @@ persistence_path: Path = output_path / "persistence"
 # Usage: session_path(_SESSION_ID_)
 session_path: Callable[[str], Path] = lambda s: storage_path / f"s_{s}"
 
-# Usage: component_path(_SESSION_ID_)
-component_path: Callable[str, Path] = (
-    lambda s: storage_path / f"s_{s}" / "components"
+# Usage: component_path(_SESSION_ID_, _LIBRARY_NAME_)
+component_path: Callable[[str, str], Path] = (
+    lambda s, n: storage_path / f"s_{s}" / f"l_{n}" / "components"
 )
 
 # Usage: library_path(_SESSION_ID_, _LIBRARY_NAME_)
