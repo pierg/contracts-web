@@ -87,7 +87,8 @@ function LibraryView(props) {
                         className={"modal-dialog-centered"}
                     >
                         <ModalLibrary
-                            components={props.components}
+                            // Can be a future feature
+                            // components={props.components}
                             addLibrary={(libraryName, componentsName) => props.addLibrary(libraryName, componentsName)}
                             close={() => setTriggerAddLibrary(false)}
                         />
