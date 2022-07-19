@@ -2,9 +2,7 @@ import os
 from os import walk
 from pathlib import Path
 
-from backend.operations.library import LibraryOperation
 from backend.shared.paths import component_path
-from crome_component.component import Component
 from crome_component.component.component_spec import NAME_HEADER, _check_header, INPUTS_HEADER, OUTPUTS_HEADER, \
     ASSUMPTION_HEADER, GUARANTEES_HEADER, DESCRIPTION_HEADER
 
@@ -12,27 +10,8 @@ from crome_component.component.component_spec import NAME_HEADER, _check_header,
 class ComponentOperation:
 
     @staticmethod
-    def get_components(session_id) -> list:
-        list_components = []
-        list_session = ["default", session_id]
-
-        for session in list_session:
-            is_default = session == "default"
-            component_folder = component_path(session)
-            if os.path.isdir(component_folder):
-                _, _, filenames = next(walk(component_folder))
-                for filename in filenames:
-                    component = Component.from_file(component_folder / filename)
-                    list_components.append({"name": component.name, "description": component.description,
-                                            "inputs": component.spec.i, "outputs": component.spec.o,
-                                            "assumptions": component.spec.a, "guarantees": component.spec.g,
-                                            "default": is_default})
-
-        return list_components
-
-    @staticmethod
-    def save_component(data, old_name, session_id) -> None:
-        component_folder = component_path(session_id)
+    def save_component(data, old_name, session_id, library_name) -> None:
+        component_folder = component_path(session_id, library_name)
         if not os.path.exists(component_folder):
             os.makedirs(component_folder)
 
@@ -78,25 +57,21 @@ class ComponentOperation:
             for elt in data["guarantees"]["LTL"]:
                 file.write(f"\t\t{elt}\n")
 
-        if old_name != data["name"]:
-            LibraryOperation.name_component_changed(old_name, data["name"], session_id)
-
     @staticmethod
-    def delete_component(name, session_id) -> bool:
-        component_folder = component_path(session_id)
+    def delete_component(name, session_id, library_name) -> bool:
+        component_folder = component_path(session_id, library_name)
 
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
             with open(component_folder / filename) as file:
                 if ComponentOperation.get_name_from_file(file).strip() == name:
                     os.remove(component_folder / filename)
-                    LibraryOperation.component_removed(name, session_id)
                     return True
         return False
 
     @staticmethod
-    def get_raw_component(name, session_id):
-        component_folder = component_path(session_id)
+    def get_raw_component(name, session_id, library_name):
+        component_folder = component_path(session_id, library_name)
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
             with open(component_folder / filename) as file:
@@ -108,8 +83,8 @@ class ComponentOperation:
         return False
 
     @staticmethod
-    def save_component_file(component_file, session_id):
-        component_folder = component_path(session_id)
+    def save_component_file(component_file, session_id, library_name):
+        component_folder = component_path(session_id, library_name)
         try:
             _check_structure_file(component_file)
         except:

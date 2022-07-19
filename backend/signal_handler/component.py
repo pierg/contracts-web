@@ -13,17 +13,6 @@ except ImportError:
     from backend.app import socketio
 
 
-@socketio.on("get-components")
-def get_components() -> None:
-    """
-        get the synthesis created by the user and the examples.
-    """
-    session_id = str(request.args.get("id"))
-    list_examples = ComponentOperation.get_components(session_id)
-
-    emit("receive-components", list_examples, room=request.sid)
-
-
 # The signal for the component
 @socketio.on("save-component")
 def save_component(data) -> None:
@@ -57,7 +46,8 @@ def save_component(data) -> None:
         emit("component-saved", True, room=request.sid)
 
         try:
-            ComponentOperation.save_component(data=component, old_name=data["old_name"], session_id=session_id)
+            ComponentOperation.save_component(data=component, old_name=data["old_name"], session_id=session_id,
+                                              library_name=data["library_name"])
             send_message_to_user(content='The component "' + name + '" has been saved.',
                                  room_id=request.sid, crometype="success")
         except KeyError as keyError:
@@ -70,17 +60,17 @@ def save_component(data) -> None:
 
 
 @socketio.on("delete-component")
-def delete_component(name) -> None:
+def delete_component(data) -> None:
     """
     We delete the json file related to the component id given by the frontend.
     """
     session_id = str(request.args.get("id"))
 
-    is_deleted = ComponentOperation.delete_component(name, session_id)
+    is_deleted = ComponentOperation.delete_component(data["name"], session_id, data["library_name"])
     if is_deleted:
-        send_message_to_user(f"The component '{name}' has been deleted.", request.sid, "success")
+        send_message_to_user(f"The component '{data['name']}' has been deleted.", request.sid, "success")
     else:
-        send_message_to_user(f"The component '{name}' has not been deleted", request.sid, "error")
+        send_message_to_user(f"The component '{data['name']}' has not been deleted", request.sid, "error")
     emit("component-deleted", is_deleted, room=request.sid)
 
 
@@ -92,7 +82,7 @@ def download_components(data):
     list_component = []
     session_id = request.args.get("id")
     for name in data["names"]:
-        raw = ComponentOperation.get_raw_component(name, session_id)
+        raw = ComponentOperation.get_raw_component(name, session_id, data["library_name"])
         if raw:
             data = {"name": name, "file": raw}
             list_component.append(data)
@@ -100,12 +90,12 @@ def download_components(data):
 
 
 @socketio.on("upload-component")
-def upload_component(component_file):
+def upload_component(data):
     """
         Upload a component
     """
     session_id = request.args.get("id")
-    is_saved = ComponentOperation.save_component_file(component_file, session_id)
+    is_saved = ComponentOperation.save_component_file(data["component_file"], session_id, data["library_name"])
     emit("upload-done", True, room=request.sid)
     if not is_saved:
         send_message_to_user("The file does not have the right structure", request.sid, "error")
