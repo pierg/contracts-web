@@ -4122,6 +4122,10 @@ select {
     padding-left: 0px;
 }
 
+.pl-1 {
+    padding-left: 0.25rem;
+}
+
 .pt-1 {
     padding-top: 0.25rem;
 }

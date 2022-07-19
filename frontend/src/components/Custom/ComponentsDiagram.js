@@ -8,13 +8,77 @@ import Button from "../Elements/Button";
 function ComponentsDiagram(props) {
 
     const CustomInstance = (instance) => {
+        let inputs = []
+        for(let i=0;i<instance.inputs.length;i++) {
+            inputs.push(
+                <div
+                    key={"i-"+i}
+                    className="flex flex-row"
+                >
+                    <div>
+                        {instance.inputs[i].props.id.split("__")[1]}
+                    </div>
+                    <div
+                        className="pl-1"
+                    >
+                        {"("+instance.inputs[i].props.id.split("__")[2]+")"}
+                    </div>
+                </div>
+            )
+        }
+
+        let outputs = []
+        for(let i=0;i<instance.outputs.length;i++) {
+            outputs.push(
+                <div
+                    key={"o-"+i}
+                    className="flex flex-row"
+                >
+                    <div>
+                        {instance.outputs[i].props.id.split("__")[1]}
+                    </div>
+                    <div
+                        className="pl-1"
+                    >
+                        {"("+instance.outputs[i].props.id.split("__")[2]+")"}
+                    </div>
+                </div>
+            )
+        }
         return (
             <div style={{ background: '#DAE1E7'}} className="border rounded-xl border-blueGray-400">
                 <div
-                    className="text-center fs-4"
+                    className="text-center fs-4 border-b-1 border-blueGray-500"
                     style={{ padding: '10px'}}
                 >
                     {instance.content}
+                </div>
+                <div
+                    className="flex flex-row justify-evenly p-2"
+                >
+                    <div
+                        className="flex-col"
+                    >
+                        <div
+                            className="fs-6 pb-1"
+                        >
+                            INPUTS
+                        </div>
+                        {inputs}
+                    </div>
+
+                    <div className="border-1 border-blueGray-400"></div>
+
+                    <div
+                        className="flex-col"
+                    >
+                        <div
+                            className="fs-6 pb-1"
+                        >
+                            OUTPUTS
+                        </div>
+                        {outputs}
+                    </div>
                 </div>
             </div>
         )
@@ -235,6 +299,18 @@ function ComponentsDiagram(props) {
         node.id = "instance"+i
         node.content = props.instances[i].name
         node.coordinates = [50+(i%4)*distancePos, 130+(Math.floor(i/4))*300]
+        node.inputs = []
+        for(let j=0;j<props.instances[i].inputs.length;j++) {
+            put = {}
+            put.id = j+"__"+props.instances[i].inputs[j].name+"__"+props.instances[i].inputs[j].type
+            node.inputs.push(put)
+        }
+        node.outputs = []
+        for(let j=0;j<props.instances[i].outputs.length;j++) {
+            put = {}
+            put.id = j+"__"+props.instances[i].outputs[j].name+"__"+props.instances[i].outputs[j].type
+            node.outputs.push(put)
+        }
         node.render = CustomInstance
         nodes.push(node)
     }
@@ -261,7 +337,7 @@ function ComponentsDiagram(props) {
             node.render = CustomUniquePort
         }
         else {
-            node.coordinates = [150+(cptDoubleLink%4)*distancePos, 200+(Math.floor(cptDoubleLink/4))*300]
+            node.coordinates = [200+(cptDoubleLink%4)*distancePos, 300+(Math.floor(cptDoubleLink/4))*300]
             node.inputs = []
             node.outputs = []
             portIn = props.connections[i].connectors[0].split("-")[0]
@@ -331,7 +407,6 @@ function ComponentsDiagram(props) {
         <>
             <div className="flex-col mx-auto pb-5">
                 <div className="px-3 pb-3  flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
-
                     <div className=" flex justify-center text-2xl m-3 ">
                         <div className="flex flex-1 justify-center font-bold text-blueGray-500">
                             {componentInfo.info.texts.diagram}

@@ -90,7 +90,6 @@ export default class Contracts extends React.Component {
     }
 
     setLibraries = (libraries) => {
-        console.log(libraries)
         this.setState({
             libraries: libraries
         })
