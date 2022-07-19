@@ -2,7 +2,8 @@ import os.path
 import shutil
 from os import walk
 
-from backend.shared.paths import session_path, library_description_file, library_path
+from backend.shared.paths import session_path, library_description_file, library_path, component_path
+from crome_component.component import Component
 
 HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
@@ -25,11 +26,18 @@ class LibraryOperation:
             _, dir_names, _ = next(walk(session_folder))
             for dir_name in dir_names:
                 if dir_name[:2] == "l_":
-                    with open(library_description_file(session, dir_name[2:])) as file:
-                        data = file.readlines()
-                        library_name = LibraryOperation.get_name(data)
-                        component_list = LibraryOperation.get_component(data)
-                        result.append({"name": library_name, "components": component_list, "default": is_default})
+                    library_name = dir_name[2:]
+                    component_folder = component_path(session, library_name)
+                    component_list = []
+                    if os.path.isdir(component_folder):
+                        _, _, filenames = next(walk(component_folder))
+                        for filename in filenames:
+                            component = Component.from_file(component_folder / filename)
+                            component_list.append({"name": component.name, "description": component.description,
+                                                   "inputs": component.spec.i, "outputs": component.spec.o,
+                                                   "assumptions": component.spec.a, "guarantees": component.spec.g})
+
+                    result.append({"name": library_name, "components": component_list, "default": is_default})
 
         return result
 
