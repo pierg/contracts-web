@@ -5,7 +5,6 @@ import CustomNavButton from "../../components/Custom/CustomNavButton";
 import CustomHeader from "../../components/Custom/CustomHeader";
 import ComponentsDiagram from "../../components/Custom/ComponentsDiagram";
 import ContractsConnect from "../../components/Custom/ContractsConnect";
-import SocketIoComponents from "../../components/Custom/Socket/GetComponents";
 import SocketSaveComponent from "../../components/Custom/Socket/SaveComponent";
 import SocketIoPatterns from "../../components/Custom/Socket/GetPatterns";
 import {Tooltip} from "react-tippy"
@@ -119,15 +118,7 @@ export default class Contracts extends React.Component {
             return
         }
         let library = this.state.libraries[index]
-        let selectedComponent = []
-        for(let i=0; i<library.components.length; i++) {
-            for(let j=0; j<this.state.components.length; j++) {
-                if(library.components[i] === this.state.components[j].name) {
-                    selectedComponent.push(this.state.components[j])
-                }
-            }
-        }
-        this.setSelectedComponents(selectedComponent)
+        this.setComponents(library.components)
         this.setState({
             selectedLibrary: library
         })
@@ -390,7 +381,7 @@ export default class Contracts extends React.Component {
     render() {
         let page;
         if (this.state.headerStates[0]) {
-            page =  <div className="flex flex-row items-stretch">
+            page =  <div className="flex flex-row items-start">
                 <LibraryView
                     libraries={this.state.libraries}
                     addLibrary={this.addLibrary}
@@ -480,14 +471,6 @@ export default class Contracts extends React.Component {
                     libraryToDelete={this.state.libraryToDelete}
                     triggerDelete={this.state.triggerDeleteLibrary}
                     setTriggerDelete={this.setTriggerDeleteLibrary}
-                />
-                <SocketIoComponents
-                    componentToDelete={this.state.componentToDelete}
-                    triggerDelete={this.state.triggerDelete}
-                    updateComponents={this.setComponents}
-                    triggerComponents={this.state.triggerComponents}
-                    setTriggerComponents={this.setTriggerComponents}
-                    setTriggerDelete={this.setTriggerDelete}
                 />
                 <SocketSaveComponent
                     componentIsSaved={this.componentIsSaved}

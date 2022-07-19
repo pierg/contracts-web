@@ -39,9 +39,6 @@ export default class ComponentsView extends React.Component {
     }
 
     lineClicked = (i) => {
-        if(this.props.selectedLibrary !== null) {
-            return
-        }
         let selected = this.props.selectedComponents
         if (selected.includes(this.props.components[i]))
             selected = selected.filter((e) => e !== this.props.components[i])
@@ -224,13 +221,7 @@ export default class ComponentsView extends React.Component {
         let components = []
         let lineClass = ""
         for (let i = 0; i < this.props.components.length; i++) {
-            lineClass = "border-b-1 text-lg p-3 rounded text-blueGray-700"
-            if(this.props.selectedLibrary === null) {
-                lineClass += " hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer"
-            }
-            else {
-                lineClass += " cursor-not-allowed"
-            }
+            lineClass = "border-b-1 text-lg p-3 rounded text-blueGray-700 hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer"
             if (i === 0) {
                 lineClass += " border-t-1"
             }
