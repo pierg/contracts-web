@@ -14,7 +14,8 @@ function SocketDeleteComponent(props) {
 
         if (props.triggerDelete) {
             props.setTriggerDelete(false)
-            socket.emit('delete-component', {"name": props.componentToDelete.name, "library_name": props.library});
+            console.log(props)
+            socket.emit('delete-component', {"name": props.componentToDelete.name, "library_name": props.library.name});
             socket.on('component-deleted', componentIsDeleted)
         }
 
