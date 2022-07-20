@@ -65,8 +65,43 @@ class ConnectionOperation:
         return list_possible_connection
 
     @staticmethod
-    def get_content(content_file):
-        pass
+    def get_content(content_file) -> dict:
+        line_header = ""
+        name = ""
+        instances = {}
+        connections = []
+        for line in content_file:
+            line, header = _check_header(line)
+            if not line:
+                continue
+
+            if header:
+                if line == NAME_HEADER:
+                    if line_header == "":
+                        line_header = line
+                    else:
+                        Exception("File format not supported")
+                elif line == INSTANCE_HEADER:
+                    if line_header == NAME_HEADER:
+                        line_header = line
+                    else:
+                        Exception("File format not supported")
+                elif line == CONNECTIONS_HEADER:
+                    if line == INSTANCE_HEADER:
+                        line_header = line
+                    else:
+                        Exception("File format not supported")
+
+            else:
+                if line_header == NAME_HEADER:
+                    name += line + " "
+                elif line_header == INSTANCE_HEADER:
+                    split_line = line.split(": ")
+                    instances.update({split_line[0].strip(): split_line[1].strip()})
+                elif line_header == CONNECTIONS_HEADER:
+                    connections.append(line.strip())
+
+        return {"name": name[:-1], "instances": instances, "connections": connections}
 
     @staticmethod
     def get_name(content_file) -> str:
@@ -104,7 +139,7 @@ class ConnectionOperation:
             else:
                 if line_header == INSTANCE_HEADER:
                     split_line = line.split(": ")
-                    instances_list.update({"usage": split_line[0].strip(), "component_name": split_line[1].strip()})
+                    instances_list.update({split_line[0].strip(): split_line[1].strip()})
         return instances_list
 
     @staticmethod
