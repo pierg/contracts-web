@@ -93,52 +93,6 @@ class LibraryOperation:
         return False
 
     @staticmethod
-    def component_removed(component_name, session_id):
-        session_folder = session_path(session_id)
-
-        _, dir_names, _ = next(walk(session_folder))
-
-        for dir_name in dir_names:
-            if dir_name[:2] == "l_":
-                library_name = dir_name[2:]
-                with open(library_description_file(session_id, library_name)) as file:
-                    data = file.readlines()
-                component_list = LibraryOperation.get_component(data)
-                if component_name in component_list:
-                    component_list.remove(component_name)
-
-                    with open(library_description_file(session_id, library_name), "w") as file:
-                        file.write(f"{NAME_HEADER}\n\n")
-                        file.write(f"\t{library_name}\n")
-
-                        file.write(f"\n{COMPONENT_HEADER}\n\n")
-                        for elt in component_list:
-                            file.write(f"\t{elt}\n")
-
-    @staticmethod
-    def name_component_changed(old_name, new_name, session_id):
-        session_folder = session_path(session_id)
-
-        _, dir_names, _ = next(walk(session_folder))
-        for dir_name in dir_names:
-            if dir_name[:2] == "l_":
-                library_name = dir_name[2:]
-                with open(library_description_file(session_id, library_name)) as file:
-                    data = file.readlines()
-                component_list = LibraryOperation.get_component(data)
-                if old_name in component_list:
-                    component_list.remove(old_name)
-                    component_list.append(new_name)
-
-                    with open(library_description_file(session_id, library_name), "w") as file:
-                        file.write(f"{NAME_HEADER}\n\n")
-                        file.write(f"\t{LibraryOperation.get_name(data)}\n")
-
-                        file.write(f"\n{COMPONENT_HEADER}\n\n")
-                        for elt in component_list:
-                            file.write(f"\t{elt}\n")
-
-    @staticmethod
     def get_component(file) -> list:
         line_header = ""
         component_list = []
