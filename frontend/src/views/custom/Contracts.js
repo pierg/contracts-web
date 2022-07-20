@@ -92,18 +92,18 @@ export default class Contracts extends React.Component {
     setLibraries = (libraries) => {
         this.setState({
             libraries: libraries
-        })
-
-        if (this.state.selectedLibrary != null) {
-            for (let i=0; i<=this.state.libraries.length; i++) {
-                if (this.state.libraries[i].name === this.state.selectedLibrary.name) {
-                    this.setSelectedLibrary(i)
-                    break;
+        }, function () {
+              if (this.state.selectedLibrary != null) {
+                for (let i=0; i<=this.state.libraries.length; i++) {
+                    console.log(this.state.libraries[i])
+                    if (this.state.libraries[i].name === this.state.selectedLibrary.name) {
+                        this.setSelectedLibrary(i)
+                        break;
+                    }
                 }
             }
-        }
+        })
     }
-
     setTriggerAddLibrary = (bool) => {
         this.setState({
             triggerAddLibrary: bool
