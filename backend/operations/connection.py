@@ -13,8 +13,8 @@ COMMENT_CHAR = "#"
 class ConnectionOperation:
 
     @staticmethod
-    def save_connection(data, session_id) -> None:
-        connection_folder = connection_path(session_id)
+    def save_connection(data, session_id, library_name) -> None:
+        connection_folder = connection_path(session_id, library_name)
         if not os.path.isdir(connection_folder):
             os.makedirs(connection_folder)
 
@@ -26,7 +26,7 @@ class ConnectionOperation:
 
             greatest_id = -1 if len(filenames) == 0 else int(max(filenames)[0:4])
             greatest_id += 1
-            filename = str(greatest_id).zfill(4)+".txt"
+            filename = str(greatest_id).zfill(4) + ".txt"
 
         with open(connection_folder / f"{filename}", "w") as file:
             file.write(f"{NAME_HEADER}\n\n")
@@ -37,11 +37,39 @@ class ConnectionOperation:
                 file.write(f"\t{name}: {data['instances'][name]}\n")
 
             file.write(f"\n{CONNECTIONS_HEADER}\n\n")
-            for name in data["connections"]:
-                file.write(f"\t{name}: {data['connections'][name]}\n")
+            for elt in data["connections"]:
+                file.write(f"\t{elt}\n")
 
     @staticmethod
-    def get_name(content_file):
+    def check_connection_possible(component_list, session_id, library_name) -> list:
+        connection_folder = connection_path(session_id, library_name)
+        list_possible_connection = []
+        _, _, filenames = next(walk(connection_folder))
+
+        for filename in filenames:
+            with open(connection_folder / filename) as file:
+                content_file = file.readlines()
+            tmp = ConnectionOperation.get_instances(content_file)
+            instances = []
+            for key in tmp:
+                if tmp[key] not in instances:
+                    instances.append(tmp[key])
+            all_inside = True
+            for elt in component_list:
+                if elt not in instances:
+                    all_inside = False
+                    break
+            if all_inside:
+                list_possible_connection.append(ConnectionOperation.get_content(content_file))
+
+        return list_possible_connection
+
+    @staticmethod
+    def get_content(content_file):
+        pass
+
+    @staticmethod
+    def get_name(content_file) -> str:
         line_header = ""
         name = ""
         for line in content_file:
@@ -58,6 +86,26 @@ class ConnectionOperation:
                 if line_header == NAME_HEADER:
                     name += line.strip() + " "
         return ""
+
+    @staticmethod
+    def get_instances(content_file) -> dict[str, str]:
+        line_header = ""
+        instances_list = {}
+        for line in content_file:
+            line, header = _check_header(line)
+            if not line:
+                continue
+
+            if header:
+                if line_header == CONNECTIONS_HEADER:
+                    return instances_list
+                elif line == INSTANCE_HEADER:
+                    line_header = line
+            else:
+                if line_header == INSTANCE_HEADER:
+                    split_line = line.split(": ")
+                    instances_list.update({"usage": split_line[0].strip(), "component_name": split_line[1].strip()})
+        return instances_list
 
     @staticmethod
     def _check_if_already_exist(folder, name) -> str:
