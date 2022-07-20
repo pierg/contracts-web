@@ -312,6 +312,7 @@ export default class ComponentsView extends React.Component {
                                     size={componentInfo.info.texts.component.header.addButton.size}
                                     color={componentInfo.info.texts.component.header.addButton.color}
                                     onClick={() => this.clickAddComponent()}
+                                    disabled={this.props.default}
                                 >
                                     <i className={componentInfo.info.texts.component.header.addButton.icon}></i>
                                 </Button>
@@ -340,6 +341,7 @@ export default class ComponentsView extends React.Component {
                             >
                                 <UploadButton
                                     upload={this.props.uploadComponent}
+                                    default={this.props.default}
                                     />
                             </Tooltip>
                         </div>
