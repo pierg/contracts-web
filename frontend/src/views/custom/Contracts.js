@@ -509,6 +509,7 @@ export default class Contracts extends React.Component {
                     setTriggerDownload={this.setTriggerDownload}
                 />
                 <SocketUploadComponent
+                    library={this.state.selectedLibrary}
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}

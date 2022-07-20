@@ -84,8 +84,8 @@ def download_components(data):
     for name in data["names"]:
         raw = ComponentOperation.get_raw_component(name, session_id, data["library_name"])
         if raw:
-            data = {"name": name, "file": raw}
-            list_component.append(data)
+            tmp = {"name": name, "file": raw}
+            list_component.append(tmp)
     emit("components-downloaded", list_component, room=request.sid)
 
 
