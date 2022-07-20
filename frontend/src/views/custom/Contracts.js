@@ -492,6 +492,7 @@ export default class Contracts extends React.Component {
                     triggerGetLibrary={this.setTriggerLibrary}
                 />
                 <SocketDownloadComponent
+                    library={this.state.selectedLibrary}
                     componentsToDownloads={this.state.componentsToDownloads}
                     triggerDownload={this.state.triggerDownload}
                     setTriggerDownload={this.setTriggerDownload}

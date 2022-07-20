@@ -19,10 +19,9 @@ function SocketDownloadComponent(props){
 
     useEffect(() => {
         if (socket == null) return
-
         if (props.triggerDownload){
             props.setTriggerDownload(false)
-            socket.emit('download-components', {names: props.componentsToDownloads})
+            socket.emit('download-components', {names: props.componentsToDownloads, library_name : props.library.name})
             socket.on('components-downloaded', componentFile)
         }
     }, [props, socket, componentFile])
