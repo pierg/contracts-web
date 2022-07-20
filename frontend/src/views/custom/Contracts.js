@@ -15,6 +15,7 @@ import {Modal} from "reactstrap";
 import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 import LibraryView from "../../components/Custom/LibraryView";
 import SocketLibrary from "../../components/Custom/Socket/Library";
+import SocketDeleteComponent from "../../components/Custom/Socket/DeleteComponent";
 
 export default class Contracts extends React.Component {
     state = {
@@ -218,7 +219,7 @@ export default class Contracts extends React.Component {
         })
     }
 
-    componentIsSaved = () => {
+    componentUpdate = () => {
         this.setState({
             triggerLibrary: true
         })
@@ -482,8 +483,15 @@ export default class Contracts extends React.Component {
                     triggerDelete={this.state.triggerDeleteLibrary}
                     setTriggerDelete={this.setTriggerDeleteLibrary}
                 />
+                <SocketDeleteComponent
+                    componentIsDeleted={this.componentUpdate}
+                    library={this.state.selectedLibrary}
+                    triggerDelete={this.state.triggerDelete}
+                    setTriggerDelete={this.setTriggerDelete}
+                    componentToDelete={this.state.componentToDelete}
+                />
                 <SocketSaveComponent
-                    componentIsSaved={this.componentIsSaved}
+                    componentIsSaved={this.componentUpdate}
                     library={this.state.selectedLibrary}
                     triggerSave={this.state.triggerSave}
                     setTriggerSave={this.setTriggerSave}
