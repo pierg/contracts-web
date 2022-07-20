@@ -80,12 +80,12 @@ def download_components(data):
         Download the txt file of component(s)
     """
     list_component = []
-    session_id = request.args.get("id")
+    session_id = "default" if data["is_default"] else request.args.get("id")
     for name in data["names"]:
         raw = ComponentOperation.get_raw_component(name, session_id, data["library_name"])
         if raw:
-            data = {"name": name, "file": raw}
-            list_component.append(data)
+            tmp = {"name": name, "file": raw}
+            list_component.append(tmp)
     emit("components-downloaded", list_component, room=request.sid)
 
 

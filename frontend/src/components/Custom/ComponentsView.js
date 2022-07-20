@@ -168,7 +168,7 @@ export default class ComponentsView extends React.Component {
     }
 
     downloadComponent = (i) => {
-        this.props.downloadComponents([this.props.components[i].name])
+        this.props.downloadComponents([this.props.components[i].name], this.props.default)
     }
 
     downloadComponents = () => {
@@ -177,7 +177,7 @@ export default class ComponentsView extends React.Component {
         for (let i = 0; i < this.props.components.length; i++) {
             componentsName.push(this.props.components[i].name)
         }
-        this.props.downloadComponents(componentsName)
+        this.props.downloadComponents(componentsName, this.props.default)
     }
 
     selectAllComponents = (e) => {

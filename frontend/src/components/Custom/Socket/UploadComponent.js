@@ -17,7 +17,7 @@ function SocketUploadComponent(props){
 
         if (props.triggerUpload){
             props.setTriggerUpload(false)
-            socket.emit('upload-component', props.componentToUpload)
+            socket.emit('upload-component', {component_file : props.componentToUpload, library_name: props.library.name})
             socket.on('upload-done', fileUploaded)
         }
     }, [props, socket, fileUploaded])

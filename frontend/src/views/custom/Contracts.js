@@ -48,6 +48,7 @@ export default class Contracts extends React.Component {
         triggerDeleteLibrary: false,
         libraries: [],
         libraryToDelete: null,
+        isDefault: false,
 
         // SECOND PAGE
         instances: [],
@@ -232,9 +233,10 @@ export default class Contracts extends React.Component {
         })
     }
 
-    downloadComponents = (componentName) => {
+    downloadComponents = (componentName, isDefault=false) => {
         this.setState({
             triggerDownload: true,
+            isDefault: isDefault,
             componentsToDownloads: componentName
         })
     }
@@ -502,10 +504,12 @@ export default class Contracts extends React.Component {
                 <SocketDownloadComponent
                     library={this.state.selectedLibrary}
                     componentsToDownloads={this.state.componentsToDownloads}
+                    isDefault={this.state.isDefault}
                     triggerDownload={this.state.triggerDownload}
                     setTriggerDownload={this.setTriggerDownload}
                 />
                 <SocketUploadComponent
+                    library={this.state.selectedLibrary}
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}
