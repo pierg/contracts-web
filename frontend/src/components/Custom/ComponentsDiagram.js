@@ -57,7 +57,7 @@ function ComponentsDiagram(props) {
                     className="flex flex-row justify-evenly p-2"
                 >
                     <div
-                        className="flex-col"
+                        className="flex-col pr-2"
                     >
                         <div
                             className="fs-6 pb-1"
@@ -70,7 +70,7 @@ function ComponentsDiagram(props) {
                     <div className="border-1 border-blueGray-400"></div>
 
                     <div
-                        className="flex-col"
+                        className="flex-col pl-2"
                     >
                         <div
                             className="fs-6 pb-1"

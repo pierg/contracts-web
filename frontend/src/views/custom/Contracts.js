@@ -12,6 +12,7 @@ import SocketDownloadComponent from "../../components/Custom/Socket/DownloadComp
 import SocketUploadComponent from "../../components/Custom/Socket/UploadComponent";
 import SocketIoMessage from "../../components/Custom/Socket/Message";
 import {Modal} from "reactstrap";
+import SelectConnections from "../../components/Custom/SelectConnections";
 import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 import LibraryView from "../../components/Custom/LibraryView";
 import SocketLibrary from "../../components/Custom/Socket/Library";
@@ -53,6 +54,8 @@ export default class Contracts extends React.Component {
 
         // SECOND PAGE
         triggerGetConnection: false,
+        triggerChooseConnection: false,
+        connectionsFound: [],
         instances: [],
         instancesOpen: [],
         triggerAddConnection: false,
@@ -61,7 +64,6 @@ export default class Contracts extends React.Component {
         triggerAddConnectionSocket: false,
         connections: [],
         patterns: [],
-        connectionsOpen: [],
     }
 
     getPatterns = (list) => {
@@ -114,6 +116,7 @@ export default class Contracts extends React.Component {
             }
         })
     }
+
     setTriggerAddLibrary = (bool) => {
         this.setState({
             triggerAddLibrary: bool
@@ -177,7 +180,6 @@ export default class Contracts extends React.Component {
             instancesOpen,
             connectors: [],
             connections: [],
-            connectionsOpen: [],
         })
     }
 
@@ -263,6 +265,19 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerChooseConnection = (bool) => {
+        this.setState({
+            triggerChooseConnection: bool
+        })
+    }
+
+    connectionFound = (connections) => {
+        this.setState({
+            triggerChooseConnection: true,
+            connectionsFound: connections
+        })
+    }
+
     addInstances = (component) => {
         let instances = this.state.instances
         instances.push(component)
@@ -284,6 +299,18 @@ export default class Contracts extends React.Component {
 
     deleteInstance = (index) => {
         let instances = this.state.instances
+        let connections = this.state.connections
+        let tmp
+        for(let i=index+1; i<instances.length; i++) {
+            instances[i].name = "M_"+(i-1)+" "+instances[i].name.split(" ")[1]
+            for(let j=0; j<connections.length; j++) {
+                for(let k=0; k<connections[j].connectors.length; k++) {
+                    tmp = connections[j].connectors[k].split("-")
+                    tmp[0] = i-1
+                    connections[j].connectors[k] = tmp.join("-")
+                }
+            }
+        }
         instances = instances.filter((e) => e !== instances[index])
         let instancesOpen = this.state.instancesOpen
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
@@ -299,6 +326,7 @@ export default class Contracts extends React.Component {
         this.setState({
             instances,
             instancesOpen,
+            connections,
         })
     }
 
@@ -375,19 +403,16 @@ export default class Contracts extends React.Component {
         })
     }
 
-    addConnectionDisplay = (entry) => {
+    addConnectionDisplay = (entry, name = this.state.connectionNameToAdd, connectors = this.state.connectors) => {
         let connections = this.state.connections
         connections.push({
-            "name": this.state.connectionNameToAdd,
-            "connectors": this.state.connectors,
+            "name": name,
+            "connectors": connectors,
             "boolUniquePort": entry
         })
-        let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen.push(false)
 
         this.setState({
             connections,
-            connectionsOpen,
             connectors: [],
             connectionNameToAdd: "",
         })
@@ -396,19 +421,8 @@ export default class Contracts extends React.Component {
     deleteConnection = (index) => {
         let connections = this.state.connections
         connections = connections.filter((e) => e !== connections[index])
-        let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen = connectionsOpen.filter((e) => e !== connectionsOpen[index])
         this.setState({
             connections,
-            connectionsOpen: connectionsOpen,
-        })
-    }
-
-    setConnectionsOpen = (indexConnection) => {
-        let connectionsOpen = this.state.connectionsOpen
-        connectionsOpen[indexConnection] = !connectionsOpen[indexConnection]
-        this.setState({
-            connectionsOpen: connectionsOpen
         })
     }
 
@@ -442,6 +456,18 @@ export default class Contracts extends React.Component {
         } else if (this.state.headerStates[1]) {
             page =
                 <>
+                    <Modal
+                        isOpen={this.state.triggerChooseConnection}
+                        autoFocus={false}
+                        toggle={() => this.setTriggerChooseConnection(false)}
+                        className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
+                    >
+                        <SelectConnections
+                            connectionsFound={this.state.connectionsFound}
+                            add={this.addConnectionDisplay}
+                            close={() => this.setTriggerChooseConnection(false)}
+                        />
+                    </Modal>
                     <ContractsConnect
                         selectedComponents={this.state.selectedComponents}
                         instances={this.state.instances}
@@ -454,8 +480,6 @@ export default class Contracts extends React.Component {
                         connections={this.state.connections}
                         checkAddConnections={this.checkAddConnections}
                         deleteConnection={this.deleteConnection}
-                        connectionsOpen={this.state.connectionsOpen}
-                        setConnectionsOpen={this.setConnectionsOpen}
                     />
                     <Modal
                         isOpen={this.state.triggerAddConnection}
@@ -543,6 +567,7 @@ export default class Contracts extends React.Component {
                     triggerGetConnection={this.state.triggerGetConnection}
                     setTriggerGetConnection={this.setTriggerGetConnection}
                     selectedComponents={this.state.selectedComponents}
+                    connectionFound={this.connectionFound}
 
                     //add
                     triggerAddConnection={this.state.triggerAddConnectionSocket}

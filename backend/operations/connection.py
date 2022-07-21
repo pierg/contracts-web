@@ -74,6 +74,7 @@ class ConnectionOperation:
         name = ""
         instances = {}
         connections = []
+        entry = False
         for line in content_file:
             line, header = _check_header(line)
             if not line:
@@ -95,6 +96,11 @@ class ConnectionOperation:
                         line_header = line
                     else:
                         Exception("File format not supported")
+                elif line == ENTRY_HEADER:
+                    if line_header == CONNECTIONS_HEADER:
+                        line_header = line
+                    else:
+                        Exception("File format not supported")
 
             else:
                 if line_header == NAME_HEADER:
@@ -104,8 +110,10 @@ class ConnectionOperation:
                     instances.update({split_line[0].strip(): split_line[1].strip()})
                 elif line_header == CONNECTIONS_HEADER:
                     connections.append(line.strip())
+                elif line_header == ENTRY_HEADER:
+                    entry = line.strip()
 
-        return {"name": name[:-1], "instances": instances, "connections": connections}
+        return {"name": name[:-1], "instances": instances, "connections": connections, "entry": entry}
 
     @staticmethod
     def get_name(content_file) -> str:

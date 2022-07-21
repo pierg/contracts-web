@@ -24,8 +24,6 @@ function ContractsConnect(props) {
                     connections={props.connections}
                     checkAddConnections={props.checkAddConnections}
                     deleteConnection={props.deleteConnection}
-                    connectionsOpen={props.connectionsOpen}
-                    setConnectionsOpen={props.setConnectionsOpen}
                 />
             </div>
         </div>
