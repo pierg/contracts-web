@@ -16,6 +16,7 @@ import ConnectionEdit from "../../components/Custom/ConnectionEdit";
 import LibraryView from "../../components/Custom/LibraryView";
 import SocketLibrary from "../../components/Custom/Socket/Library";
 import SocketDeleteComponent from "../../components/Custom/Socket/DeleteComponent";
+import SocketConnection from "../../components/Custom/Socket/Connection";
 
 export default class Contracts extends React.Component {
     state = {
@@ -51,10 +52,13 @@ export default class Contracts extends React.Component {
         isDefault: false,
 
         // SECOND PAGE
+        triggerGetConnection: false,
         instances: [],
         instancesOpen: [],
-        connectors: [],
         triggerAddConnection: false,
+        connectionNameToAdd: "",
+        connectors: [],
+        triggerAddConnectionSocket: false,
         connections: [],
         patterns: [],
         connectionsOpen: [],
@@ -69,6 +73,11 @@ export default class Contracts extends React.Component {
     toggleNew = (e, actionToggle, disabled) => {
         if (disabled) return
         let newHeaderStates = Array(this.state.headerStates.length).fill(false);
+        if(actionToggle === 1) {
+            if(this.state.headerStates[0]) {
+                this.setTriggerGetConnection(true)
+            }
+        }
         newHeaderStates[actionToggle] = true
         this.setState({
                 currentTabOpen: actionToggle,
@@ -97,7 +106,6 @@ export default class Contracts extends React.Component {
         }, function () {
               if (this.state.selectedLibrary != null) {
                 for (let i=0; i<=this.state.libraries.length; i++) {
-                    console.log(this.state.libraries[i])
                     if (this.state.libraries[i].name === this.state.selectedLibrary.name) {
                         this.setSelectedLibrary(i)
                         break;
@@ -249,6 +257,12 @@ export default class Contracts extends React.Component {
     }
 
     // SECOND PAGE
+    setTriggerGetConnection = (bool) => {
+        this.setState({
+            triggerGetConnection: bool
+        })
+    }
+
     addInstances = (component) => {
         let instances = this.state.instances
         instances.push(component)
@@ -347,27 +361,35 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerAddConnectionSocket = (bool) => {
+        this.setState({
+            triggerAddConnectionSocket: bool
+        })
+    }
+
     addConnections = (name) => {
+        this.setState({
+            triggerAddConnection: false,
+            triggerAddConnectionSocket: true,
+            connectionNameToAdd: name,
+        })
+    }
+
+    addConnectionDisplay = (entry) => {
         let connections = this.state.connections
-        let boolUniquePort = true
-        let instanceUsed = this.state.connectors[0].split("-")[0]
-        for(let i=1; i<this.state.connectors.length; i++) {
-            if(instanceUsed !== this.state.connectors[i].split("-")[0]) {
-                boolUniquePort = false
-            }
-        }
         connections.push({
-            "name": name,
+            "name": this.state.connectionNameToAdd,
             "connectors": this.state.connectors,
-            "boolUniquePort": boolUniquePort
+            "boolUniquePort": entry
         })
         let connectionsOpen = this.state.connectionsOpen
         connectionsOpen.push(false)
+
         this.setState({
+            connections,
+            connectionsOpen,
             connectors: [],
-            connections: connections,
-            connectionsOpen: connectionsOpen,
-            triggerAddConnection: false,
+            connectionNameToAdd: "",
         })
     }
 
@@ -513,6 +535,22 @@ export default class Contracts extends React.Component {
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}
+                />
+                <SocketConnection
+                    library={this.state.selectedLibrary}
+
+                    //get
+                    triggerGetConnection={this.state.triggerGetConnection}
+                    setTriggerGetConnection={this.setTriggerGetConnection}
+                    selectedComponents={this.state.selectedComponents}
+
+                    //add
+                    triggerAddConnection={this.state.triggerAddConnectionSocket}
+                    setTriggerAddConnectionSocket={this.setTriggerAddConnectionSocket}
+                    name={this.state.connectionNameToAdd}
+                    instances={this.state.instances}
+                    connectors={this.state.connectors}
+                    addConnectionDisplay={this.addConnectionDisplay}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}

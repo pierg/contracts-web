@@ -398,7 +398,7 @@ function ComponentsDiagram(props) {
         // create diagrams schema
         const [schema, {onChange}] = useSchema(initialSchema);
 
-        return (<div className="h-400-px">
+        return (<div className="h-500-px">
             <Diagram schema={schema} onChange={onChange} className="border-none"/>
         </div>);
     };

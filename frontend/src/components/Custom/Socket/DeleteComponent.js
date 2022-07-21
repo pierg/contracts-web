@@ -7,7 +7,7 @@ function SocketDeleteComponent(props) {
     const componentIsDeleted = useCallback(() => {
         props.componentIsDeleted()
         socket.off('component-deleted')
-    }, [socket]);
+    }, [props, socket]);
 
     useEffect(() => {
         if (socket == null) return

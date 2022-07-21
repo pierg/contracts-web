@@ -174,17 +174,6 @@ def display_message(data) -> None:
     )
 
 
-# Connections Handler
-@socketio.on("save-connection")
-def save_connection(data):
-    """
-        Save a connection
-    """
-    session_id = str(request.args.get("id"))
-    ConnectionOperation.save_connection(data, session_id)
-    emit("save-connection-done", True, room=request.sid)
-
-
 import backend.signal_handler.component
 import backend.signal_handler.connection
 import backend.signal_handler.library

@@ -7,6 +7,7 @@ HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
 INSTANCE_HEADER = "**INSTANCES**"
 CONNECTIONS_HEADER = "**CONNECTIONS**"
+ENTRY_HEADER = "**ENTRY**"
 COMMENT_CHAR = "#"
 
 
@@ -40,6 +41,9 @@ class ConnectionOperation:
             for elt in data["connections"]:
                 file.write(f"\t{elt}\n")
 
+            file.write(f"\n{ENTRY_HEADER}\n\n")
+            file.write(f"\t{data['entry']}\n\n")
+
     @staticmethod
     def check_connection_possible(component_list, session_id, library_name) -> list:
         connection_folder = connection_path(session_id, library_name)
@@ -55,8 +59,8 @@ class ConnectionOperation:
                 if tmp[key] not in instances:
                     instances.append(tmp[key])
             all_inside = True
-            for elt in component_list:
-                if elt not in instances:
+            for elt in instances:
+                if elt not in component_list:
                     all_inside = False
                     break
             if all_inside:
@@ -87,7 +91,7 @@ class ConnectionOperation:
                     else:
                         Exception("File format not supported")
                 elif line == CONNECTIONS_HEADER:
-                    if line == INSTANCE_HEADER:
+                    if line_header == INSTANCE_HEADER:
                         line_header = line
                     else:
                         Exception("File format not supported")
@@ -132,7 +136,7 @@ class ConnectionOperation:
                 continue
 
             if header:
-                if line_header == CONNECTIONS_HEADER:
+                if line == CONNECTIONS_HEADER:
                     return instances_list
                 elif line == INSTANCE_HEADER:
                     line_header = line
