@@ -26,7 +26,7 @@ def get_possible_connection(data) -> None:
         Get all the possible connection already created by the user given the components chosen
     """
     session_id = str(request.args.get("id"))
-    possible_list = ConnectionOperation.check_connection_possible(data["components"], session_id, data["library_name"])
+    possible_list = ConnectionOperation.check_connection_possible(data["components"], session_id, data["library_name"], data["default"])
     emit("receive-possible-connection", possible_list, room=request.sid)
 
 

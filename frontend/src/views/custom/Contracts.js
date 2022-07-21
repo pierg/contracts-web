@@ -261,6 +261,8 @@ export default class Contracts extends React.Component {
     // SECOND PAGE
     setTriggerGetConnection = (bool) => {
         this.setState({
+            connectors: [],
+            connections: [],
             triggerGetConnection: bool
         })
     }
@@ -272,10 +274,22 @@ export default class Contracts extends React.Component {
     }
 
     connectionFound = (connections) => {
-        this.setState({
-            triggerChooseConnection: true,
-            connectionsFound: connections
-        })
+        if(this.state.selectedLibrary.default) {
+            let entry = false
+            for(let i=0; i<connections.length; i++) {
+                if(connections[i].entry === "True") {
+                    entry = true
+                }
+                this.addConnectionDisplay(entry, connections[i].name, connections[i].connections)
+                entry = false
+            }
+        }
+        else {
+            this.setState({
+                triggerChooseConnection: true,
+                connectionsFound: connections
+            })
+        }
     }
 
     addInstances = (component) => {

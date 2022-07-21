@@ -56,7 +56,7 @@ function SocketConnection(props){
                     componentNames.push(props.selectedComponents[i].name)
                 }
             }
-            socket.emit("get-possible-connection", {"library_name":props.library.name,"components": componentNames})
+            socket.emit("get-possible-connection", {"library_name":props.library.name,"components": componentNames,"default":props.library.default})
             socket.on("receive-possible-connection", getConnection)
         }
 

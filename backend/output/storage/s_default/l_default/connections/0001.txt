@@ -1,0 +1,18 @@
+**NAME**
+
+	c2
+
+**INSTANCES**
+
+	M_0: DEFAULT_1
+	M_1: DEFAULT_2
+
+**CONNECTIONS**
+
+	0-1-1 a (bool)
+	1-1-1 d (bool)
+
+**ENTRY**
+
+	False
+

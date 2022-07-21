@@ -6,6 +6,7 @@ import {Tooltip} from "react-tippy";
 import Button from "../Elements/Button";
 
 function ComponentsDiagram(props) {
+    console.log(props)
 
     const CustomInstance = (instance) => {
         let inputs = []
@@ -357,6 +358,7 @@ function ComponentsDiagram(props) {
             cptDoubleLink++
         }
         nodes.push(node)
+        console.log(nodes)
 
         //create link between instance and ports
         if(props.connections[i].boolUniquePort) {

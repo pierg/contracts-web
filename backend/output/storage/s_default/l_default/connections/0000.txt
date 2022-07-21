@@ -1,0 +1,18 @@
+**NAME**
+
+	c1
+
+**INSTANCES**
+
+	M_0: DEFAULT_1
+	M_1: DEFAULT_2
+
+**CONNECTIONS**
+
+	0-1-0 x (float)
+	1-1-0 x (float)
+
+**ENTRY**
+
+	False
+

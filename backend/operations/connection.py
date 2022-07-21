@@ -1,6 +1,7 @@
 import os.path
 from os import walk
 
+from backend.shared.paths import default_connection_path
 from backend.shared.paths import connection_path
 
 HEADER_SYMBOL = "**"
@@ -45,10 +46,14 @@ class ConnectionOperation:
             file.write(f"\t{data['entry']}\n\n")
 
     @staticmethod
-    def check_connection_possible(component_list, session_id, library_name) -> list:
-        connection_folder = connection_path(session_id, library_name)
+    def check_connection_possible(component_list, session_id, library_name, default) -> list:
+        if default:
+            connection_folder = default_connection_path(library_name)
+        else:
+            connection_folder = connection_path(session_id, library_name)
         list_possible_connection = []
         _, _, filenames = next(walk(connection_folder))
+        filenames.sort()
 
         for filename in filenames:
             with open(connection_folder / filename) as file:

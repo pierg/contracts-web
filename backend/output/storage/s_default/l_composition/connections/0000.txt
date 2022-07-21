@@ -1,0 +1,16 @@
+**NAME**
+
+	in
+
+**INSTANCES**
+
+	M_0: COMPOSITION_1
+
+**CONNECTIONS**
+
+	0-1-0 i (float)
+
+**ENTRY**
+
+	True
+
