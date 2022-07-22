@@ -62,6 +62,8 @@ export default class Contracts extends React.Component {
         connectionNameToAdd: "",
         connectors: [],
         triggerAddConnectionSocket: false,
+        triggerDeleteConnection: false,
+        connectionToDelete: null,
         connections: [],
         patterns: [],
     }
@@ -315,7 +317,7 @@ export default class Contracts extends React.Component {
     deleteInstance = (index) => {
         let connections = this.state.connections
         //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
-        for (let i = 0; i < connections.length; i++) {
+        for (let i = 0; i < this.state.connections.length; i++) {
             for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
                 if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
                     connections = connections.filter((e) => e !== connections[i])
@@ -451,11 +453,19 @@ export default class Contracts extends React.Component {
         })
     }
 
+    setTriggerDeleteConnection = (bool) => {
+        this.setState({
+            triggerDeleteConnection: bool
+        })
+    }
+
     deleteConnection = (index) => {
         let connections = this.state.connections
         connections = connections.filter((e) => e !== connections[index])
         this.setState({
             connections,
+            triggerDeleteConnection: true,
+            connectionToDelete: this.state.connections[index],
         })
     }
 
@@ -610,6 +620,11 @@ export default class Contracts extends React.Component {
                     instances={this.state.instances}
                     connectors={this.state.connectors}
                     addConnectionDisplay={this.addConnectionDisplay}
+
+                    //delete
+                    connectionToDelete={this.state.connectionToDelete}
+                    triggerDeleteConnection={this.state.triggerDeleteConnection}
+                    setTriggerDeleteConnection={this.setTriggerDeleteConnection}
                 />
                 <CustomHeader
                     {...cromecontractsheaderscards}

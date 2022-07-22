@@ -34,12 +34,12 @@ function SocketConnection(props){
         }
     }, [props, socket])
 
-    /*const libraryDeleted = useCallback( (done) => {
+    const connectionDeleted = useCallback( (done) => {
+        socket.off("delete-connection-done")
         if (done) {
-            props.setTriggerLibrary(true)
+            console.log("connection delete")
         }
-        return () => socket.off("remove-library-done")
-    }, [props, socket])*/
+    }, [socket])
 
     useEffect(() => {
         if (socket == null) return
@@ -64,12 +64,12 @@ function SocketConnection(props){
             socket.on("save-connection-done", connectionAdded)
         }
 
-        /*if (props.triggerDelete){
-            props.setTriggerDelete(false)
-            socket.emit("remove-library", props.libraryToDelete)
-            socket.on("remove-library-done", libraryDeleted)
-        }*/
-    }, [socket, props, getConnection, connectionAdded, initNames/*, libraryDeleted*/])
+        if (props.triggerDeleteConnection){
+            props.setTriggerDeleteConnection(false)
+            socket.emit("delete-connection", {"name":props.connectionToDelete.name,"library_name":props.library.name})
+            socket.on("delete-connection-done",connectionDeleted)
+        }
+    }, [socket, props, getConnection, connectionAdded, initNames, connectionDeleted])
 }
 
 export default SocketConnection;

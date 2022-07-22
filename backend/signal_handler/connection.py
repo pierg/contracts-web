@@ -20,6 +20,16 @@ def save_connection(data) -> None:
     emit("save-connection-done", True, room=request.sid)
 
 
+@socketio.on("delete-connection")
+def delete_connection(data) -> None:
+    """
+        Save a connection created by the user
+    """
+    session_id = str(request.args.get("id"))
+    ConnectionOperation.delete_connection(data["name"], session_id, data["library_name"])
+    emit("delete-connection-done", True, room=request.sid)
+
+
 @socketio.on("get-possible-connection")
 def get_possible_connection(data) -> None:
     """

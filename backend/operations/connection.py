@@ -42,6 +42,17 @@ class ConnectionOperation:
                 file.write(f"\t{elt}\n")
 
     @staticmethod
+    def delete_connection(name, session_id, library_name) -> None:
+        connection_folder = connection_path(session_id, library_name)
+        _, _, filenames = next(walk(connection_folder))
+
+        for filename in filenames:
+            with open(connection_folder / filename) as file:
+                content_file = file.readlines()
+            if name == ConnectionOperation.get_name(content_file):
+                os.remove(connection_folder / filename)
+
+    @staticmethod
     def check_connection_possible(component_list, session_id, library_name, default) -> list:
         if default:
             connection_folder = default_connection_path(library_name)
