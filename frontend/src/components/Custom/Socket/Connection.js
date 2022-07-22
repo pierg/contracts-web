@@ -5,19 +5,17 @@ import {useCallback, useEffect} from "react";
 function SocketConnection(props){
     const socket = useSocket()
 
-    const initEntry = useCallback(() => {
+    const initNames = useCallback(() => {
         let splitNameInstance = props.instances[props.connectors[0].split("-")[0]].name.split(" ")
         let instancesNames = {}
         instancesNames[splitNameInstance[0]] = splitNameInstance[1].substring(1, splitNameInstance[1].length-1)
-        let entry = true
         for(let i=1; i<props.connectors.length; i++) {
             splitNameInstance = props.instances[props.connectors[i].split("-")[0]].name.split(" ")
             if(!(splitNameInstance[0] in instancesNames)) {
                 instancesNames[splitNameInstance[0]] = splitNameInstance[1].substring(1, splitNameInstance[1].length-1)
-                entry = false
             }
         }
-        return [instancesNames,entry]
+        return instancesNames
     }, [props])
 
     const getConnection = useCallback((connections) => {
@@ -32,10 +30,9 @@ function SocketConnection(props){
     const connectionAdded = useCallback( (done) => {
         socket.off("save-connection-done")
         if (done) {
-            let entry = initEntry()[1]
-            props.addConnectionDisplay(entry)
+            props.addConnectionDisplay()
         }
-    }, [props, socket, initEntry])
+    }, [props, socket])
 
     /*const libraryDeleted = useCallback( (done) => {
         if (done) {
@@ -62,9 +59,8 @@ function SocketConnection(props){
 
         if (props.triggerAddConnection){
             props.setTriggerAddConnectionSocket(false)
-            let instancesNames = initEntry()[0]
-            let entry = initEntry()[1]
-            socket.emit("save-connection", {"name":props.name,"library_name":props.library.name,"instances":instancesNames,"connections":props.connectors,"entry":entry})
+            let instancesNames = initNames()
+            socket.emit("save-connection", {"name":props.name,"library_name":props.library.name,"instances":instancesNames,"connections":props.connectors})
             socket.on("save-connection-done", connectionAdded)
         }
 
@@ -73,7 +69,7 @@ function SocketConnection(props){
             socket.emit("remove-library", props.libraryToDelete)
             socket.on("remove-library-done", libraryDeleted)
         }*/
-    }, [socket, props, getConnection, connectionAdded, initEntry/*, libraryDeleted*/])
+    }, [socket, props, getConnection, connectionAdded, initNames/*, libraryDeleted*/])
 }
 
 export default SocketConnection;

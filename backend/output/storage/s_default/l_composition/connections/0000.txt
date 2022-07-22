@@ -1,16 +1,13 @@
 **NAME**
 
-	in
+	intern
 
 **INSTANCES**
 
 	M_0: COMPOSITION_1
+	M_1: COMPOSITION_2
 
 **CONNECTIONS**
 
-	0-1-0 i (float)
-
-**ENTRY**
-
-	True
-
+	0-2-0 o (float)
+	1-1-0 i (float)

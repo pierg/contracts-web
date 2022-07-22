@@ -135,7 +135,8 @@ export default class Contracts extends React.Component {
         if(index === null) {
             this.setSelectedComponents([])
             this.setState({
-                selectedLibrary: null
+                selectedLibrary: null,
+                components: []
             })
             return
         }
@@ -275,13 +276,8 @@ export default class Contracts extends React.Component {
 
     connectionFound = (connections) => {
         if(this.state.selectedLibrary.default) {
-            let entry = false
             for(let i=0; i<connections.length; i++) {
-                if(connections[i].entry === "True") {
-                    entry = true
-                }
-                this.addConnectionDisplay(entry, connections[i].name, connections[i].connections)
-                entry = false
+                this.addConnectionDisplay(connections[i].name, connections[i].connections)
             }
         }
         else {
@@ -366,25 +362,39 @@ export default class Contracts extends React.Component {
 
     checkAddConnections = () => {
         let error = 0
-        if(this.state.connectors.length < 1) {
+        if(this.state.connectors.length < 2) {
             error = 1
             this.setState({
                 messageType: "error",
                 messageNotif: "The connection can't be created, see console for more information.",
-                messageSideBar: "Not enough variables selected.",
+                messageSideBar: "Not enough variables selected (at least two).",
                 connectors: [],
             })
             this.setTriggerMessage(true)
         }
         else {
             let type = this.state.connectors[0].split(" ")[2]
+            let instance = this.state.connectors[0].split("-")[0]
             for(let i=1; i<this.state.connectors.length; i++) {
+                //check if all variables have the same type
                 if(type !== this.state.connectors[i].split(" ")[2]) {
                     error = 1
                     this.setState({
                         messageType: "error",
                         messageNotif: "The connection can't be created, see console for more information.",
                         messageSideBar: "Variables selected have not the same type.",
+                        connectors: [],
+                    })
+                    this.setTriggerMessage(true)
+                    i = this.state.connectors.length
+                }
+                //check if there are at least two instances slected
+                if(instance !== this.state.connectors[i].split(" ")[2]) {
+                    error = 1
+                    this.setState({
+                        messageType: "error",
+                        messageNotif: "The connection can't be created, see console for more information.",
+                        messageSideBar: "The selected variables come from the same instance.",
                         connectors: [],
                     })
                     this.setTriggerMessage(true)
@@ -417,12 +427,11 @@ export default class Contracts extends React.Component {
         })
     }
 
-    addConnectionDisplay = (entry, name = this.state.connectionNameToAdd, connectors = this.state.connectors) => {
+    addConnectionDisplay = (name = this.state.connectionNameToAdd, connectors = this.state.connectors) => {
         let connections = this.state.connections
         connections.push({
             "name": name,
             "connectors": connectors,
-            "boolUniquePort": entry
         })
 
         this.setState({

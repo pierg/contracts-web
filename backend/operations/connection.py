@@ -8,7 +8,6 @@ HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
 INSTANCE_HEADER = "**INSTANCES**"
 CONNECTIONS_HEADER = "**CONNECTIONS**"
-ENTRY_HEADER = "**ENTRY**"
 COMMENT_CHAR = "#"
 
 
@@ -41,9 +40,6 @@ class ConnectionOperation:
             file.write(f"\n{CONNECTIONS_HEADER}\n\n")
             for elt in data["connections"]:
                 file.write(f"\t{elt}\n")
-
-            file.write(f"\n{ENTRY_HEADER}\n\n")
-            file.write(f"\t{data['entry']}\n\n")
 
     @staticmethod
     def check_connection_possible(component_list, session_id, library_name, default) -> list:
@@ -79,7 +75,6 @@ class ConnectionOperation:
         name = ""
         instances = {}
         connections = []
-        entry = False
         for line in content_file:
             line, header = _check_header(line)
             if not line:
@@ -101,11 +96,6 @@ class ConnectionOperation:
                         line_header = line
                     else:
                         Exception("File format not supported")
-                elif line == ENTRY_HEADER:
-                    if line_header == CONNECTIONS_HEADER:
-                        line_header = line
-                    else:
-                        Exception("File format not supported")
 
             else:
                 if line_header == NAME_HEADER:
@@ -115,10 +105,8 @@ class ConnectionOperation:
                     instances.update({split_line[0].strip(): split_line[1].strip()})
                 elif line_header == CONNECTIONS_HEADER:
                     connections.append(line.strip())
-                elif line_header == ENTRY_HEADER:
-                    entry = line.strip()
 
-        return {"name": name[:-1], "instances": instances, "connections": connections, "entry": entry}
+        return {"name": name[:-1], "instances": instances, "connections": connections}
 
     @staticmethod
     def get_name(content_file) -> str:

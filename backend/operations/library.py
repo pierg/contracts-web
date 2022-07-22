@@ -31,6 +31,7 @@ class LibraryOperation:
                     component_list = []
                     if os.path.isdir(component_folder):
                         _, _, filenames = next(walk(component_folder))
+                        filenames.sort()
                         for filename in filenames:
                             component = Component.from_file(component_folder / filename)
                             component_list.append({"name": component.name, "description": component.description,

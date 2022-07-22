@@ -11,8 +11,3 @@
 
 	0-1-1 a (bool)
 	1-1-1 d (bool)
-
-**ENTRY**
-
-	False
-
