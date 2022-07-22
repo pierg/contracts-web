@@ -4,16 +4,16 @@ const textProps = {
         instanceStyle: "text-2xl font-bold text-blueGray-500 uppercase mx-4",
         messages: [
             {
-                title: "How to (un)select inputs or outputs",
-                content: "Click on the line corresponding to the variable that will be in the connection."
+                title: "Step 1 :",
+                content: "Select variables you want to connect by unfolding instances."
             },
             {
-                title: "How to unfold instance",
-                content: "Click on instance and after on inputs/outputs to see variables."
+                title: "Step 2 :",
+                content: "Click on the arrow button to create the connection."
             },
             {
-                title: "How to create connection",
-                content: "When your selection is complete, click on the right of the part connections."
+                title: "Step 3 :",
+                content: "Repeat"
             },
         ]
     }

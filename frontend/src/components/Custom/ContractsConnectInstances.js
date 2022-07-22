@@ -137,7 +137,7 @@ function ContractsConnectInstances(props) {
                         arrow="true"
                         className="ml-1"
                     >
-                        <i className="ml-1 text-lightBlue-700 text-lg fas fa-info-circle"/>
+                        <i className="ml-1 text-lightBlue-700 text-2xl fas fa-info-circle"/>
                     </Tooltip>
                 </span>
 
