@@ -313,8 +313,18 @@ export default class Contracts extends React.Component {
     }
 
     deleteInstance = (index) => {
-        let instances = this.state.instances
         let connections = this.state.connections
+        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
+        for (let i = 0; i < connections.length; i++) {
+            for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
+                if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
+                    connections = connections.filter((e) => e !== connections[i])
+                }
+            }
+        }
+
+        //REFACTOR INSTANCES
+        let instances = this.state.instances
         let tmp
         for(let i=index+1; i<instances.length; i++) {
             instances[i].name = "M_"+(i-1)+" "+instances[i].name.split(" ")[1]
@@ -330,14 +340,6 @@ export default class Contracts extends React.Component {
         let instancesOpen = this.state.instancesOpen
         instancesOpen = instancesOpen.filter((e) => e !== instancesOpen[index])
 
-        //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
-        for (let i = 0; i < this.state.connections.length; i++) {
-            for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
-                if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
-                    this.deleteConnection(i)
-                }
-            }
-        }
         this.setState({
             instances,
             instancesOpen,
