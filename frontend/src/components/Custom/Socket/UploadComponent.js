@@ -7,7 +7,7 @@ function SocketUploadComponent(props){
 
     const fileUploaded = useCallback((uploadDone) => {
         if (uploadDone){
-            socket.emit("get-components")
+            props.componentIsUploaded()
         }
         return () => socket.off('upload-done')
     }, [socket])

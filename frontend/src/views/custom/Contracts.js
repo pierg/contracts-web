@@ -590,6 +590,7 @@ export default class Contracts extends React.Component {
                     componentToUpload={this.state.componentToUpload}
                     triggerUpload={this.state.triggerUpload}
                     setTriggerUpload={this.setTriggerUpload}
+                    componentIsUploaded={this.componentUpdate}
                 />
                 <SocketConnection
                     library={this.state.selectedLibrary}
