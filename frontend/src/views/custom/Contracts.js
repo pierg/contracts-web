@@ -366,9 +366,8 @@ export default class Contracts extends React.Component {
     }
 
     checkAddConnections = () => {
-        let error = 0
+        //check if there are at least 2 variables
         if(this.state.connectors.length < 2) {
-            error = 1
             this.setState({
                 messageType: "error",
                 messageNotif: "The connection can't be created, see console for more information.",
@@ -376,40 +375,44 @@ export default class Contracts extends React.Component {
                 connectors: [],
             })
             this.setTriggerMessage(true)
+            return
         }
-        else {
-            let type = this.state.connectors[0].split(" ")[2]
-            let instance = this.state.connectors[0].split("-")[0]
-            for(let i=1; i<this.state.connectors.length; i++) {
-                //check if all variables have the same type
-                if(type !== this.state.connectors[i].split(" ")[2]) {
-                    error = 1
-                    this.setState({
-                        messageType: "error",
-                        messageNotif: "The connection can't be created, see console for more information.",
-                        messageSideBar: "Variables selected have not the same type.",
-                        connectors: [],
-                    })
-                    this.setTriggerMessage(true)
-                    i = this.state.connectors.length
-                }
-                //check if there are at least two instances slected
-                if(instance !== this.state.connectors[i].split(" ")[2]) {
-                    error = 1
-                    this.setState({
-                        messageType: "error",
-                        messageNotif: "The connection can't be created, see console for more information.",
-                        messageSideBar: "The selected variables come from the same instance.",
-                        connectors: [],
-                    })
-                    this.setTriggerMessage(true)
-                    i = this.state.connectors.length
-                }
+
+        //check if there are at least two instances selected
+        let instance = this.state.connectors[0].split("-")[0]
+        let nbInstances = 1
+        for(let i=1; i<this.state.connectors.length; i++) {
+            if (instance !== this.state.connectors[i].split("-")[0]) {
+                nbInstances++
+                i = this.state.connectors.length
             }
         }
-        if(error === 0) {
-            this.setTriggerAddConnection(true)
+        if(nbInstances === 1) {
+            this.setState({
+                messageType: "error",
+                messageNotif: "The connection can't be created, see console for more information.",
+                messageSideBar: "The selected variables come from the same instance.",
+                connectors: [],
+            })
+            this.setTriggerMessage(true)
+            return
         }
+        //check if all variables have the same type
+        let type = this.state.connectors[0].split(" ")[2]
+        for(let i=1; i<this.state.connectors.length; i++) {
+            if(type !== this.state.connectors[i].split(" ")[2]) {
+                this.setState({
+                    messageType: "error",
+                    messageNotif: "The connection can't be created, see console for more information.",
+                    messageSideBar: "Variables selected have not the same type.",
+                    connectors: [],
+                })
+                this.setTriggerMessage(true)
+                return
+            }
+        }
+
+        this.setTriggerAddConnection(true)
     }
 
     setTriggerAddConnection = (bool) => {

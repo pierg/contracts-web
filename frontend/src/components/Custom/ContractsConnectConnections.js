@@ -37,7 +37,7 @@ function ContractsConnectConnections(props) {
         }
         const json = JSON.stringify({"instances":instances,"connections":connections}, null, '\t')
         const blob = new Blob([json], {type: "text/json;charset=utf-8"})
-        const file = new File([blob], "connections.json")
+        const file = new File([blob], "design_file.json")
         saveAs(file)
     }
 
@@ -112,20 +112,6 @@ function ContractsConnectConnections(props) {
                 <span className={contractsconnect.connections.connectionsStyle}>
                         {contractsconnect.connections.connectionsTitle}
                 </span>
-
-                <Tooltip
-                    title="Add connection"
-                    position="right"
-                    arrow="true"
-                >
-                    <Button
-                        size={contractsconnect.addButton.size}
-                        color={contractsconnect.addButton.color}
-                        onClick={() => props.checkAddConnections()}
-                    >
-                        <i className={contractsconnect.addButton.icon}></i>
-                    </Button>
-                </Tooltip>
 
                 <Tooltip
                     title="Download connections"

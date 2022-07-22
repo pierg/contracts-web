@@ -1,11 +1,14 @@
 import React from "react";
 import ContractsConnectConnections from "./ContractsConnectConnections";
 import ContractsConnectInstances from "./ContractsConnectInstances";
+import {Tooltip} from "react-tippy";
+import Button from "../Elements/Button";
+import contractsconnect from "../../_texts/custom/contractsconnect";
 
 function ContractsConnect(props) {
     return (
         <div className="flex flex-row justify-content-around w-75 m-auto">
-            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit">
+            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
                 <ContractsConnectInstances
                     selectedComponents={props.selectedComponents}
                     instances={props.instances}
@@ -18,11 +21,26 @@ function ContractsConnect(props) {
                 />
             </div>
 
-            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit">
+            <div className="m-auto">
+                <Tooltip
+                    title="Add connection"
+                    position="right"
+                    arrow="true"
+                >
+                    <Button
+                        size={contractsconnect.addConnectionButton.size}
+                        color={contractsconnect.addConnectionButton.color}
+                        onClick={() => props.checkAddConnections()}
+                    >
+                        <i className={contractsconnect.addConnectionButton.icon}></i>
+                    </Button>
+                </Tooltip>
+            </div>
+
+            <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
                 <ContractsConnectConnections
                     instances={props.instances}
                     connections={props.connections}
-                    checkAddConnections={props.checkAddConnections}
                     deleteConnection={props.deleteConnection}
                 />
             </div>

@@ -28,6 +28,11 @@ const textProps = {
         color: "gray",
         icon: "fa-solid fa-plus fa-2xl text-lightBlue-700",
     },
+    addConnectionButton: {
+        size: "sm",
+        color: "gray",
+        icon: "fa-solid fa-arrow-right fa-2xl text-lightBlue-700",
+    },
     downloadButton: {
         size: "sm",
         color: "gray",
