@@ -376,7 +376,7 @@ export default class ComponentsView extends React.Component {
                         </tbody>
                     </Table>
                 </div>
-                <div className="text-right">Number of selected components : {this.props.selectedComponents.length}</div>
+                <div className="text-right">Selected components : {this.props.selectedComponents.length}</div>
             </div>
             <ComponentInfoOffCanvas
                 show={this.state.show}
