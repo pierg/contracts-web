@@ -152,6 +152,11 @@ export default class Contracts extends React.Component {
             triggerDeleteLibrary: true,
             libraryToDelete: libraryName
         })
+        if (libraryName === this.state.selectedLibrary.name) {
+            this.setState({
+                selectedLibrary : null
+            })
+        }
     }
 
     setTriggerComponents = (bool) => {
