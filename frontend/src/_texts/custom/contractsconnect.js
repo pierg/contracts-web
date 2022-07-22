@@ -28,6 +28,11 @@ const textProps = {
         color: "gray",
         icon: "fa-solid fa-plus fa-2xl text-lightBlue-700",
     },
+    clearButton: {
+        size: "sm",
+        color: "gray",
+        icon: "fas fa-trash-alt fa-2xl text-lightBlue-700",
+    },
     addConnectionButton: {
         size: "sm",
         color: "gray",

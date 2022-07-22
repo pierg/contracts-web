@@ -10,8 +10,10 @@ function ContractsConnect(props) {
         <div className="flex flex-row justify-content-around w-75 m-auto">
             <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
                 <ContractsConnectInstances
+                    selectedLibrary={props.selectedLibrary}
                     selectedComponents={props.selectedComponents}
                     instances={props.instances}
+                    clearInstances={props.clearInstances}
                     addInstances={props.addInstances}
                     deleteInstance={props.deleteInstance}
                     instancesOpen={props.instancesOpen}
@@ -39,7 +41,9 @@ function ContractsConnect(props) {
 
             <div className="px-3 pb-3 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
                 <ContractsConnectConnections
+                    selectedLibrary={props.selectedLibrary}
                     instances={props.instances}
+                    clearConnections={props.clearConnections}
                     connections={props.connections}
                     deleteConnection={props.deleteConnection}
                 />

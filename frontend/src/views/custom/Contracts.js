@@ -295,6 +295,15 @@ export default class Contracts extends React.Component {
         }
     }
 
+    clearInstances = () => {
+        this.setState({
+            instances : [],
+            instancesOpen : [],
+            connectors: [],
+            connections : [],
+        })
+    }
+
     addInstances = (component) => {
         let instances = this.state.instances
         instances.push(component)
@@ -315,12 +324,13 @@ export default class Contracts extends React.Component {
     }
 
     deleteInstance = (index) => {
+        console.log(index)
         let connections = this.state.connections
         //DELETE CONNECTIONS WHO HAVE CONNECTOR HAVE THE INSTANCE WHO WILL BE DELETED
         for (let i = 0; i < this.state.connections.length; i++) {
             for (let j = 0; j < this.state.connections[i].connectors.length; j++) {
                 if (parseInt(this.state.connections[i].connectors[j].split("-")[0]) === index) {
-                    connections = connections.filter((e) => e !== connections[i])
+                    connections = connections.filter((e) => e !== this.state.connections[i])
                 }
             }
         }
@@ -431,6 +441,12 @@ export default class Contracts extends React.Component {
         })
     }
 
+    clearConnections = () => {
+        this.setState({
+            connections : [],
+        })
+    }
+
     addConnections = (name) => {
         this.setState({
             triggerAddConnection: false,
@@ -512,13 +528,16 @@ export default class Contracts extends React.Component {
                         />
                     </Modal>
                     <ContractsConnect
+                        selectedLibrary={this.state.selectedLibrary}
                         selectedComponents={this.state.selectedComponents}
                         instances={this.state.instances}
+                        clearInstances={this.clearInstances}
                         addInstances={this.addInstances}
                         deleteInstance={this.deleteInstance}
                         instancesOpen={this.state.instancesOpen}
                         setInstancesOpen={this.setInstancesOpen}
                         connectors={this.state.connectors}
+                        clearConnections={this.clearConnections}
                         addConnectors={this.addConnectors}
                         connections={this.state.connections}
                         checkAddConnections={this.checkAddConnections}

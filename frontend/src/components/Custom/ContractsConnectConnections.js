@@ -76,26 +76,29 @@ function ContractsConnectConnections(props) {
                         >
                             {props.connections[i].name}
                         </div>
-                        <div
-                            className="absolute right-0 mr-2"
-                        >
-                            <Tooltip
-                                title="Delete connection"
-                                position="right"
-                                arrow="true"
+                        {
+                            !props.selectedLibrary.default &&
+                            <div
+                                className="absolute right-0 mr-2"
                             >
-                                <Button
-                                    size={contractsconnect.deleteButton.size}
-                                    color={contractsconnect.deleteButton.color}
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        props.deleteConnection(i)
-                                    }}
+                                <Tooltip
+                                    title="Delete connection"
+                                    position="right"
+                                    arrow="true"
                                 >
-                                    <i className={contractsconnect.deleteButton.icon}/>
-                                </Button>
-                            </Tooltip>
-                        </div>
+                                    <Button
+                                        size={contractsconnect.deleteButton.size}
+                                        color={contractsconnect.deleteButton.color}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            props.deleteConnection(i)
+                                        }}
+                                    >
+                                        <i className={contractsconnect.deleteButton.icon}/>
+                                    </Button>
+                                </Tooltip>
+                            </div>
+                        }
                     </div>
                     <Tree
                         contents={subtree}
@@ -126,6 +129,23 @@ function ContractsConnectConnections(props) {
                         <i className={contractsconnect.downloadButton.icon}/>
                     </Button>
                 </Tooltip>
+
+                {
+                    !props.selectedLibrary.default &&
+                    <Tooltip
+                        title="Clear all connections"
+                        position="right"
+                        arrow="true"
+                    >
+                        <Button
+                            size={contractsconnect.clearButton.size}
+                            color={contractsconnect.clearButton.color}
+                            onClick={props.clearConnections}
+                        >
+                            <i className={contractsconnect.clearButton.icon}></i>
+                        </Button>
+                    </Tooltip>
+                }
             </div>
 
             <ul>

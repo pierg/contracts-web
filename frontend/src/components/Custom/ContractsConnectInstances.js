@@ -83,26 +83,29 @@ function ContractsConnectInstances(props) {
                         >
                             {props.instances[i].name}
                         </div>
-                        <div
-                            className="absolute right-0 mr-2"
-                        >
-                            <Tooltip
-                                title="Delete instance"
-                                position="right"
-                                arrow="true"
+                        {
+                            !props.selectedLibrary.default &&
+                            <div
+                                className="absolute right-0 mr-2"
                             >
-                                <Button
-                                    size={contractsconnect.deleteButton.size}
-                                    color={contractsconnect.deleteButton.color}
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        props.deleteInstance(i)
-                                    }}
+                                <Tooltip
+                                    title="Delete instance"
+                                    position="right"
+                                    arrow="true"
                                 >
-                                    <i className={contractsconnect.deleteButton.icon}/>
-                                </Button>
-                            </Tooltip>
-                        </div>
+                                    <Button
+                                        size={contractsconnect.deleteButton.size}
+                                        color={contractsconnect.deleteButton.color}
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            props.deleteInstance(i)
+                                        }}
+                                    >
+                                        <i className={contractsconnect.deleteButton.icon}/>
+                                    </Button>
+                                </Tooltip>
+                            </div>
+                        }
                     </div>
                     {
                         props.instancesOpen[i][0] &&
@@ -167,6 +170,23 @@ function ContractsConnectInstances(props) {
                         close={() => setTriggerAddInstance(false)}
                     />
                 </Modal>
+
+                {
+                    !props.selectedLibrary.default &&
+                    <Tooltip
+                        title="Clear all instances"
+                        position="right"
+                        arrow="true"
+                    >
+                        <Button
+                            size={contractsconnect.clearButton.size}
+                            color={contractsconnect.clearButton.color}
+                            onClick={props.clearInstances}
+                        >
+                            <i className={contractsconnect.clearButton.icon}></i>
+                        </Button>
+                    </Tooltip>
+                }
             </div>
 
             <ul>
