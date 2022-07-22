@@ -10,7 +10,7 @@ function SocketUploadComponent(props){
             props.componentIsUploaded()
         }
         return () => socket.off('upload-done')
-    }, [socket])
+    }, [socket,props])
 
     useEffect(() => {
         if (socket == null) return
