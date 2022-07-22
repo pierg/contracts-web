@@ -15,8 +15,10 @@ function ComponentInfoOffCanvas(props) {
             outputs.push(<div className="pb-2" key={"outputs"+i}>{props.component.outputs[i].name + " (" + props.component.outputs[i].type+")"}</div>)
         }
 
-        assumptions = <div style={{lineHeight:"1.5rem"}}>{"LTL : "+props.component.assumptions.LTL}<br></br>{"PL : "+props.component.assumptions.PL }</div>
-        guarantees = <div style={{lineHeight:"1.5rem"}}>{"LTL : "+props.component.guarantees.LTL}<br></br>{"PL : "+props.component.guarantees.PL }</div>
+        console.log(props.component.assumptions.LTL.toString())
+
+        assumptions = <div style={{lineHeight:"1.5rem"}}>{"LTL : "+props.component.assumptions.LTL.toString().replaceAll(",",", ")}<br></br>{"PL : "+props.component.assumptions.PL.toString().replaceAll(",",", ")}</div>
+        guarantees = <div style={{lineHeight:"1.5rem"}}>{"LTL : "+props.component.guarantees.LTL.toString().replaceAll(",",", ")}<br></br>{"PL : "+props.component.guarantees.PL.toString().replaceAll(",",", ")}</div>
     }
 
     return (<Offcanvas show={props.show} placement="end" className="pl-3" onHide={props.handleClose}>
