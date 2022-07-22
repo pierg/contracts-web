@@ -22,13 +22,8 @@ function SelectConnections(props) {
     }
 
     const addConnections = () => {
-        let entry = false
         for(let i=0; i<connections.length; i++) {
-            if(connections[i].entry === "True") {
-                entry = true
-            }
-            props.add(entry, connections[i].name, connections[i].connections)
-            entry = false
+            props.add(connections[i].name, connections[i].connections)
         }
         close()
     }
