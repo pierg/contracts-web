@@ -1,6 +1,7 @@
 const textProps = {
     info: {
         title : "LIBRARIES",
+        icon : "fa-solid fa-folder fa-2xl",
         addLibrary : {
             size: "sm",
             color: "gray",

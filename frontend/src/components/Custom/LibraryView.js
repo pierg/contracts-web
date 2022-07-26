@@ -64,9 +64,13 @@ function LibraryView(props) {
 
     return (
         <div className="px-3 pb-3 w-4/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md h-fit">
-            <div className="flex justify-between p-4 text-center">
-                <span className="fs-4 font-bold text-blueGray-500">{librariesviewsinfo.info.title}</span>
-                <div className="mx-2">
+            <div className="flex flex-wrap justify-between p-4 text-center">
+                <div>
+                    <i className={librariesviewsinfo.info.icon+" align-middle pr-4"}></i>
+                    <span className="fs-4 font-bold text-blueGray-500 align-middle">{librariesviewsinfo.info.title}</span>
+                </div>
+
+                <div className="">
                     <Tooltip
                         title="Add a library"
                         position="right"

@@ -294,96 +294,99 @@ export default class ComponentsView extends React.Component {
         }
 
         return (<>
-            <div
-                className="px-3 pb-3 w-7/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
-                <div className="flex justify-between p-4 text-center">
-                    <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all"/></div>
-                    <div className="fs-4 font-bold text-blueGray-500">
-                        {componentInfo.info.texts.component.header.title}
-                    </div>
-                    <div className="flex justify-center flex-wrap">
-                        <div className="mx-2 py-1">
-                            <Tooltip
-                                title="Add a component"
-                                position="right"
-                                arrow="true"
-                            >
-                                <Button
-                                    size={componentInfo.info.texts.component.header.addButton.size}
-                                    color={componentInfo.info.texts.component.header.addButton.color}
-                                    onClick={() => this.clickAddComponent()}
-                                    disabled={(this.props.default || this.props.selectedLibrary === null)}
-                                >
-                                    <i className={componentInfo.info.texts.component.header.addButton.icon}></i>
-                                </Button>
-                            </Tooltip>
+                <div
+                    className="px-3 pb-3 w-7/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
+                    <div className="flex justify-between p-4 text-center">
+                        <div><Checkbox onChange={(e) => this.selectAllComponents(e)} label="Select all"/></div>
+                        <div className="fs-4 font-bold text-blueGray-500">
+                            {componentInfo.info.texts.component.header.title}
                         </div>
-                        <div className="mx-2 py-1">
-                            <Tooltip
-                                title="Download components"
-                                position="right"
-                                arrow="true"
-                            >
-                                <Button
-                                    size={componentInfo.info.texts.component.header.downloadButton.size}
-                                    color={componentInfo.info.texts.component.header.downloadButton.color}
-                                    onClick={() => this.downloadComponents()}
+                        <div className="flex justify-center flex-wrap">
+                            <div className="mx-2 py-1">
+                                <Tooltip
+                                    title="Add a component"
+                                    position="right"
+                                    arrow="true"
                                 >
-                                    <i className={componentInfo.info.texts.component.header.downloadButton.icon}></i>
-                                </Button>
-                            </Tooltip>
-                        </div>
-                        <div className="mx-2 py-1">
-                            <Tooltip
-                                title="Upload a component"
-                                position="right"
-                                arrow="true"
-                            >
-                                <UploadButton
-                                    upload={this.props.uploadComponent}
-                                    default={(this.props.default || this.props.selectedLibrary === null)}
+                                    <Button
+                                        size={componentInfo.info.texts.component.header.addButton.size}
+                                        color={componentInfo.info.texts.component.header.addButton.color}
+                                        onClick={() => this.clickAddComponent()}
+                                        disabled={(this.props.default || this.props.selectedLibrary === null)}
+                                    >
+                                        <i className={componentInfo.info.texts.component.header.addButton.icon}></i>
+                                    </Button>
+                                </Tooltip>
+                            </div>
+                            <div className="mx-2 py-1">
+                                <Tooltip
+                                    title="Download components"
+                                    position="right"
+                                    arrow="true"
+                                >
+                                    <Button
+                                        size={componentInfo.info.texts.component.header.downloadButton.size}
+                                        color={componentInfo.info.texts.component.header.downloadButton.color}
+                                        onClick={() => this.downloadComponents()}
+                                    >
+                                        <i className={componentInfo.info.texts.component.header.downloadButton.icon}></i>
+                                    </Button>
+                                </Tooltip>
+                            </div>
+                            <div className="mx-2 py-1">
+                                <Tooltip
+                                    title="Upload a component"
+                                    position="right"
+                                    arrow="true"
+                                >
+                                    <UploadButton
+                                        upload={this.props.uploadComponent}
+                                        default={(this.props.default || this.props.selectedLibrary === null)}
                                     />
-                            </Tooltip>
+                                </Tooltip>
+                            </div>
+                            <Modal
+                                isOpen={this.state.triggerAddComponent}
+                                autoFocus={false}
+                                toggle={() => this.setTriggerAddComponent(false)}
+                                className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
+                            >
+                                <ComponentEdit
+                                    component={this.state.tmpComponent}
+                                    patterns={this.props.patterns}
+                                    edit={(component) => this.updateComponent(component)}
+                                    save={(component) => this.saveComponent(component)}
+                                    close={() => this.setTriggerAddComponent(false)}
+                                    {...componenteditinfo}
+                                />
+                            </Modal>
                         </div>
-                        <Modal
-                            isOpen={this.state.triggerAddComponent}
-                            autoFocus={false}
-                            toggle={() => this.setTriggerAddComponent(false)}
-                            className={"custom-modal-dialog sm:c-m-w-70 md:c-m-w-60 lg:c-m-w-50 xl:c-m-w-40"}
-                        >
-                            <ComponentEdit
-                                component={this.state.tmpComponent}
-                                patterns={this.props.patterns}
-                                edit={(component) => this.updateComponent(component)}
-                                save={(component) => this.saveComponent(component)}
-                                close={() => this.setTriggerAddComponent(false)}
-                                {...componenteditinfo}
-                            />
-                        </Modal>
                     </div>
+                    {this.props.selectedLibrary === null ?
+                        <div className="flex justify-center my-20 py-3 text-blueGray-500">Select a library</div> :
+                        <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4 truncate">
+                            <Table responsive>
+                                <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {components}
+                                </tbody>
+                            </Table>
+                        </div>
+                    }
+                    {this.props.selectedLibrary !== null && <div className="text-right">Selected components : {this.props.selectedComponents.length}</div>}
                 </div>
-                <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4 truncate">
-                    <Table responsive>
-                        <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {components}
-                        </tbody>
-                    </Table>
-                </div>
-                <div className="text-right">Selected components : {this.props.selectedComponents.length}</div>
-            </div>
-            <ComponentInfoOffCanvas
-                show={this.state.show}
-                handleClose={this.handleClose}
-                component={this.state.componentToShow}
-            />
-        </>
-    );
+                <ComponentInfoOffCanvas
+                    show={this.state.show}
+                    handleClose={this.handleClose}
+                    component={this.state.componentToShow}
+                />
+            </>
+        );
     }
 }
