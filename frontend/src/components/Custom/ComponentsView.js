@@ -301,8 +301,8 @@ export default class ComponentsView extends React.Component {
                     <div className="fs-4 font-bold text-blueGray-500">
                         {componentInfo.info.texts.component.header.title}
                     </div>
-                    <div className="flex justify-center">
-                        <div className="mx-2">
+                    <div className="flex justify-center flex-wrap">
+                        <div className="mx-2 py-1">
                             <Tooltip
                                 title="Add a component"
                                 position="right"
@@ -318,7 +318,7 @@ export default class ComponentsView extends React.Component {
                                 </Button>
                             </Tooltip>
                         </div>
-                        <div className="mx-2">
+                        <div className="mx-2 py-1">
                             <Tooltip
                                 title="Download components"
                                 position="right"
@@ -333,7 +333,7 @@ export default class ComponentsView extends React.Component {
                                 </Button>
                             </Tooltip>
                         </div>
-                        <div className="mx-2">
+                        <div className="mx-2 py-1">
                             <Tooltip
                                 title="Upload a component"
                                 position="right"
@@ -362,7 +362,7 @@ export default class ComponentsView extends React.Component {
                         </Modal>
                     </div>
                 </div>
-                <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4">
+                <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4 truncate">
                     <Table responsive>
                         <thead>
                         <tr>
