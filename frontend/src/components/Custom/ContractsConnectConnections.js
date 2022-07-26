@@ -26,37 +26,37 @@ function ContractsConnectConnections(props) {
             let instanceName
             let name
             let type
-            for(let j=0 ; j<props.connections[i].connectors.length ; j++) {
+            for (let j = 0; j < props.connections[i].connectors.length; j++) {
                 arrayConnector = props.connections[i].connectors[j].split(" ")
                 instanceName = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]
                 name = props.connections[i].connectors[j].split(" ")[1]
                 type = props.connections[i].connectors[j].split(" ")[2]
-                ports.push(instanceName+"."+name+" "+type)
+                ports.push(instanceName + "." + name + " " + type)
             }
             connections[i].connectors = ports
         }
-        const json = JSON.stringify({"instances":instances,"connections":connections}, null, '\t')
+        const json = JSON.stringify({"instances": instances, "connections": connections}, null, '\t')
         const blob = new Blob([json], {type: "text/json;charset=utf-8"})
         const file = new File([blob], "design_file.json")
         saveAs(file)
     }
 
     let connections = []
-    let lineClass="flex flex-row relative text-lg pt-2 px-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900"
+    let lineClass = "flex flex-row relative text-lg pt-2 px-3 rounded hover:bg-blueGray-200 text-blueGray-700 hover:text-blueGray-900"
     let subtree
     let node
-    for(let i=0;i<props.connections.length;i++) {
-        if (i===0) {
-            lineClass+=" border-t-1"
+    for (let i = 0; i < props.connections.length; i++) {
+        if (i === 0) {
+            lineClass += " border-t-1"
         }
 
         subtree = []
         let arrayConnector
-        for(let j=0; j<props.connections[i].connectors.length; j++) {
+        for (let j = 0; j < props.connections[i].connectors.length; j++) {
             node = {}
-            node.id = i+"-"+j
+            node.id = i + "-" + j
             arrayConnector = props.connections[i].connectors[j].split(" ")
-            node.label = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0]+"."+arrayConnector[1]+" "+arrayConnector[2]
+            node.label = props.instances[arrayConnector[0].split("-")[0]].name.split(" ")[0] + "." + arrayConnector[1] + " " + arrayConnector[2]
             subtree.push(node)
         }
 
@@ -111,7 +111,7 @@ function ContractsConnectConnections(props) {
 
     return (
         <>
-            <div className="flex p-3">
+            <div className="flex p-3 justify-between">
                 <span className={contractsconnect.connections.connectionsStyle}>
                         {contractsconnect.connections.connectionsTitle}
                 </span>

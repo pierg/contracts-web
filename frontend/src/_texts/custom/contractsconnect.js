@@ -20,7 +20,7 @@ const textProps = {
     ,
     connections: {
         connectionsTitle: "Connections",
-        connectionsStyle: "text-2xl font-bold text-blueGray-500 uppercase mr-4"
+        connectionsStyle: "text-2xl font-bold text-blueGray-500 uppercase mx-4 mr-4"
 
     },
     addButton: {

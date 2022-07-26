@@ -122,7 +122,7 @@ function ContractsConnectInstances(props) {
 
     return (
         <>
-            <div className="flex p-3">
+            <div className="flex p-3 justify-between">
                 <span className={contractsconnect.instances.instanceStyle}>
                     {contractsconnect.instances.instancesTitle}
                     <Tooltip
