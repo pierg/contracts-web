@@ -2,13 +2,19 @@ import os
 from os import walk
 from pathlib import Path
 
+from crome_component.component.component_spec import (
+    ASSUMPTION_HEADER,
+    DESCRIPTION_HEADER,
+    GUARANTEES_HEADER,
+    INPUTS_HEADER,
+    NAME_HEADER,
+    OUTPUTS_HEADER,
+    _check_header,
+)
 from src.backend.shared.paths import component_path
-from crome_component.component.component_spec import NAME_HEADER, _check_header, INPUTS_HEADER, OUTPUTS_HEADER, \
-    ASSUMPTION_HEADER, GUARANTEES_HEADER, DESCRIPTION_HEADER
 
 
 class ComponentOperation:
-
     @staticmethod
     def save_component(data, old_name, session_id, library_name) -> None:
         component_folder = component_path(session_id, library_name)

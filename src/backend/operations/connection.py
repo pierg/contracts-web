@@ -1,8 +1,7 @@
 import os.path
 from os import walk
 
-from src.backend.shared.paths import default_connection_path
-from src.backend.shared.paths import connection_path
+from src.backend.shared.paths import connection_path, default_connection_path
 
 HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
@@ -12,7 +11,6 @@ COMMENT_CHAR = "#"
 
 
 class ConnectionOperation:
-
     @staticmethod
     def save_connection(data, session_id, library_name) -> None:
         connection_folder = connection_path(session_id, library_name)
@@ -172,7 +170,8 @@ class ConnectionOperation:
 
 
 def _check_header(line: str) -> tuple[str, bool]:
-    """Returns a comment-free, tab-replaced line with no whitespace and the number of tabs"""
+    """Returns a comment-free, tab-replaced line with no whitespace and the
+    number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]
     if line.startswith(HEADER_SYMBOL):
         return line.strip(), True

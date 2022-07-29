@@ -8,17 +8,12 @@ from typing import Any
 from flask import Flask, Response, request
 from flask_socketio import SocketIO, emit
 
-from src.backend.operations.library import LibraryOperation # NOQA
-from src.backend.operations.connection import ConnectionOperation # NOQA
-from src.backend.shared.paths import (
-    build_path,
-    storage_path,
-) # NOQA
+from src.backend.operations.connection import ConnectionOperation  # NOQA
+from src.backend.operations.library import LibraryOperation  # NOQA
+from src.backend.shared.paths import build_path, storage_path  # NOQA
 
 parser = argparse.ArgumentParser(description="Launching Flask Backend")
-parser.add_argument(
-    "--serve", default=False, type=bool, help="indicate if serving the pages"
-)
+parser.add_argument("--serve", default=False, type=bool, help="indicate if serving the pages")
 args = parser.parse_args()
 
 if args.serve:
@@ -48,10 +43,8 @@ cookies: dict[str, str] = {}
 
 @socketio.on("connect")
 def connected() -> None:
-    """
-    Establish the connection between the front and the back
-    while checking that the session is not already in use.
-    """
+    """Establish the connection between the front and the back while checking
+    that the session is not already in use."""
     print("Connected")
     print(f'ID {request.args.get("id")}')
     lock = threading.Lock()
@@ -61,11 +54,7 @@ def connected() -> None:
     tab_id = str(request.args.get("tabId"))
     if session_id in users:  # Check if this session is already open
         if cookie != cookies[session_id]:
-            emit(
-                "is-connected",
-                False,
-                room=request.sid
-            )
+            emit("is-connected", False, room=request.sid)
             return
     else:
         users[session_id] = {}
@@ -73,23 +62,15 @@ def connected() -> None:
     cookies[session_id] = cookie
     now = time.localtime(time.time())
     emit(
-        "send-message",
-        strftime("%H:%M:%S", now) + f" Connected to session {request.args.get('id')}",
-        room=request.sid
+        "send-message", strftime("%H:%M:%S", now) + f" Connected to session {request.args.get('id')}", room=request.sid
     )
-    emit(
-        "is-connected",
-        True,
-        room=request.sid
-    )
+    emit("is-connected", True, room=request.sid)
     lock.release()
 
 
 @socketio.on("session-existing")
 def check_if_session_exist(data) -> None:
-    """
-    Check if a session is free and if the user can enter it.
-    """
+    """Check if a session is free and if the user can enter it."""
     session_id = str(data["session"])
     tab_id = str(request.args.get("tabId"))
     cookie = str(request.args.get("cookie"))
@@ -112,9 +93,7 @@ def check_if_session_exist(data) -> None:
 
 @socketio.on("disconnect")
 def disconnected() -> None:
-    """
-    It disconnects the user of the session he was attached to.
-    """
+    """It disconnects the user of the session he was attached to."""
     print("Disconnected")
     print(request.args)
     print(f'ID {request.args.get("id")}')
@@ -127,7 +106,7 @@ def disconnected() -> None:
         emit(
             "send-message",
             f"{strftime('%H:%M:%S', now)} Session {request.args.get('id')} disconnected",
-            room=request.sid
+            room=request.sid,
         )
         del users[session_id][tab_id]
 
@@ -143,30 +122,16 @@ def get_current_time() -> dict[str, float]:
 
 
 def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
-    """
-    Simplified version to send a notification and a message to a user.
-    """
+    """Simplified version to send a notification and a message to a user."""
     now = time.localtime(time.time())
-    emit(
-        "send-notification",
-        {"crometypes": crometype, "content": content},
-        room=room_id
-    )
-    emit(
-        "send-message",
-        f"{strftime('%H:%M:%S', now)} - {content}",
-        room=room_id
-    )
+    emit("send-notification", {"crometypes": crometype, "content": content}, room=room_id)
+    emit("send-message", f"{strftime('%H:%M:%S', now)} - {content}", room=room_id)
 
 
 @socketio.on("display-message")
 def display_message(data) -> None:
     now = time.localtime(time.time())
-    emit(
-        "send-notification",
-        {"crometypes": data["type"], "content": data["messageNotif"]},
-        room=request.sid
-    )
+    emit("send-notification", {"crometypes": data["type"], "content": data["messageNotif"]}, room=request.sid)
     emit(
         "send-message",
         strftime("%H:%M:%S", now) + " " + data["messageSideBar"],
@@ -174,9 +139,9 @@ def display_message(data) -> None:
     )
 
 
-import src.backend.signal_handler.component # NOQA
-import src.backend.signal_handler.connection # NOQA
-import src.backend.signal_handler.library # NOQA
+import src.backend.signal_handler.component  # NOQA
+import src.backend.signal_handler.connection  # NOQA
+import src.backend.signal_handler.library  # NOQA
 
 if __name__ == "__main__":
     socketio.run(app, host="0.0.0.0")

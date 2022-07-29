@@ -13,9 +13,7 @@ except ImportError:
 # The signal for the library
 @socketio.on("get-library")
 def get_library() -> None:
-    """
-        Get all the library that exists in the session folder
-    """
+    """Get all the library that exists in the session folder."""
     session_id = str(request.args.get("id"))
     list_library = LibraryOperation.get_library(session_id)
     emit("receive-library", list_library, room=request.sid)
@@ -23,9 +21,7 @@ def get_library() -> None:
 
 @socketio.on("add-components-to-library")
 def add_components_to_library(data) -> None:
-    """
-        Add components to the library wanted
-    """
+    """Add components to the library wanted."""
     session_id = str(request.args.get("id"))
     LibraryOperation.add_to_library(data["name"], data["components"], session_id)
 
@@ -35,9 +31,7 @@ def add_components_to_library(data) -> None:
 
 @socketio.on("remove-component-from-library")
 def remove_component_from_library(data) -> None:
-    """
-        Remove a component from a library
-    """
+    """Remove a component from a library."""
     session_id = str(request.args.get("id"))
     is_deleted = LibraryOperation.remove_from_library(data["name"], data["component"], session_id)
 
@@ -46,9 +40,7 @@ def remove_component_from_library(data) -> None:
 
 @socketio.on("remove-library")
 def remove_library(library_name) -> None:
-    """
-        Remove a library
-    """
+    """Remove a library."""
     session_id = str(request.args.get("id"))
     is_deleted = LibraryOperation.remove_library(library_name, session_id)
     emit("remove-library-done", is_deleted, room=request.sid)

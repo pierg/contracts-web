@@ -1,21 +1,23 @@
-import React, {useEffect} from 'react'
-import {useSocket} from "../../../contexts/SocketProvider";
+import React, { useEffect } from "react";
+import { useSocket } from "../../../contexts/SocketProvider";
 
 function SocketIoMessage(props) {
+  const socket = useSocket();
 
-    const socket = useSocket()
+  useEffect(() => {
+    if (socket == null) return;
 
-    useEffect(() => {
-        if (socket == null) return
+    if (props.triggerMessage) {
+      props.setTriggerMessage(false);
+      socket.emit("display-message", {
+        type: props.type,
+        messageNotif: props.messageNotif,
+        messageSideBar: props.messageSideBar,
+      });
+    }
+  }, [props, socket]);
 
-        if (props.triggerMessage) {
-            props.setTriggerMessage(false)
-            socket.emit('display-message', {"type":props.type, "messageNotif":props.messageNotif, "messageSideBar":props.messageSideBar});
-        }
-
-    }, [props, socket])
-
-    return (<></>);
+  return <></>;
 }
 
 export default SocketIoMessage;

@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { createPopper } from "@popperjs/core";
-import 'react-tippy/dist/tippy.css'
-import {Tooltip} from 'react-tippy';
+import "react-tippy/dist/tippy.css";
+import { Tooltip } from "react-tippy";
 export default function CustomSelect({
   border,
   size,
@@ -84,7 +84,6 @@ export default function CustomSelect({
     <>
       <div className="mb-2 mt-2 ml-2 pt-0 relative">
         <input
-
           value={defaultValue}
           type="text"
           onChange={() => {}}
@@ -92,13 +91,10 @@ export default function CustomSelect({
           placeholder={placeholder}
           ref={btnDropdownRef}
           size={size}
-          className= {inputClasses}
+          className={inputClasses}
         />
 
-
-
         <div
-
           ref={popoverDropdownRef}
           className={(menuShow ? "block " : "hidden ") + "z-50"}
         >
@@ -108,7 +104,6 @@ export default function CustomSelect({
               " absolute opacity-0 border bg-white text-base z-50 float-left p-2 text-left rounded-lg shadow-lg min-w-48 transition-all duration-200 ease-in-out transform scale-95 origin-top-left " +
               transformOrigin
             }
-
           >
             {items.map((prop, key) => {
               if (prop.disabled) {
@@ -122,14 +117,12 @@ export default function CustomSelect({
                 );
               } else {
                 return (
-                  <span
-                    key={key}
-                  >
+                  <span key={key}>
                     <Tooltip
                       html={patternDescription[items.indexOf(prop)]}
                       position="right"
                       arrow="true"
-                      >
+                    >
                       <a
                         href="#pablo"
                         name={name}

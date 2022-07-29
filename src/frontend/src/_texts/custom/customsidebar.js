@@ -19,7 +19,7 @@ const textProps = {
       link: {
         href: "#/index",
       },
-    }
+    },
   ],
 };
 export default textProps;

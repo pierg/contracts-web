@@ -2,8 +2,8 @@ import os.path
 import shutil
 from os import walk
 
-from src.backend.shared.paths import session_path, library_description_file, library_path, component_path # NOQA
 from crome_component.component import Component
+from src.backend.shared.paths import component_path, library_description_file, library_path, session_path  # NOQA
 
 HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
@@ -12,7 +12,6 @@ COMMENT_CHAR = "#"
 
 
 class LibraryOperation:
-
     @staticmethod
     def get_library(session_id) -> list[dict]:
         result = []
@@ -34,9 +33,16 @@ class LibraryOperation:
                         filenames.sort()
                         for filename in filenames:
                             component = Component.from_file(component_folder / filename)
-                            component_list.append({"name": component.name, "description": component.description,
-                                                   "inputs": component.spec.i, "outputs": component.spec.o,
-                                                   "assumptions": component.spec.a, "guarantees": component.spec.g})
+                            component_list.append(
+                                {
+                                    "name": component.name,
+                                    "description": component.description,
+                                    "inputs": component.spec.i,
+                                    "outputs": component.spec.o,
+                                    "assumptions": component.spec.a,
+                                    "guarantees": component.spec.g,
+                                }
+                            )
 
                     result.append({"name": library_name, "components": component_list, "default": is_default})
 
@@ -71,7 +77,7 @@ class LibraryOperation:
         if not os.path.exists(description_file):
             return False
 
-        with open(description_file, 'r') as file:
+        with open(description_file, "r") as file:
             data = file.readlines()
 
         component_list = LibraryOperation.get_component(data)
@@ -153,7 +159,8 @@ class LibraryOperation:
 
 
 def _check_header(line: str) -> tuple[str, bool]:
-    """Returns a comment-free, tab-replaced line with no whitespace and the number of tabs"""
+    """Returns a comment-free, tab-replaced line with no whitespace and the
+    number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]
     if line.startswith(HEADER_SYMBOL):
         return line.strip(), True

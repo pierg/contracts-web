@@ -1,5 +1,4 @@
-"""
-contracts-web package.
+"""contracts-web package.
 
 Web Interface for the Contract-Based Goal Graph package.
 """

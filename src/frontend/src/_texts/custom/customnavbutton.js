@@ -4,7 +4,7 @@ const textProps = {
   leftChevronIcon: "fas fa-chevron-left",
   rightChevronIcon: "fas fa-chevron-right",
   backText: "Back",
-  connectText : "Connect",
-  createSystemText: "Create system"
+  connectText: "Connect",
+  createSystemText: "Create system",
 };
 export default textProps;

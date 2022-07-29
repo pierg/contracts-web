@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
-from crome_component.component.component_spec import ComponentSpec, _check_header, NAME_HEADER, DESCRIPTION_HEADER
+
+from crome_component.component.component_spec import DESCRIPTION_HEADER, NAME_HEADER, ComponentSpec, _check_header
 
 
 @dataclass
@@ -9,13 +10,12 @@ class Component:
     description: str = ""
     spec: ComponentSpec = None
 
-
     @classmethod
     def from_file(cls, file_path: Path):
         spec = ComponentSpec.from_file(file_path)
         name = ""
         description = ""
-        with open(file_path, 'r') as ifile:
+        with open(file_path, "r") as ifile:
 
             line_header = ""
 

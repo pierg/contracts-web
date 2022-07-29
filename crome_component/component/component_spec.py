@@ -28,7 +28,7 @@ class ComponentSpec:
         line_header = ""
         type_ltl = ""
 
-        with open(file_path, 'r') as ifile:
+        with open(file_path, "r") as ifile:
             for line in ifile:
                 line, header = _check_header(line)
 
@@ -99,7 +99,8 @@ class ComponentSpec:
 
 
 def _check_header(line: str) -> tuple[str, bool]:
-    """Returns a comment-free, tab-replaced line with no whitespace and the number of tabs"""
+    """Returns a comment-free, tab-replaced line with no whitespace and the
+    number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]
     if line.startswith(HEADER_SYMBOL):
         return line.strip(), True
