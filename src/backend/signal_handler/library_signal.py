@@ -1,13 +1,9 @@
+from __main__ import socketio
 from flask import request
 from flask_socketio import emit
 
 from src.backend.app import send_message_to_user
 from src.backend.operations.library import LibraryOperation
-
-try:
-    from __main__ import socketio
-except ImportError:
-    from src.backend.app import socketio
 
 
 # The signal for the library

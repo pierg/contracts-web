@@ -1,5 +1,6 @@
 import os.path
 from os import walk
+from typing import Dict, List, Tuple
 
 from src.backend.shared.paths import connection_path, default_connection_path
 
@@ -51,7 +52,7 @@ class ConnectionOperation:
                 os.remove(connection_folder / filename)
 
     @staticmethod
-    def check_connection_possible(component_list, session_id, library_name, default) -> list:
+    def check_connection_possible(component_list, session_id, library_name, default) -> List:
         if default:
             connection_folder = default_connection_path(library_name)
         else:
@@ -79,7 +80,7 @@ class ConnectionOperation:
         return list_possible_connection
 
     @staticmethod
-    def get_content(content_file) -> dict:
+    def get_content(content_file) -> Dict:
         line_header = ""
         name = ""
         instances = {}
@@ -137,9 +138,9 @@ class ConnectionOperation:
         return ""
 
     @staticmethod
-    def get_instances(content_file) -> dict[str, str]:
+    def get_instances(content_file) -> Dict[str, str]:
         line_header = ""
-        instances_list = {}
+        instances_list: Dict = {}
         for line in content_file:
             line, header = _check_header(line)
             if not line:
@@ -169,7 +170,7 @@ class ConnectionOperation:
         return ""
 
 
-def _check_header(line: str) -> tuple[str, bool]:
+def _check_header(line: str) -> Tuple[str, bool]:
     """Returns a comment-free, tab-replaced line with no whitespace and the
     number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]

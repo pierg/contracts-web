@@ -1,8 +1,9 @@
 import os.path
 import shutil
 from os import walk
+from typing import Dict, List, Tuple
 
-from crome_component.component import Component
+from crome_component.component_tmp import Component
 from src.backend.shared.paths import component_path, library_description_file, library_path, session_path  # NOQA
 
 HEADER_SYMBOL = "**"
@@ -13,7 +14,7 @@ COMMENT_CHAR = "#"
 
 class LibraryOperation:
     @staticmethod
-    def get_library(session_id) -> list[dict]:
+    def get_library(session_id) -> List[Dict]:
         result = []
         list_session = ["default", session_id]
 
@@ -158,7 +159,7 @@ class LibraryOperation:
         return ""
 
 
-def _check_header(line: str) -> tuple[str, bool]:
+def _check_header(line: str) -> Tuple[str, bool]:
     """Returns a comment-free, tab-replaced line with no whitespace and the
     number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]

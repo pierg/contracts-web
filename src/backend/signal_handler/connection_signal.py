@@ -1,13 +1,9 @@
+from __main__ import socketio
 from flask import request
 from flask_socketio import emit
 
 from src.backend.app import send_message_to_user  # NOQA
 from src.backend.operations.connection import ConnectionOperation
-
-try:
-    from __main__ import socketio
-except ImportError:
-    from src.backend.app import socketio
 
 
 @socketio.on("save-connection")

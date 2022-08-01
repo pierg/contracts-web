@@ -2,7 +2,7 @@ import os
 from os import walk
 from pathlib import Path
 
-from crome_component.component.component_spec import (
+from crome_component.component_tmp.component_spec import (
     ASSUMPTION_HEADER,
     DESCRIPTION_HEADER,
     GUARANTEES_HEADER,
@@ -140,6 +140,7 @@ class ComponentOperation:
                 name_found = ComponentOperation.get_name_from_file(file)
             if name_found == name:
                 return filename
+        return ""
 
 
 def _check_structure_file(component_file):

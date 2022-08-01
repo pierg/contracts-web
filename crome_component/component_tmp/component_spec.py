@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict, List, Tuple
 
 HEADER_SYMBOL = "**"
 NAME_HEADER = "**NAME**"
@@ -13,17 +14,17 @@ COMMENT_CHAR = "#"
 
 @dataclass
 class ComponentSpec:
-    a: dict[str, list[str]]
-    g: dict[str, list[str]]
-    i: list[dict[str, str]]
-    o: list[dict[str, str]]
+    a: Dict[str, List[str]]
+    g: Dict[str, List[str]]
+    i: List[Dict[str, str]]
+    o: List[Dict[str, str]]
 
     @classmethod
     def from_file(cls, file_path: Path):
-        i = []
-        o = []
-        a = {"LTL": [], "PL": []}
-        g = {"LTL": [], "PL": []}
+        i: List[Dict[str, str]] = []
+        o: List[Dict[str, str]] = []
+        a: Dict[str, List[str]] = {"LTL": [], "PL": []}
+        g: Dict[str, List[str]] = {"LTL": [], "PL": []}
 
         line_header = ""
         type_ltl = ""
@@ -98,7 +99,7 @@ class ComponentSpec:
             return cls(a, g, i, o)
 
 
-def _check_header(line: str) -> tuple[str, bool]:
+def _check_header(line: str) -> Tuple[str, bool]:
     """Returns a comment-free, tab-replaced line with no whitespace and the
     number of tabs."""
     line = line.split(COMMENT_CHAR, 1)[0]

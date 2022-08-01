@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from pathlib import Path
 
-from crome_component.component.component_spec import DESCRIPTION_HEADER, NAME_HEADER, ComponentSpec, _check_header
+from crome_component.component_tmp.component_spec import DESCRIPTION_HEADER, NAME_HEADER, ComponentSpec, _check_header
 
 
 @dataclass
