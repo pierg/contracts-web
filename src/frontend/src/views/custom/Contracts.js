@@ -18,6 +18,8 @@ import LibraryView from "../../components/Custom/LibraryView";
 import SocketLibrary from "../../components/Custom/Socket/Library";
 import SocketDeleteComponent from "../../components/Custom/Socket/DeleteComponent";
 import SocketConnection from "../../components/Custom/Socket/Connection";
+import CustomFooter from "../../components/Custom/CustomFooter";
+import customfooter from "../../_texts/custom/customfooter";
 
 export default class Contracts extends React.Component {
   state = {
@@ -694,6 +696,7 @@ export default class Contracts extends React.Component {
         </div>
 
         <div className="mx-40 my-6">{page}</div>
+        <CustomFooter {...customfooter} />
       </>
     );
   }
