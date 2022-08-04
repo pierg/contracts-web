@@ -499,7 +499,7 @@ export default class Contracts extends React.Component {
     let page;
     if (this.state.headerStates[0]) {
       page = (
-        <div className="flex flex-row items-start">
+        <div className="flex relative flex-wrap justify-center items-start">
           <LibraryView
             libraries={this.state.libraries}
             addLibrary={this.addLibrary}

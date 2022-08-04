@@ -3908,6 +3908,15 @@ select {
   min-width: 12rem;
 }
 
+.min-w-library {
+  min-width: 20rem;
+}
+
+.min-w-component {
+  min-width: 45rem;
+}
+
+
 .min-w-full {
   min-width: 100%;
 }

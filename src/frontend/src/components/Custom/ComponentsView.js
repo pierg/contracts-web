@@ -301,7 +301,7 @@ export default class ComponentsView extends React.Component {
 
     return (
       <>
-        <div className="px-3 pb-3 w-7/12 relative flex flex-col min-w-0 break-words bg-white rounded shadow-md m-auto">
+        <div className="px-3 pb-3 w-7/12 relative flex flex-col min-w-component break-words bg-white rounded shadow-md m-auto">
           <div className="flex justify-between p-4 text-center">
             <div>
               <Checkbox
