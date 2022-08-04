@@ -24,7 +24,7 @@ const textProps = {
                 content: "Connections on the right are already created"
             },
             {
-                content: "Click on “Create system” to go to generated your system"
+                content: "Click on “Create system” to generated your system"
             }
         ]
     },
