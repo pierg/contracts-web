@@ -68,11 +68,15 @@ class ComponentSpec:
 
                     if INPUTS_HEADER == line_header:
                         split_line = line.strip().split(" ")
+                        if len(split_line) != 2:
+                            continue
                         name, input_type = split_line[0], split_line[1]
                         i.append({"name": name, "type": input_type[1:-1]})
 
                     elif OUTPUTS_HEADER == line_header:
                         split_line = line.strip().split(" ")
+                        if len(split_line) != 2:
+                            continue
                         name, output_type = split_line[0], split_line[1]
                         o.append({"name": name, "type": output_type[1:-1]})
 
