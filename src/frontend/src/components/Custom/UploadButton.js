@@ -25,7 +25,6 @@ function UploadButton(props) {
         openFileSelector();
         setSave(false);
       }}
-      disabled={props.default}
     >
       <i className={componentInfo.info.texts.component.header.uploadButton.icon}></i>
     </Button>
