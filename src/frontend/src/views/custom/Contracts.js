@@ -286,10 +286,21 @@ export default class Contracts extends React.Component {
 
   connectionFound = (connections) => {
     if (this.state.selectedLibrary.default) {
+      let includes
       for (let i = 0; i < connections.length; i++) {
-        this.addConnectionDisplay(connections[i].name, connections[i].connections);
+        includes = false
+        for(let j=0 ; j < this.state.connections.length; j++) {
+          if(this.state.connections[j].name === connections[i].name) {
+            includes = true
+            break;
+          }
+        }
+        if(!includes) {
+          this.addConnectionDisplay(connections[i].name, connections[i].connections);
+        }
       }
-    } else {
+    }
+    else {
       this.setState({
         triggerChooseConnection: true,
         connectionsFound: connections,
