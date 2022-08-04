@@ -314,45 +314,46 @@ export default class ComponentsView extends React.Component {
             </div>
             <div className="flex justify-center flex-wrap">
               <div className="mx-2 py-1">
-                <Tooltip title="Add a component" position="right" arrow="true">
-                  <Button
-                    size={componentInfo.info.texts.component.header.addButton.size}
-                    color={componentInfo.info.texts.component.header.addButton.color}
-                    onClick={() => this.clickAddComponent()}
-                    disabled={this.props.default || this.props.selectedLibrary === null}
-                  >
-                    <i
-                      className={
-                        componentInfo.info.texts.component.header.addButton.icon
-                      }
-                    ></i>
-                  </Button>
-                </Tooltip>
+                {(!this.props.default && this.props.selectedLibrary !== null) && (
+                  <Tooltip title="Add a component" position="right" arrow="true">
+                    <Button
+                      size={componentInfo.info.texts.component.header.addButton.size}
+                      color={componentInfo.info.texts.component.header.addButton.color}
+                      onClick={() => this.clickAddComponent()}
+                    >
+                      <i
+                        className={
+                          componentInfo.info.texts.component.header.addButton.icon
+                        }
+                      ></i>
+                    </Button>
+                  </Tooltip>)}
               </div>
               <div className="mx-2 py-1">
-                <Tooltip title="Download components" position="right" arrow="true">
-                  <Button
-                    size={componentInfo.info.texts.component.header.downloadButton.size}
-                    color={
-                      componentInfo.info.texts.component.header.downloadButton.color
-                    }
-                    onClick={() => this.downloadComponents()}
-                  >
-                    <i
-                      className={
-                        componentInfo.info.texts.component.header.downloadButton.icon
+                {this.props.selectedLibrary !== null && (
+                  <Tooltip title="Download components" position="right" arrow="true">
+                    <Button
+                      size={componentInfo.info.texts.component.header.downloadButton.size}
+                      color={
+                        componentInfo.info.texts.component.header.downloadButton.color
                       }
-                    ></i>
-                  </Button>
-                </Tooltip>
+                      onClick={() => this.downloadComponents()}
+                    >
+                      <i
+                        className={
+                          componentInfo.info.texts.component.header.downloadButton.icon
+                        }
+                      ></i>
+                    </Button>
+                  </Tooltip>)}
               </div>
               <div className="mx-2 py-1">
-                <Tooltip title="Upload a component" position="right" arrow="true">
-                  <UploadButton
-                    upload={this.props.uploadComponent}
-                    default={this.props.default || this.props.selectedLibrary === null}
-                  />
-                </Tooltip>
+                 {(!this.props.default && this.props.selectedLibrary !== null) && (
+                    <Tooltip title="Upload a component" position="right" arrow="true">
+                      <UploadButton
+                        upload={this.props.uploadComponent}
+                      />
+                    </Tooltip>)}
               </div>
               <Modal
                 isOpen={this.state.triggerAddComponent}
