@@ -14,6 +14,7 @@ from src.backend.shared.paths import build_path, storage_path  # NOQA
 
 parser = argparse.ArgumentParser(description="Launching Flask Backend")
 parser.add_argument("--serve", default=False, type=bool, help="indicate if serving the pages")
+parser.add_argument("--dev", default=False, type=bool, help="indicate if we are in a development mode")
 args = parser.parse_args()
 
 if args.serve:
