@@ -157,7 +157,7 @@ function ComponentEdit(props) {
       </div>
       <ModalFooter>
         <div className="flex flex-col w-full">
-          {component.guarantees.length === 0 && (
+          {(component.guarantees.length === 0 || component.inputs.length === 0 || component.outputs.length === 0) && (
             <div className="flex justify-end mb-2">
               <span className={"text-red-500 "}>
                 {props.info.modal.warningGuarantees}
@@ -170,7 +170,7 @@ function ComponentEdit(props) {
             </Button>
             <Button
               color={props.info.modal.saveColor}
-              disabled={component.guarantees.length === 0}
+              disabled={component.guarantees.length === 0 || component.inputs.length === 0 || component.outputs.length === 0}
               onClick={() => props.save(component)}
             >
               {props.info.modal.saveText}
