@@ -3917,7 +3917,7 @@ select {
 }
 
 .min-w-connection {
-  min-width: 23rem;
+  min-width: 25rem;
 }
 
 .min-w-instance {

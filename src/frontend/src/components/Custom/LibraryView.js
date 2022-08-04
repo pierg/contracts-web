@@ -4,7 +4,6 @@ import {Tooltip} from "react-tippy";
 import Button from "../Elements/Button";
 import {Modal} from "reactstrap";
 import ModalLibrary from "./ModalLibrary";
-import contractsconnect from "../../_texts/custom/contractsconnect";
 
 function LibraryView(props) {
     const [triggerAddLibrary, setTriggerAddLibrary] = useState(false);

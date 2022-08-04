@@ -8,7 +8,7 @@ import contractsconnect from "../../_texts/custom/contractsconnect";
 function ContractsConnect(props) {
     return (
         <div className="flex relative flex-wrap justify-center justify-content-around w-75 m-auto">
-            <div className="px-3 pb-3 w-35 relative flex flex-col min-w-instance break-words bg-white rounded shadow-md h-fit m-auto">
+            <div className="px-3 pb-3 w-35 relative flex flex-col min-w-instance break-words bg-white rounded shadow-md h-fit m-auto mb-5">
                 <ContractsConnectInstances
                     selectedLibrary={props.selectedLibrary}
                     selectedComponents={props.selectedComponents}
@@ -23,20 +23,19 @@ function ContractsConnect(props) {
                 />
             </div>
 
-            <div className="m-auto">
-                {
-                    !props.selectedLibrary.default &&
-                    <Tooltip title="Add connection" position="right" arrow="true">
-                        <Button
-                            size={contractsconnect.addConnectionButton.size}
-                            color={contractsconnect.addConnectionButton.color}
-                            onClick={() => props.checkAddConnections()}
-                        >
-                            <i className={contractsconnect.addConnectionButton.icon}></i>
-                        </Button>
-                    </Tooltip>
-                }
-            </div>
+            { !props.selectedLibrary.default &&
+                <div className="m-auto mb-5">
+                        <Tooltip title="Add connection" position="right" arrow="true">
+                            <Button
+                                size={contractsconnect.addConnectionButton.size}
+                                color={contractsconnect.addConnectionButton.color}
+                                onClick={() => props.checkAddConnections()}
+                            >
+                                <i className={contractsconnect.addConnectionButton.icon}></i>
+                            </Button>
+                        </Tooltip>
+                </div>
+            }
 
             <div className="px-3 pb-3 w-35 relative flex flex-col min-w-connection break-words bg-white rounded shadow-md h-fit m-auto ">
                 <ContractsConnectConnections
