@@ -3916,6 +3916,14 @@ select {
   min-width: 45rem;
 }
 
+.min-w-connection {
+  min-width: 23rem;
+}
+
+.min-w-instance {
+  min-width: 23rem;
+}
+
 
 .min-w-full {
   min-width: 100%;

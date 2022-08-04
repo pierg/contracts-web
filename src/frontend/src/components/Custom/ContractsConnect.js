@@ -7,8 +7,8 @@ import contractsconnect from "../../_texts/custom/contractsconnect";
 
 function ContractsConnect(props) {
   return (
-    <div className="flex flex-row justify-content-around w-75 m-auto">
-      <div className="px-3 pb-3 w-35 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
+    <div className="flex relative flex-wrap justify-center justify-content-around w-75 m-auto">
+      <div className="px-3 pb-3 w-35 relative flex flex-col min-w-instance break-words bg-white rounded shadow-md mb-5 h-fit m-auto">
         <ContractsConnectInstances
           selectedLibrary={props.selectedLibrary}
           selectedComponents={props.selectedComponents}
@@ -23,7 +23,7 @@ function ContractsConnect(props) {
         />
       </div>
 
-      <div className="m-auto">
+      <div className="m-auto mb-5">
         <Tooltip title="Add connection" position="right" arrow="true">
           <Button
             size={contractsconnect.addConnectionButton.size}
@@ -35,7 +35,7 @@ function ContractsConnect(props) {
         </Tooltip>
       </div>
 
-      <div className="px-3 pb-3 w-35 relative flex flex-col break-words bg-white rounded shadow-md h-fit m-auto">
+      <div className="px-3 pb-3 w-35 relative flex flex-col min-w-connection break-words bg-white rounded shadow-md h-fit m-auto ">
         <ContractsConnectConnections
           selectedLibrary={props.selectedLibrary}
           instances={props.instances}
