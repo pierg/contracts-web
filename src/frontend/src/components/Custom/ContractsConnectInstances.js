@@ -132,15 +132,17 @@ function ContractsConnectInstances(props) {
           </Tooltip>
         </span>
 
-        <Tooltip title="Add instance(s)" position="right" arrow="true">
-          <Button
-            size={contractsconnect.addButton.size}
-            color={contractsconnect.addButton.color}
-            onClick={() => setTriggerAddInstance(true)}
-          >
-            <i className={contractsconnect.addButton.icon}></i>
-          </Button>
-        </Tooltip>
+        {!props.selectedLibrary.default &&
+          <Tooltip title="Add instance(s)" position="right" arrow="true">
+            <Button
+              size={contractsconnect.addButton.size}
+              color={contractsconnect.addButton.color}
+              onClick={() => setTriggerAddInstance(true)}
+            >
+              <i className={contractsconnect.addButton.icon}></i>
+            </Button>
+          </Tooltip>
+        }
 
         <Modal
           isOpen={triggerAddInstance}

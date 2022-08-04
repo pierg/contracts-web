@@ -1,7 +1,7 @@
 const textProps = {
   instances: {
     instancesTitle: "Instances",
-    instanceStyle: "text-2xl font-bold text-blueGray-500 uppercase mx-4",
+    instanceStyle: "text-2xl font-bold text-blueGray-500 uppercase m-auto",
     messages: [
       {
         title: "Step 1 :",
