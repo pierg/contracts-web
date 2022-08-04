@@ -13,6 +13,10 @@ const textProps = {
       icon: "fas fa-trash-alt",
     },
   },
+  demoLibraryHoover : {
+    text :  "This is a demo library, you can’t add or remove components from it\n" +
+            "Select it and click on “connect” to go to the next page\n"
+  }
 };
 
 export default textProps;

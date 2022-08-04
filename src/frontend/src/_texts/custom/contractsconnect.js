@@ -16,6 +16,9 @@ const textProps = {
         content: "Repeat",
       },
     ],
+        demoMessages: "Here are the instances, you can unfold them to see their output and input\n" +
+                      "Connections on the right are already created\n" +
+                      "Click on “Create system” to go to generated your system\n",
   },
   connections: {
     connectionsTitle: "Connections",
