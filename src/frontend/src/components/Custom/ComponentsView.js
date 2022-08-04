@@ -38,12 +38,14 @@ export default class ComponentsView extends React.Component {
   };
 
   lineClicked = (i) => {
-    let selected = this.props.selectedComponents;
-    if (selected.includes(this.props.components[i]))
-      selected = selected.filter((e) => e !== this.props.components[i]);
-    else selected.push(this.props.components[i]);
+    if(!this.props.selectedLibrary.default) {
+      let selected = this.props.selectedComponents;
+      if (selected.includes(this.props.components[i]))
+        selected = selected.filter((e) => e !== this.props.components[i]);
+      else selected.push(this.props.components[i]);
 
-    this.props.setSelectedComponents(selected);
+      this.props.setSelectedComponents(selected);
+    }
   };
 
   clickAddComponent = () => {
@@ -303,13 +305,17 @@ export default class ComponentsView extends React.Component {
       <>
         <div className="px-3 pb-3 w-7/12 relative flex flex-col flex-initial min-w-component break-words bg-white rounded shadow-md m-auto">
           <div className="flex justify-between p-4 text-center">
-            <div>
-              <Checkbox
-                onChange={(e) => this.selectAllComponents(e)}
-                label="Select all"
-              />
-            </div>
-            <div className="fs-4 font-bold text-blueGray-500">
+            {this.props.selectedLibrary &&
+              <div>
+                {!this.props.selectedLibrary.default &&
+                  <Checkbox
+                    onChange={(e) => this.selectAllComponents(e)}
+                    label="Select all"
+                  />
+                }
+              </div>
+            }
+            <div className="fs-4 font-bold text-blueGray-500 m-auto">
               {componentInfo.info.texts.component.header.title}
             </div>
             <div className="flex justify-center flex-wrap">

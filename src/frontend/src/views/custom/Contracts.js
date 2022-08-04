@@ -147,6 +147,7 @@ export default class Contracts extends React.Component {
     }
     let library = this.state.libraries[index];
     this.setComponents(library.components);
+    this.setSelectedComponents(library.components);
     this.setState({
       selectedLibrary: library,
     });
