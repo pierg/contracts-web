@@ -7012,6 +7012,11 @@ fieldset:disabled .btn {
 .pb-5 {
   padding-bottom: 3rem !important;
 }
+
+.pb-10 {
+  padding-bottom: 8rem !important;
+}
+
 .ps-0 {
   padding-left: 0 !important;
 }
