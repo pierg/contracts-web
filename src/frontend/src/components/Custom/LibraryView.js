@@ -55,7 +55,7 @@ function LibraryView(props) {
   }
 
   return (
-    <div className="px-3 pb-3 w-4/12 relative flex flex-col min-w-library break-words bg-white rounded shadow-md h-fit mb-5">
+    <div className="px-3 pb-3 w-4/12 relative flex flex-col flex-initial min-w-library break-words bg-white rounded shadow-md h-fit mb-5">
       <div className="flex flex-wrap justify-between p-4 text-center">
         <div>
           <i className={librariesviewsinfo.info.icon + " align-middle pr-4"}></i>
