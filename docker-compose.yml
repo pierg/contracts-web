@@ -3,9 +3,11 @@ services:
   backend:
     build: .
     restart: always
-    container_name: backend
+    container_name: backend_contracts
     volumes:
-      - ./src/frontend/build:/home/crome-web/src/frontend/build
+      - ./src/frontend/build:/home/crome-contracts/src/frontend/build
+      - ../cert.pem:/home/contracts-web/cert.pem
+      - ../privkey.pem:/home/contracts-web/privkey.pem
     expose:
       - 5000
     ports:
