@@ -33,23 +33,5 @@ const textProps = {
         title: "About Us",
         text: "Made by Piergiuseppe Mallozzi and a team of students from ENSICAEN : Guillaume Gasser, Théa Linot, David Plessis and Mathis Ronzon"
     },
-    // links: [
-    //     {
-    //         href: "https://github.com/pierg/contracts-web",
-    //         target: "_blank",
-    //         children: "Github",
-    //     },
-    //     {
-    //         href: "",
-    //         target: "_blank",
-    //         children: "Publications",
-    //     },
-    //     {
-    //         href: "",
-    //         target: "_blank",
-    //         children: "About us",
-    //         text: "Made by Piergiuseppe Mallozzi and a team of students from ENSICAEN : Guillaume Gasser, Théa Linot, David Plessis and Mathis Ronzon\n"
-    //     },
-    // ],
 };
 export default textProps;
