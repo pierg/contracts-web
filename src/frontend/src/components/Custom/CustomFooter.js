@@ -20,6 +20,7 @@ export default function CustomFooter() {
                             <ul className="flex flex-wrap list-none md:justify-end justify-center">
                                 <li>
                                     <a
+                                        rel="noreferrer"
                                         target="_blank"
                                         href={customfooter.github.href}
                                         className="text-blueGray-700 hover:no-underline no-underline hover:text-blueGray-900 text-sm focus:outline-none font-semibold block px-3"
@@ -57,6 +58,7 @@ export default function CustomFooter() {
                                         {customfooter.publications.papers.map((prop, key) => (
                                             <li key={key}>
                                                 <a
+                                                    rel="noreferrer"
                                                     target="_blank"
                                                     href={prop.href}
                                                     className="text-blueGray-700 hover:text-blueGray-900 text-base focus:outline-none font-medium block py-1 px-3"
