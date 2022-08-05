@@ -3909,11 +3909,11 @@ select {
 }
 
 .min-w-library {
-  min-width: 20rem;
+  min-width: 18rem;
 }
 
 .min-w-component {
-  min-width: 45rem;
+  min-width: 38rem;
 }
 
 .min-w-connection {
@@ -5810,6 +5810,7 @@ select {
   .sm\:w-full {
     width: 100%;
   }
+
 }
 
 @media (min-width: 768px) {
@@ -6051,9 +6052,21 @@ select {
   .md\:translate-x-0 {
     --tw-translate-x: 0px;
   }
+
+  .md\:mx-5 {
+      margin-left: 1rem;
+      margin-right: 1rem;
+  }
+
 }
 
 @media (min-width: 1024px) {
+
+  .lg\:mx-28 {
+    margin-left: 3rem;
+    margin-right: 3rem;
+  }
+
   .lg\:bg-transparent {
     background-color: transparent;
   }
@@ -6306,6 +6319,12 @@ select {
 }
 
 @media (min-width: 1280px) {
+
+  .xl\:mx-32 {
+    margin-left: 8rem;
+    margin-right: 8rem;
+  }
+
   .xl\:flex {
     display: -webkit-flex;
     display: flex;

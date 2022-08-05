@@ -709,7 +709,7 @@ export default class Contracts extends React.Component {
           </div>
         </div>
 
-        <div className="mx-40 my-6 pb-10">{page}</div>
+        <div className="sm:mx-28 md:mx-5 lg:mx-28 xl:mx-32 my-6 pb-10">{page}</div>
         <CustomFooter {...customfooter} />
       </>
     );

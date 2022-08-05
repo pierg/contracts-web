@@ -2451,6 +2451,10 @@ select {
 .text-1625 {
   font-size: 1.625rem;
 }
+.text-xxs {
+  font-size: 0.6rem;
+  line-height: 0.75rem;
+}
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
@@ -2997,6 +3001,10 @@ select {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+.px-2-5 {
+  padding-left: 0.65rem;
+  padding-right: 0.65rem;
 }
 .py-3 {
   padding-top: 0.75rem;

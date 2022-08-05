@@ -219,8 +219,8 @@ export default class ComponentsView extends React.Component {
   };
 
   reduceDescription = (input) => {
-    if (input.length > 25) {
-      input = input.substr(0, 25) + "...";
+    if (input.length > 20) {
+      input = input.substr(0, 20) + "...";
     }
     return input;
   };
@@ -230,7 +230,7 @@ export default class ComponentsView extends React.Component {
     let lineClass = "";
     for (let i = 0; i < this.props.components.length; i++) {
       lineClass =
-        "border-b-1 text-lg p-3 rounded text-blueGray-700 hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer";
+        "border-b-1 text-base p-3 rounded text-blueGray-700 hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer";
       if (i === 0) {
         lineClass += " border-t-1";
       }
@@ -257,7 +257,7 @@ export default class ComponentsView extends React.Component {
             </Tooltip>
             <Tooltip html="download" position="top" arrow="true">
               <Button
-                size="sm"
+                size="xs"
                 color="gray"
                 onClick={(e) => {
                   e.stopPropagation();
@@ -271,7 +271,7 @@ export default class ComponentsView extends React.Component {
               <>
                 <Tooltip html="edit" position="top" arrow="true">
                   <Button
-                    size="sm"
+                    size="xs"
                     color="gray"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -284,7 +284,7 @@ export default class ComponentsView extends React.Component {
 
                 <Tooltip html="delete" position="top" arrow="true">
                   <Button
-                    size="sm"
+                    size="xs"
                     color="red"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -306,7 +306,7 @@ export default class ComponentsView extends React.Component {
         <div className="px-3 pb-3 w-7/12 relative flex flex-col flex-initial min-w-component break-words bg-white rounded shadow-md m-auto">
           <div className="flex justify-between p-4 text-center">
             {this.props.selectedLibrary &&
-              <div>
+              <div className="mt-2">
                 {!this.props.selectedLibrary.default &&
                   <Checkbox
                     onChange={(e) => this.selectAllComponents(e)}
@@ -315,11 +315,11 @@ export default class ComponentsView extends React.Component {
                 }
               </div>
             }
-            <div className="fs-4 font-bold text-blueGray-500 m-auto">
+            <div className="font-bold text-xl text-blueGray-500 m-auto">
               {componentInfo.info.texts.component.header.title}
             </div>
             <div className="flex justify-center flex-wrap">
-              <div className="mx-2 py-1">
+              <div className="mx-1 py-1">
                 {(!this.props.default && this.props.selectedLibrary !== null) && (
                   <Tooltip title="Add a component" position="right" arrow="true">
                     <Button
@@ -335,7 +335,7 @@ export default class ComponentsView extends React.Component {
                     </Button>
                   </Tooltip>)}
               </div>
-              <div className="mx-2 py-1">
+              <div className="mx-1 py-1">
                 {this.props.selectedLibrary !== null && (
                   <Tooltip title="Download components" position="right" arrow="true">
                     <Button
@@ -353,7 +353,7 @@ export default class ComponentsView extends React.Component {
                     </Button>
                   </Tooltip>)}
               </div>
-              <div className="mx-2 py-1">
+              <div className="mx-1 py-1">
                  {(!this.props.default && this.props.selectedLibrary !== null) && (
                     <Tooltip title="Upload a component" position="right" arrow="true">
                       <UploadButton
@@ -385,7 +385,7 @@ export default class ComponentsView extends React.Component {
               Select a library
             </div>
           ) : (
-            <div className="overflow-auto max-h-400-px pt-3 mx-4 mb-4 truncate">
+            <div className="overflow-auto text-md max-h-400-px pt-3 mx-4 mb-1 truncate">
               <Table responsive>
                 <thead>
                   <tr>

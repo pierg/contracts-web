@@ -23,7 +23,7 @@ function LibraryView(props) {
     const tmp_libraries = [];
     let libraryClass = "";
     for (let i = 0; i < props.libraries.length; i++) {
-        libraryClass = "border-b-1 text-blueGray-700 text-lg p-3 cursor-pointer";
+        libraryClass = "border-b-1 text-blueGray-700 text-base p-3 cursor-pointer";
         if (i === 0) libraryClass += " border-t-1";
         if (props.libraries[i] === props.selectedLibrary) {
             libraryClass += " bg-blueGray-200 hover:bg-blueGray-300";
@@ -63,7 +63,7 @@ function LibraryView(props) {
                                                 <div>{prop.content}</div>
                                             </div>
                                         ))}
-                                    </div>       }
+                                    </div>}
                                 position="right"
                                 arrow="true">
 
@@ -79,13 +79,13 @@ function LibraryView(props) {
 
     return (
         <div
-            className="px-3 pb-3 w-4/12 relative flex flex-col flex-initial min-w-library break-words bg-white rounded shadow-md h-fit mb-5">
+            className="px-3 pb-3 w-3/12 relative flex flex-col flex-initial min-w-library break-words bg-white rounded shadow-md h-fit mb-5 mx-5">
             <div className="flex flex-wrap justify-between p-4 text-center">
                 <div>
                     <i className={librariesviewsinfo.info.icon + " align-middle pr-4"}></i>
-                    <span className="fs-4 font-bold text-blueGray-500 align-middle">
-            {librariesviewsinfo.info.title}
-          </span>
+                    <span className="font-bold text-xl text-blueGray-500 align-middle">
+                        {librariesviewsinfo.info.title}
+                    </span>
                 </div>
 
                 <div className="">

@@ -7,6 +7,7 @@ const Button = React.forwardRef(
     ref
   ) => {
     const sizes = {
+      xs: "text-xs mx-1 px-2-5 py-2 shadow-sm hover:shadow-md rounded-md",
       sm: "text-xs mx-1 px-3 py-2 shadow-sm hover:shadow-md rounded-md",
       regular: "text-sm px-6 py-2 shadow hover:shadow-lg rounded-md",
       regular2: "w-100 text-sm px-6 py-2 shadow hover:shadow-lg rounded-md",
