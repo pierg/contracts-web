@@ -6053,7 +6053,7 @@ select {
     --tw-translate-x: 0px;
   }
 
-  .md\:mx-5 {
+  .md\:mx-4 {
       margin-left: 1rem;
       margin-right: 1rem;
   }
@@ -6062,9 +6062,9 @@ select {
 
 @media (min-width: 1024px) {
 
-  .lg\:mx-28 {
-    margin-left: 3rem;
-    margin-right: 3rem;
+  .lg\:mx-8 {
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
 
   .lg\:bg-transparent {
