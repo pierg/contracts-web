@@ -15,8 +15,18 @@ from src.backend.shared.paths import component_path
 
 
 class ComponentOperation:
+    """Class that contains all the useful method for the component."""
     @staticmethod
     def save_component(data, old_name, session_id, library_name) -> None:
+        """
+            Save a component into a txt file.
+
+            Arguments:
+                data: The component information.
+                old_name: The old name of the component, if it is a modified component.
+                session_id: The id of the user session.
+                library_name: The name of the library where the component will be saved.
+        """
         component_folder = component_path(session_id, library_name)
         if not os.path.exists(component_folder):
             os.makedirs(component_folder)
@@ -65,6 +75,17 @@ class ComponentOperation:
 
     @staticmethod
     def delete_component(name, session_id, library_name) -> bool:
+        """
+            Delete a component from a library.
+
+            Arguments:
+                name: The name of the component.
+                session_id: The id of the session of the user.
+                library_name: The library where the component is saved.
+            
+            Returns:
+                A boolean that indicate if the component has been deleted.
+        """
         component_folder = component_path(session_id, library_name)
 
         _, _, filenames = next(walk(component_folder))
@@ -77,6 +98,17 @@ class ComponentOperation:
 
     @staticmethod
     def get_raw_component(name, session_id, library_name):
+        """
+            Get the content of the txt file of a component.
+
+            Arguments:
+                name: The name of the component.
+                session_id: The id of the session of the user.
+                library_name: The library where the component is saved.
+            
+            Returns:
+                A boolean that indicate if the component has been found or the content of the file.
+        """
         component_folder = component_path(session_id, library_name)
         _, _, filenames = next(walk(component_folder))
         for filename in filenames:
@@ -90,6 +122,17 @@ class ComponentOperation:
 
     @staticmethod
     def save_component_file(component_file, session_id, library_name):
+        """
+            Save a component directly using the txt file and not attributes.
+
+            Arguments:
+                component_file: The content of the file.
+                session_id: The id of the session of the user.
+                library_name: The library where the component is saved.
+            
+            Returns:
+                A boolean that indicate if the component has been saved.
+        """
         component_folder = component_path(session_id, library_name)
         try:
             _check_structure_file(component_file)
@@ -113,6 +156,15 @@ class ComponentOperation:
 
     @staticmethod
     def get_name_from_file(file) -> str:
+        """
+            Retrieve the name of a component from a txt file.
+
+            Arguments:
+                file: The content of the txt file, each line is one line of the table
+
+            Returns:
+                '' if the name has not been found, the name otherwise.
+        """
         line_header = ""
         name = ""
         for line in file:
