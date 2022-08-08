@@ -1,33 +1,15 @@
 #!/usr/bin/env bash
 
-echo "...updating repositories from server..."
-
-cd /home/crome-cgg
-git reset --hard
-git config pull.rebase true
-git pull
-
-cd /home/crome-contracts
-git reset --hard
-git config pull.rebase true
-git pull
-
-cd /home/crome-logic
-git reset --hard
-git config pull.rebase true
-git pull
-
-cd /home/crome-synthesis
-git reset --hard
-git config pull.rebase true
-git pull
+echo "...updating repository from server..."
 
 cd /home/contracts-web
 git reset --hard
 git config pull.rebase true
+git submodule update --init
+git submodule update
 git pull
 
-echo "repositories updated"
+echo "repositoriy updated"
 
 if [ $# -eq 0 ]
   then
