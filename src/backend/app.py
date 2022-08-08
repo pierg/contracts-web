@@ -70,9 +70,12 @@ def connected() -> None:
 
 
 @socketio.on("session-existing")
-def check_if_session_exist(data) -> None:
-    """Check if a session is free and if the user can enter it."""
-    session_id = str(data["session"])
+def check_if_session_exist(session_id) -> None:
+    """Check if a session is free and if the user can enter it.
+
+    Arguments:
+            session_id: The id of the wanted session
+    """
     tab_id = str(request.args.get("tabId"))
     cookie = str(request.args.get("cookie"))
     print("check if following session exists : " + session_id)
@@ -123,7 +126,13 @@ def get_current_time() -> Dict[str, float]:
 
 
 def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
-    """Simplified version to send a notification and a message to a user."""
+    """Simplified version to send a notification and a message to a user.
+
+    Arguments:
+        content: The content of the message.
+        room_id: Where to send the notification and the message.
+        crometype: The type of notification to send.
+    """
     now = time.localtime(time.time())
     emit("send-notification", {"crometypes": crometype, "content": content}, room=room_id)
     emit("send-message", f"{strftime('%H:%M:%S', now)} - {content}", room=room_id)
@@ -131,6 +140,13 @@ def send_message_to_user(content: str, room_id: str, crometype: str) -> None:
 
 @socketio.on("display-message")
 def display_message(data) -> None:
+    """Display a message and send a notification to the user. It is a version
+    that is only used by our frontend.
+
+    Arguments:
+         data: A dictionary containing the content of the message, for the notification and the console,
+        and the type of notification to send.
+    """
     now = time.localtime(time.time())
     emit("send-notification", {"crometypes": data["type"], "content": data["messageNotif"]}, room=request.sid)
     emit(

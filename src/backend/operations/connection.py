@@ -13,15 +13,15 @@ COMMENT_CHAR = "#"
 
 class ConnectionOperation:
     """Class that contains all the useful method for the connection."""
+
     @staticmethod
     def save_connection(data, session_id, library_name) -> None:
-        """
-            Save a connection into a txt file.
+        """Save a connection into a txt file.
 
-            Arguments:
-                data: The connection information.
-                session_id: The id of the user session.
-                library_name: The name of the library where the connection will be saved.
+        Arguments:
+            data: The connection information.
+            session_id: The id of the user session.
+            library_name: The name of the library where the connection will be saved.
         """
         connection_folder = connection_path(session_id, library_name)
         if not os.path.isdir(connection_folder):
@@ -51,16 +51,15 @@ class ConnectionOperation:
 
     @staticmethod
     def delete_connection(name, session_id, library_name) -> None:
-        """
-            Delete a connection from a library.
+        """Delete a connection from a library.
 
-            Arguments:
-                name: The name of the connection.
-                session_id: The id of the session of the user.
-                library_name: The library where the connection is saved.
-            
-            Returns:
-                A boolean that indicate if the connection has been deleted.
+        Arguments:
+            name: The name of the connection.
+            session_id: The id of the session of the user.
+            library_name: The library where the connection is saved.
+
+        Returns:
+            A boolean that indicate if the connection has been deleted.
         """
         connection_folder = connection_path(session_id, library_name)
         _, _, filenames = next(walk(connection_folder))
@@ -73,16 +72,16 @@ class ConnectionOperation:
 
     @staticmethod
     def check_connection_possible(component_list, session_id, library_name, default) -> List:
-        """
-            Check all the connection that are already saved and used the same component as the component_list.
+        """Check all the connection that are already saved and used the same
+        component as the component_list.
 
-            Arguments:
-                component_list: List of the name of the components.
-                session_id: The id of the session of the user.
-                library_name: The library where the connection are.
-            
-            Returns:
-                A list of all the connection possible.
+        Arguments:
+            component_list: List of the name of the components.
+            session_id: The id of the session of the user.
+            library_name: The library where the connection are.
+
+        Returns:
+            A list of all the connection possible.
         """
         if default:
             connection_folder = default_connection_path(library_name)
@@ -112,14 +111,13 @@ class ConnectionOperation:
 
     @staticmethod
     def get_content(content_file) -> Dict:
-        """
-            Get the content of a txt file of a connection.
+        """Get the content of a txt file of a connection.
 
-            Arguments:
-                content_file: The content of the txt file, each line is one line of the table.
-            
-            Returns:
-                A dict that contains all the information about the connection.
+        Arguments:
+            content_file: The content of the txt file, each line is one line of the table.
+
+        Returns:
+            A dict that contains all the information about the connection.
         """
         line_header = ""
         name = ""
@@ -160,14 +158,13 @@ class ConnectionOperation:
 
     @staticmethod
     def get_name(content_file) -> str:
-        """
-            Retrieve the name of a connection from a txt file.
+        """Retrieve the name of a connection from a txt file.
 
-            Arguments:
-                file: The content of the txt file, each line is one line of the table
+        Arguments:
+            file: The content of the txt file, each line is one line of the table
 
-            Returns:
-                '' if the name has not been found, the name otherwise.
+        Returns:
+            '' if the name has not been found, the name otherwise.
         """
         line_header = ""
         name = ""
@@ -188,14 +185,13 @@ class ConnectionOperation:
 
     @staticmethod
     def get_instances(content_file) -> Dict[str, str]:
-        """
-            Retrieve the name of a connection from a txt file.
+        """Retrieve the name of a connection from a txt file.
 
-            Arguments:
-                file: The content of the txt file, each line is one line of the table
+        Arguments:
+            file: The content of the txt file, each line is one line of the table
 
-            Returns:
-                '' if the name has not been found, the name otherwise.
+        Returns:
+            '' if the name has not been found, the name otherwise.
         """
         line_header = ""
         instances_list: Dict = {}

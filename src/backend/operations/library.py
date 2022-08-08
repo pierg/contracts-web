@@ -14,16 +14,17 @@ COMMENT_CHAR = "#"
 
 class LibraryOperation:
     """Class that contains all the useful method for the library."""
+
     @staticmethod
     def get_library(session_id) -> List[Dict]:
-        """
-            Get all the library create inside the session folder and the default session.
+        """Get all the library create inside the session folder and the default
+        session.
 
-            Arguments:
-                session_id: The id of the session of the user.
-            
-            Returns:
-                A list of all the library. Each library is a dictionary with all the useful information inside.
+        Arguments:
+            session_id: The id of the session of the user.
+
+        Returns:
+            A list of all the library. Each library is a dictionary with all the useful information inside.
         """
         result = []
         list_session = ["default", session_id]
@@ -61,13 +62,12 @@ class LibraryOperation:
 
     @staticmethod
     def add_to_library(library_name, list_components, session_id) -> None:
-        """
-            Add a component inside the description file of a library
+        """Add a component inside the description file of a library.
 
-            Arguments:
-                library_name: The name of the library.
-                list_components: A list of the names of the components to be added.
-                session_id: The id of the session where the library is. 
+        Arguments:
+            library_name: The name of the library.
+            list_components: A list of the names of the components to be added.
+            session_id: The id of the session where the library is.
         """
         library_folder = library_path(session_id, library_name)
         component_to_add = list_components
@@ -112,12 +112,11 @@ class LibraryOperation:
 
     @staticmethod
     def remove_library(library_name, session_id) -> bool:
-        """
-            Remove a library from a session folder
+        """Remove a library from a session folder.
 
-            Arguments:
-                library_name: The name of the library
-                session_id: The id of the session where the the library is.
+        Arguments:
+            library_name: The name of the library
+            session_id: The id of the session where the the library is.
         """
         library_folder = library_path(session_id, library_name)
         if os.path.exists(library_folder):
@@ -127,14 +126,13 @@ class LibraryOperation:
 
     @staticmethod
     def get_component(file) -> list:
-        """
-            Get all the component from the description file of a library
+        """Get all the component from the description file of a library.
 
-            Arguments:
-                file: The content of the txt file, each line is one line of the table
+        Arguments:
+            file: The content of the txt file, each line is one line of the table
 
-            Returns:
-                A list of all the name of the components.
+        Returns:
+            A list of all the name of the components.
         """
         line_header = ""
         component_list = []
@@ -161,14 +159,13 @@ class LibraryOperation:
 
     @staticmethod
     def get_name(file) -> str:
-        """
-            Retrieve the name of a library from a txt file.
+        """Retrieve the name of a library from a txt file.
 
-            Arguments:
-                file: The content of the txt file, each line is one line of the table
+        Arguments:
+            file: The content of the txt file, each line is one line of the table
 
-            Returns:
-                '' if the name has not been found, the name otherwise.
+        Returns:
+            '' if the name has not been found, the name otherwise.
         """
         line_header = ""
         name = ""

@@ -12,11 +12,10 @@ from src.backend.operations.component import ComponentOperation
 # The signal for the component
 @socketio.on("save-component")
 def save_component(data) -> None:
-    """
-        Get the synthesis created by the user and the examples.
-    
-        Arguments:
-            data: Dictionary containing all the usefull information about the componenent and the old name of the component if it exists.
+    """Get the synthesis created by the user and the examples.
+
+    Arguments:
+        data: Dictionary containing all the usefull information about the componenent and the old name of the component if it exists.
     """
     session_id = str(request.args.get("id"))
     now = time.localtime(time.time())
@@ -62,11 +61,11 @@ def save_component(data) -> None:
 
 @socketio.on("delete-component")
 def delete_component(data) -> None:
-    """
-        We delete the json file related to the component id given by the frontend.
-    
-        Arguments:
-            data: A dictionary containing the name of the component and the library name where it is saved.
+    """We delete the json file related to the component id given by the
+    frontend.
+
+    Arguments:
+        data: A dictionary containing the name of the component and the library name where it is saved.
     """
     session_id = str(request.args.get("id"))
 
@@ -80,11 +79,10 @@ def delete_component(data) -> None:
 
 @socketio.on("download-components")
 def download_components(data):
-    """
-        Download the txt file of component(s)
+    """Download the txt file of component(s)
 
-        Arguments:
-            data: A dictionary containing the names of the components to download and the library name where they are saved.
+    Arguments:
+        data: A dictionary containing the names of the components to download and the library name where they are saved.
     """
     list_component = []
     session_id = "default" if data["is_default"] else request.args.get("id")
@@ -98,11 +96,10 @@ def download_components(data):
 
 @socketio.on("upload-component")
 def upload_component(data):
-    """
-        Upload a component.
+    """Upload a component.
 
-        Arguments:
-            data: A dictionary containing the txt file and the name of the library.
+    Arguments:
+        data: A dictionary containing the txt file and the name of the library.
     """
     session_id = request.args.get("id")
     is_saved = ComponentOperation.save_component_file(data["component_file"], session_id, data["library_name"])
