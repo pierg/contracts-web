@@ -25,10 +25,10 @@ COPY . /home/contracts-web
 
 WORKDIR /home/contracts-web
 
+ENV PYTHONPATH "/home/crome-web:/home/crome-web/crome_cgg:/home/crome-web/crome_contracts:/home/crome-web/crome_logic:/home/crome-web/crome_synthesis"
+
 # Copy /venv from the previous stage:
 COPY --from=build /venv ./venv
-
-ENV PYTHONPATH "/home/contracts-web:/home/crome-cgg:/home/crome-contracts:/home/crome-logic:/home/crome-synthesis"
 
 
 ### Installing NodeJS as in https://github.com/sitespeedio/docker-node/blob/main/Dockerfile

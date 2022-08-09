@@ -5,8 +5,7 @@ echo "...updating repository from server..."
 cd /home/contracts-web
 git reset --hard
 git config pull.rebase true
-git submodule update --init
-git submodule update
+git submodule foreach git pull origin main
 git pull
 
 echo "repositoriy updated"
