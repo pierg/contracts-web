@@ -37,7 +37,7 @@ function ContractsConnect(props) {
                 </div>
             }
 
-            <div className="px-3 pb-3 w-35 relative flex flex-col min-w-connection break-words bg-white rounded shadow-md h-fit m-auto ">
+            <div className="px-3 pb-3 w-35 relative flex flex-col min-w-connection sm:min-w-connection break-words bg-white rounded shadow-md h-fit m-auto ">
                 <ContractsConnectConnections
                     selectedLibrary={props.selectedLibrary}
                     instances={props.instances}

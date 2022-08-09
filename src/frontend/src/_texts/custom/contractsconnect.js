@@ -1,7 +1,7 @@
 const textProps = {
     instances: {
         instancesTitle: "Instances",
-        instanceStyle: "text-2xl font-bold text-blueGray-500 uppercase m-auto",
+        instanceStyle: "text-lg sm:text-2xl font-bold text-blueGray-500 uppercase m-auto",
         messages: [
             {
                 title: "Step 1 :",
@@ -30,7 +30,7 @@ const textProps = {
     },
     connections: {
         connectionsTitle: "Connections",
-        connectionsStyle: "text-2xl font-bold text-blueGray-500 uppercase mx-4 mr-4",
+        connectionsStyle: "text-lg sm:text-2xl font-bold text-blueGray-500 uppercase mx-4 mr-4",
     },
     addButton: {
         size: "sm",

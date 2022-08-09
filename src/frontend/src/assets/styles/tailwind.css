@@ -3917,7 +3917,7 @@ select {
 }
 
 .min-w-connection {
-  min-width: 25rem;
+  min-width: 23rem;
 }
 
 .min-w-instance {
@@ -5724,6 +5724,10 @@ select {
     min-width: 38rem;
   }
 
+  .sm\:min-w-connection {
+    min-width: 25rem;
+  }
+
   .sm\:text-sm {
     font-size: 0.875rem;
     line-height: 1.25rem;
@@ -5738,6 +5742,11 @@ select {
     font-size: 1.25rem;
     line-height: 1.75rem;
   }
+
+  .sm\:text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
 
   .sm\:px-3 {
     padding-left: 0.75rem !important;
