@@ -3913,7 +3913,7 @@ select {
 }
 
 .min-w-component {
-  min-width: 38rem;
+  min-width: 18rem;
 }
 
 .min-w-connection {
@@ -4099,6 +4099,11 @@ select {
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
+}
+
+.px-1 {
+  padding-right: 0.25rem;
+  padding-left: 0.25rem;
 }
 
 .py-2 {
@@ -5713,6 +5718,34 @@ select {
   .sm\:flex {
     display: -webkit-flex;
     display: flex;
+  }
+
+  .sm\:min-w-component {
+    min-width: 38rem;
+  }
+
+  .sm\:text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .sm\:text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .sm\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .sm\:px-3 {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+  }
+
+  .sm\:p-3 {
+    padding: 0.75rem !important;
   }
 
   .sm\:hidden {

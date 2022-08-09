@@ -225,12 +225,19 @@ export default class ComponentsView extends React.Component {
     return input;
   };
 
+  showCheckbox = () => {
+    if (window.matchMedia("(max-width: 700px)").matches) {
+      return false
+    }
+    return true
+  }
+
   render() {
     let components = [];
     let lineClass = "";
     for (let i = 0; i < this.props.components.length; i++) {
       lineClass =
-        "border-b-1 text-base p-3 rounded text-blueGray-700 hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer";
+        "border-b-1 text-sm sm:text-base p-3 rounded text-blueGray-700 hover:bg-blueGray-200 hover:text-blueGray-900 cursor-pointer";
       if (i === 0) {
         lineClass += " border-t-1";
       }
@@ -303,10 +310,10 @@ export default class ComponentsView extends React.Component {
 
     return (
       <>
-        <div className="px-3 pb-3 w-7/12 relative flex flex-col flex-initial min-w-component break-words bg-white rounded shadow-md m-auto">
+        <div className="sm:px-3 px-1 pb-3 w-7/12 relative flex flex-col flex-initial min-w-component sm:min-w-component break-words bg-white rounded shadow-md m-auto">
           <div className="flex justify-between p-4 text-center">
-            {this.props.selectedLibrary &&
-              <div className="mt-2">
+            {this.props.selectedLibrary && this.showCheckbox() &&
+              <div className="mt-2 float-left">
                 {!this.props.selectedLibrary.default &&
                   <Checkbox
                     onChange={(e) => this.selectAllComponents(e)}
@@ -315,7 +322,7 @@ export default class ComponentsView extends React.Component {
                 }
               </div>
             }
-            <div className="font-bold text-xl text-blueGray-500 m-auto">
+            <div className="font-bold text-base sm:text-xl text-blueGray-500 m-auto">
               {componentInfo.info.texts.component.header.title}
             </div>
             <div className="flex justify-center flex-wrap">
@@ -385,7 +392,7 @@ export default class ComponentsView extends React.Component {
               Select a library
             </div>
           ) : (
-            <div className="overflow-auto text-md max-h-400-px pt-3 mx-4 mb-1 truncate">
+            <div className="overflow-auto text-xs sm:text-sm max-h-400-px pt-3 mx-4 mb-1 truncate">
               <Table responsive>
                 <thead>
                   <tr>
