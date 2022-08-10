@@ -161,6 +161,7 @@ import src.backend.signal_handler.connection_signal  # NOQA
 import src.backend.signal_handler.library_signal  # NOQA
 
 if __name__ == "__main__":
+    print("I'm here !")
     if args.dev:
         print("Starting the backend in development mode")
         socketio.run(app, host="0.0.0.0")
