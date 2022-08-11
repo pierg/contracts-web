@@ -24,7 +24,7 @@ else:
     print("Launching Backend")
     app = Flask(__name__)
 
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 users: Dict[str, Any] = {}
 # String dictionary associating the id of the request to talk to the user with the session id given by the frontend.
@@ -161,7 +161,6 @@ import src.backend.signal_handler.connection_signal  # NOQA
 import src.backend.signal_handler.library_signal  # NOQA
 
 if __name__ == "__main__":
-    print("I'm here !")
     if args.dev:
         print("Starting the backend in development mode")
         socketio.run(app, host="0.0.0.0")
