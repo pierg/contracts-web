@@ -5,6 +5,7 @@ dependencies:
 - aenum
 - dill
 - docker-py
+- eventlet
 - flask
 - flask-socketio
 - matplotlib
