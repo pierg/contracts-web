@@ -25,7 +25,7 @@ COPY . /home/contracts-web
 
 WORKDIR /home/contracts-web
 
-ENV PYTHONPATH "/home/contracts-web:/home/contracts-web/e_cgg:/home/contracts-web/crome_contracts:/home/contracts-web/crome_logic:/home/contracts-web/crome_synthesis"
+ENV PYTHONPATH "/home/contracts-web:/home/contracts-web/crome_cgg:/home/contracts-web/crome_contracts:/home/contracts-web/crome_logic:/home/contracts-web/crome_synthesis"
 
 # Copy /venv from the previous stage:
 COPY --from=build /venv ./venv
