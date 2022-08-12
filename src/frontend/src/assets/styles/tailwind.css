@@ -3924,7 +3924,6 @@ select {
   min-width: 23rem;
 }
 
-
 .min-w-full {
   min-width: 100%;
 }
@@ -5744,9 +5743,9 @@ select {
   }
 
   .sm\:text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
 
   .sm\:px-3 {
     padding-left: 0.75rem !important;
@@ -5852,7 +5851,6 @@ select {
   .sm\:w-full {
     width: 100%;
   }
-
 }
 
 @media (min-width: 768px) {
@@ -6096,14 +6094,12 @@ select {
   }
 
   .md\:mx-4 {
-      margin-left: 1rem;
-      margin-right: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
-
 }
 
 @media (min-width: 1024px) {
-
   .lg\:mx-8 {
     margin-left: 2rem;
     margin-right: 2rem;
@@ -6361,7 +6357,6 @@ select {
 }
 
 @media (min-width: 1280px) {
-
   .xl\:mx-32 {
     margin-left: 8rem;
     margin-right: 8rem;

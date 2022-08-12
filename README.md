@@ -8,8 +8,9 @@ Web Interface for the Contracts package.
 [docker](https://www.docker.com) must be installed and running.
 
 ### Dependencies
-This project contains submodules.
-To properly download them run :
+
+This project contains submodules. To properly download them run :
+
 ```bash
 git clone --recursive https://github.com/pierg/contracts-web
 ```
@@ -23,13 +24,16 @@ manage the environment and dependencies.
 We use [pdm](https://github.com/pdm-project/pdm) to manage 'development' dependencies
 (e.g. linting, type checking).
 
+You need to install `conda-merge` so that we can merge all the dependecies from the
+other repositories and create the `environment.yml`
 
-You need to install `conda-merge` so that we can merge all the dependecies from the other repositories and create the `environment.yml`
 ```bash
 pip install conda-merge
 ```
 
-Once `conda-merge` is installed, you can create the `environment.yml` file, create the environment and activate it by running the following commands:
+Once `conda-merge` is installed, you can create the `environment.yml` file, create the
+environment and activate it by running the following commands:
+
 ```bash
 make env-create
 make env-install
@@ -37,26 +41,33 @@ make env-activate
 ```
 
 Or alternately `make env-all`
+
 ## Makefile
 
-To discover Makefile commands or generate documentation you need install pdm dependancies and setup the Makefile :
+To discover Makefile commands or generate documentation you need install pdm
+dependancies and setup the Makefile :
+
 ```bash
 pdm install
 ```
+
 ```bash
 make setup
 ```
-Check basic commands available by running 
+
+Check basic commands available by running
+
 ```bash
 make
 ```
+
 ### Documentation
+
 You can generate the documentation of the project by running the following commands:
 
 ```bash
 make docs
 ```
-
 
 ## Pre-commit tools
 

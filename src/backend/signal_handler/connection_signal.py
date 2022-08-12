@@ -47,8 +47,7 @@ def get_possible_connection(data) -> None:
 
 @socketio.on("upload-connection")
 def upload_connection(data) -> None:
-    """
-    Upload a connection using a txt file.
+    """Upload a connection using a txt file.
 
     Arguments:
         data: A dictionary containing the txt file and the name of the library.

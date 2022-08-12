@@ -153,7 +153,7 @@ export default class Contracts extends React.Component {
     }
     let library = this.state.libraries[index];
     this.setComponents(library.components);
-    if(library.default) {
+    if (library.default) {
       this.setSelectedComponents(library.components);
     }
     this.setState({
@@ -295,21 +295,20 @@ export default class Contracts extends React.Component {
 
   connectionFound = (connections) => {
     if (this.state.selectedLibrary.default) {
-      let includes
+      let includes;
       for (let i = 0; i < connections.length; i++) {
-        includes = false
-        for(let j=0 ; j < this.state.connections.length; j++) {
-          if(this.state.connections[j].name === connections[i].name) {
-            includes = true
+        includes = false;
+        for (let j = 0; j < this.state.connections.length; j++) {
+          if (this.state.connections[j].name === connections[i].name) {
+            includes = true;
             break;
           }
         }
-        if(!includes) {
+        if (!includes) {
           this.addConnectionDisplay(connections[i].name, connections[i].connections);
         }
       }
-    }
-    else {
+    } else {
       this.setState({
         triggerChooseConnection: true,
         connectionsFound: connections,
@@ -518,29 +517,28 @@ export default class Contracts extends React.Component {
   setTriggerUploadConnection = (bool) => {
     this.setState({
       triggerUploadConnections: bool,
-    })
-  }
+    });
+  };
 
   uploadConnection = (connectionFile) => {
     this.setState({
       triggerUploadConnections: true,
       connectionFileUpload: connectionFile,
-    })
-  }
+    });
+  };
   setTriggerDownloadConnections = (bool) => {
     this.setState({
       triggerDownloadConnections: bool,
-    })
-  }
+    });
+  };
 
   downloadConnections = (connectionsToDownload, isDefault = false) => {
     this.setState({
       triggerDownloadConnections: true,
       isDefault: isDefault,
       connectionsToDownload: connectionsToDownload,
-    })
-  }
-
+    });
+  };
 
   render() {
     let page;
@@ -720,9 +718,11 @@ export default class Contracts extends React.Component {
           library={this.state.selectedLibrary}
           triggerDownload={this.state.triggerDownloadConnections}
           setTriggerDownload={this.setTriggerDownloadConnections}
-          isDefault={this.state.selectedLibrary !== null
-                ? this.state.selectedLibrary.default
-                : false}
+          isDefault={
+            this.state.selectedLibrary !== null
+              ? this.state.selectedLibrary.default
+              : false
+          }
           connectionsToDownload={this.state.connectionsToDownload}
         />
         <CustomHeader

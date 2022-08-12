@@ -18,7 +18,8 @@ const textProps = {
       close: "now-ui-icons ui-1_simple-remove",
       cancelText: "Cancel",
       cancelColor: "danger",
-      warningGuarantees: "A Component must have at least 1 input, 1 output and 1 Guarantee",
+      warningGuarantees:
+        "A Component must have at least 1 input, 1 output and 1 Guarantee",
       saveText: "Save",
       saveColor: "info",
     },

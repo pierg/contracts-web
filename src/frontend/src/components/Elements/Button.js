@@ -149,7 +149,15 @@ Button.defaultProps = {
   size: "regular",
 };
 Button.propTypes = {
-  size: PropTypes.oneOf(["xs", "sm", "lg", "customLg", "regular", "xl", "worldModeling"]),
+  size: PropTypes.oneOf([
+    "xs",
+    "sm",
+    "lg",
+    "customLg",
+    "regular",
+    "xl",
+    "worldModeling",
+  ]),
   outline: PropTypes.bool,
   children: PropTypes.node,
   fullWidth: PropTypes.bool,

@@ -12,10 +12,6 @@ import {
 } from "reactstrap";
 import LTLTextArea from "./LTLTextArea";
 
-
-
-
-
 export default function ContractContentEditor({
   items,
   changeParameter,
@@ -26,7 +22,6 @@ export default function ContractContentEditor({
   setLTLWorldValues,
   infos,
 }) {
-
   let changeParameterTmp = (string, key) => {
     let e = {
       target: {

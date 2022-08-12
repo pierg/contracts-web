@@ -1,7 +1,7 @@
 import os.path
 from os import walk
 from pathlib import Path
-from typing import Dict, List, Tuple, TextIO
+from typing import Dict, List, TextIO, Tuple
 
 from src.backend.shared.paths import connection_path, default_connection_path
 
@@ -52,16 +52,16 @@ class ConnectionOperation:
 
     @staticmethod
     def save_connection_file(library_name: str, connection_file: str, session_id: str) -> bool:
-        """
-            Save a connection file. It checks if the file has the right structure.
+        """Save a connection file. It checks if the file has the right
+        structure.
 
-            Arguments:
-                session_id: The id of the session of the user.
-                library_name: The library where the connection is saved.
-                connection_file: The content of the txt file.
+        Arguments:
+            session_id: The id of the session of the user.
+            library_name: The library where the connection is saved.
+            connection_file: The content of the txt file.
 
-            Returns:
-                A boolean that indicate if the connection has been saved.
+        Returns:
+            A boolean that indicate if the connection has been saved.
         """
 
         connection_folder = connection_path(session_id, library_name)

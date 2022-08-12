@@ -38,7 +38,7 @@ export default class ComponentsView extends React.Component {
   };
 
   lineClicked = (i) => {
-    if(!this.props.selectedLibrary.default) {
+    if (!this.props.selectedLibrary.default) {
       let selected = this.props.selectedComponents;
       if (selected.includes(this.props.components[i]))
         selected = selected.filter((e) => e !== this.props.components[i]);
@@ -227,10 +227,10 @@ export default class ComponentsView extends React.Component {
 
   showCheckbox = () => {
     if (window.matchMedia("(max-width: 700px)").matches) {
-      return false
+      return false;
     }
-    return true
-  }
+    return true;
+  };
 
   render() {
     let components = [];
@@ -312,22 +312,22 @@ export default class ComponentsView extends React.Component {
       <>
         <div className="sm:px-3 px-1 pb-3 w-7/12 relative flex flex-col flex-initial min-w-component sm:min-w-component break-words bg-white rounded shadow-md m-auto">
           <div className="flex justify-between p-4 text-center">
-            {this.props.selectedLibrary && this.showCheckbox() &&
+            {this.props.selectedLibrary && this.showCheckbox() && (
               <div className="mt-2 float-left">
-                {!this.props.selectedLibrary.default &&
+                {!this.props.selectedLibrary.default && (
                   <Checkbox
                     onChange={(e) => this.selectAllComponents(e)}
                     label="Select all"
                   />
-                }
+                )}
               </div>
-            }
+            )}
             <div className="font-bold text-base sm:text-xl text-blueGray-500 m-auto">
               {componentInfo.info.texts.component.header.title}
             </div>
             <div className="flex justify-center flex-wrap">
               <div className="mx-1 py-1">
-                {(!this.props.default && this.props.selectedLibrary !== null) && (
+                {!this.props.default && this.props.selectedLibrary !== null && (
                   <Tooltip title="Add a component" position="right" arrow="true">
                     <Button
                       size={componentInfo.info.texts.component.header.addButton.size}
@@ -340,13 +340,16 @@ export default class ComponentsView extends React.Component {
                         }
                       ></i>
                     </Button>
-                  </Tooltip>)}
+                  </Tooltip>
+                )}
               </div>
               <div className="mx-1 py-1">
                 {this.props.selectedLibrary !== null && (
                   <Tooltip title="Download components" position="right" arrow="true">
                     <Button
-                      size={componentInfo.info.texts.component.header.downloadButton.size}
+                      size={
+                        componentInfo.info.texts.component.header.downloadButton.size
+                      }
                       color={
                         componentInfo.info.texts.component.header.downloadButton.color
                       }
@@ -358,15 +361,15 @@ export default class ComponentsView extends React.Component {
                         }
                       ></i>
                     </Button>
-                  </Tooltip>)}
+                  </Tooltip>
+                )}
               </div>
               <div className="mx-1 py-1">
-                 {(!this.props.default && this.props.selectedLibrary !== null) && (
-                    <Tooltip title="Upload a component" position="right" arrow="true">
-                      <UploadButton
-                        upload={this.props.uploadComponent}
-                      />
-                    </Tooltip>)}
+                {!this.props.default && this.props.selectedLibrary !== null && (
+                  <Tooltip title="Upload a component" position="right" arrow="true">
+                    <UploadButton upload={this.props.uploadComponent} />
+                  </Tooltip>
+                )}
               </div>
               <Modal
                 isOpen={this.state.triggerAddComponent}
