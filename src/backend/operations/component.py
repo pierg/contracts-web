@@ -1,6 +1,7 @@
 import os
 from os import walk
 from pathlib import Path
+from typing import Dict, List, TextIO
 
 from crome_component.component_tmp.component_spec import (
     ASSUMPTION_HEADER,
@@ -18,7 +19,7 @@ class ComponentOperation:
     """Class that contains all the useful method for the component."""
 
     @staticmethod
-    def save_component(data, old_name, session_id, library_name) -> None:
+    def save_component(data: Dict, old_name: str, session_id: str, library_name: str) -> None:
         """Save a component into a txt file.
 
         Arguments:
@@ -74,7 +75,7 @@ class ComponentOperation:
                 file.write(f"\t\t{elt}\n")
 
     @staticmethod
-    def delete_component(name, session_id, library_name) -> bool:
+    def delete_component(name: str, session_id: str, library_name: str) -> bool:
         """Delete a component from a library.
 
         Arguments:
@@ -96,7 +97,7 @@ class ComponentOperation:
         return False
 
     @staticmethod
-    def get_raw_component(name, session_id, library_name):
+    def get_raw_component(name: str, session_id: str, library_name: str) -> bool | str:
         """Get the content of the txt file of a component.
 
         Arguments:
@@ -119,7 +120,7 @@ class ComponentOperation:
         return False
 
     @staticmethod
-    def save_component_file(component_file, session_id, library_name):
+    def save_component_file(component_file: str, session_id: str, library_name: str) -> bool:
         """Save a component directly using the txt file and not attributes.
 
         Arguments:
@@ -131,9 +132,7 @@ class ComponentOperation:
             A boolean that indicate if the component has been saved.
         """
         component_folder = component_path(session_id, library_name)
-        try:
-            _check_structure_file(component_file)
-        except:
+        if not _check_structure_file(component_file):
             return False
         if not os.path.exists(component_folder):
             os.makedirs(component_folder)
@@ -152,7 +151,7 @@ class ComponentOperation:
         return True
 
     @staticmethod
-    def get_name_from_file(file) -> str:
+    def get_name_from_file(file: List[str] | TextIO) -> str:
         """Retrieve the name of a component from a txt file.
 
         Arguments:
@@ -191,7 +190,7 @@ class ComponentOperation:
         return ""
 
 
-def _check_structure_file(component_file):
+def _check_structure_file(component_file: str) -> bool:
     line_header = ""
     for line in component_file.split("\n"):
         line, header = _check_header(line)
@@ -205,22 +204,23 @@ def _check_structure_file(component_file):
                 if line_header == "":
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
 
             elif OUTPUTS_HEADER == line:
                 if line_header == INPUTS_HEADER:
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
 
             elif ASSUMPTION_HEADER == line:
                 if line_header == OUTPUTS_HEADER:
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
 
             elif GUARANTEES_HEADER == line:
                 if line_header == ASSUMPTION_HEADER:
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
+    return True

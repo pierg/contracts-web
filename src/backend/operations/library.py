@@ -16,7 +16,7 @@ class LibraryOperation:
     """Class that contains all the useful method for the library."""
 
     @staticmethod
-    def get_library(session_id) -> List[Dict]:
+    def get_library(session_id: str) -> List[Dict]:
         """Get all the library create inside the session folder and the default
         session.
 
@@ -61,7 +61,7 @@ class LibraryOperation:
         return result
 
     @staticmethod
-    def add_to_library(library_name, list_components, session_id) -> None:
+    def add_to_library(library_name: str, list_components: List, session_id: str) -> None:
         """Add a component inside the description file of a library.
 
         Arguments:
@@ -90,7 +90,7 @@ class LibraryOperation:
                 file.write(f"\t{elt}\n")
 
     @staticmethod
-    def remove_from_library(library_name, component_name, session_id) -> bool:
+    def remove_from_library(library_name: str, component_name: str, session_id: str) -> bool:
         description_file = library_description_file(session_id, library_name)
 
         if not os.path.exists(description_file):
@@ -116,7 +116,7 @@ class LibraryOperation:
 
         Arguments:
             library_name: The name of the library
-            session_id: The id of the session where the the library is.
+            session_id: The id of the session where the library is.
         """
         library_folder = library_path(session_id, library_name)
         if os.path.exists(library_folder):

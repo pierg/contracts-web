@@ -1,6 +1,7 @@
 import os.path
 from os import walk
-from typing import Dict, List, Tuple
+from pathlib import Path
+from typing import Dict, List, Tuple, TextIO
 
 from src.backend.shared.paths import connection_path, default_connection_path
 
@@ -15,7 +16,7 @@ class ConnectionOperation:
     """Class that contains all the useful method for the connection."""
 
     @staticmethod
-    def save_connection(data, session_id, library_name) -> None:
+    def save_connection(data: Dict, session_id: str, library_name: str) -> None:
         """Save a connection into a txt file.
 
         Arguments:
@@ -50,7 +51,7 @@ class ConnectionOperation:
                 file.write(f"\t{elt}\n")
 
     @staticmethod
-    def save_connection_file(library_name, connection_file, session_id) -> bool:
+    def save_connection_file(library_name: str, connection_file: str, session_id: str) -> bool:
         """
             Save a connection file. It checks if the file has the right structure.
 
@@ -64,10 +65,9 @@ class ConnectionOperation:
         """
 
         connection_folder = connection_path(session_id, library_name)
-        try:
-            _check_structure_file(connection_file)
-        except:
+        if not _check_structure_file(connection_file):
             return False
+
         if not os.path.exists(connection_folder):
             os.makedirs(connection_folder)
 
@@ -85,7 +85,7 @@ class ConnectionOperation:
         return True
 
     @staticmethod
-    def delete_connection(name, session_id, library_name) -> None:
+    def delete_connection(name: str, session_id: str, library_name: str) -> None:
         """Delete a connection from a library.
 
         Arguments:
@@ -106,7 +106,7 @@ class ConnectionOperation:
                 os.remove(connection_folder / filename)
 
     @staticmethod
-    def check_connection_possible(component_list, session_id, library_name, default) -> List:
+    def check_connection_possible(component_list: str, session_id: str, library_name: str, default: str) -> List:
         """Check all the connection that are already saved and used the same
         component as the component_list.
 
@@ -146,7 +146,7 @@ class ConnectionOperation:
         return list_possible_connection
 
     @staticmethod
-    def get_content(content_file) -> Dict:
+    def get_content(content_file: List[str] | TextIO) -> Dict:
         """Get the content of a txt file of a connection.
 
         Arguments:
@@ -193,7 +193,7 @@ class ConnectionOperation:
         return {"name": name[:-1], "instances": instances, "connections": connections}
 
     @staticmethod
-    def get_name(content_file) -> str:
+    def get_name(content_file: List[str] | TextIO) -> str:
         """Retrieve the name of a connection from a txt file.
 
         Arguments:
@@ -220,7 +220,7 @@ class ConnectionOperation:
         return ""
 
     @staticmethod
-    def get_instances(content_file) -> Dict[str, str]:
+    def get_instances(content_file: List[str] | TextIO) -> Dict[str, str]:
         """Retrieve the name of a connection from a txt file.
 
         Arguments:
@@ -272,7 +272,7 @@ class ConnectionOperation:
         return False
 
     @staticmethod
-    def _check_if_already_exist(folder, name) -> str:
+    def _check_if_already_exist(folder: Path, name: str) -> str:
         if not os.path.exists(folder):
             return ""
         _, _, filenames = next(walk(folder))
@@ -293,7 +293,7 @@ def _check_header(line: str) -> Tuple[str, bool]:
     return line.strip(), False
 
 
-def _check_structure_file(connection_file):
+def _check_structure_file(connection_file: str) -> bool:
     line_header = ""
     for line in connection_file.split("\n"):
         line, header = _check_header(line)
@@ -307,16 +307,17 @@ def _check_structure_file(connection_file):
                 if line_header == "":
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
 
             elif INSTANCE_HEADER == line:
                 if line_header == NAME_HEADER:
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
 
             elif CONNECTIONS_HEADER == line:
                 if line_header == INSTANCE_HEADER:
                     line_header = line
                 else:
-                    Exception("File format not supported")
+                    return False
+    return True
