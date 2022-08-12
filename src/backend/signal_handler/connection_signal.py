@@ -61,3 +61,21 @@ def upload_connection(data) -> None:
         send_message_to_user("The file does not have the right structure", request.sid, "error")
     else:
         send_message_to_user("The connection has been uploaded", request.sid, "success")
+
+
+@socketio.on("download-connections")
+def download_connections(data):
+    """Download the txt file of connection(s)
+
+    Arguments:
+        data: A dictionary containing the names of the connections to download and the library name where they are saved.
+    """
+    list_connections = []
+    session_id = "default" if data["is_default"] else request.args.get("id")
+    print(data["names"])
+    for name in data["names"]:
+        raw = ConnectionOperation.get_raw_connection(name, session_id, data["library_name"])
+        if raw:
+            tmp = {"name": name, "file": raw}
+            list_connections.append(tmp)
+    emit("connections-downloaded", list_connections, room=request.sid)

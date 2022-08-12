@@ -19,6 +19,7 @@ import SocketLibrary from "../../components/Custom/Socket/Library";
 import SocketDeleteComponent from "../../components/Custom/Socket/DeleteComponent";
 import SocketConnection from "../../components/Custom/Socket/Connection";
 import SocketUploadConnection from "../../components/Custom/Socket/UploadConnection";
+import SocketDownloadConnection from "../../components/Custom/Socket/DownloadConnection";
 import CustomFooter from "../../components/Custom/CustomFooter";
 import customfooter from "../../_texts/custom/customfooter";
 
@@ -70,8 +71,9 @@ export default class Contracts extends React.Component {
     connections: [],
     patterns: [],
     triggerUploadConnections: false,
+    triggerDownloadConnections: false,
     connectionFileUpload: null,
-
+    connectionsToDownload: [],
   };
 
   getPatterns = (list) => {
@@ -525,6 +527,19 @@ export default class Contracts extends React.Component {
       connectionFileUpload: connectionFile,
     })
   }
+  setTriggerDownloadConnections = (bool) => {
+    this.setState({
+      triggerDownloadConnections: bool,
+    })
+  }
+
+  downloadConnections = (connectionsToDownload, isDefault = false) => {
+    this.setState({
+      triggerDownloadConnections: true,
+      isDefault: isDefault,
+      connectionsToDownload: connectionsToDownload,
+    })
+  }
 
 
   render() {
@@ -593,6 +608,7 @@ export default class Contracts extends React.Component {
             checkAddConnections={this.checkAddConnections}
             deleteConnection={this.deleteConnection}
             uploadConnection={this.uploadConnection}
+            downloadConnections={this.downloadConnections}
           />
           <Modal
             isOpen={this.state.triggerAddConnection}
@@ -699,6 +715,15 @@ export default class Contracts extends React.Component {
           connectionIsUploaded={this.setTriggerGetConnection}
           connectionToUpload={this.state.connectionFileUpload}
           library={this.state.selectedLibrary}
+        />
+        <SocketDownloadConnection
+          library={this.state.selectedLibrary}
+          triggerDownload={this.state.triggerDownloadConnections}
+          setTriggerDownload={this.setTriggerDownloadConnections}
+          isDefault={this.state.selectedLibrary !== null
+                ? this.state.selectedLibrary.default
+                : false}
+          connectionsToDownload={this.state.connectionsToDownload}
         />
         <CustomHeader
           {...cromecontractsheaderscards}

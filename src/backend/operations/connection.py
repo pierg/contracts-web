@@ -248,6 +248,30 @@ class ConnectionOperation:
         return instances_list
 
     @staticmethod
+    def get_raw_connection(name: str, session_id: str, library_name: str) -> bool | str:
+        """Get the content of the txt file of a connection.
+
+        Arguments:
+            name: The name of the connection.
+            session_id: The id of the session of the user.
+            library_name: The library where the connection is saved.
+
+        Returns:
+            A boolean that indicate if the component has not been found or the connection of the file.
+        """
+        connection_folder = connection_path(session_id, library_name)
+        print(connection_folder)
+        _, _, filenames = next(walk(connection_folder))
+        for filename in filenames:
+            with open(connection_folder / filename) as file:
+                if ConnectionOperation.get_name(file) == name:
+                    with open(connection_folder / filename, "r") as ifile:
+                        reads = ifile.readlines()
+                        data = "".join(reads)
+                        return data
+        return False
+
+    @staticmethod
     def _check_if_already_exist(folder, name) -> str:
         if not os.path.exists(folder):
             return ""

@@ -45,6 +45,7 @@ function ContractsConnect(props) {
                     connections={props.connections}
                     deleteConnection={props.deleteConnection}
                     uploadConnection={props.uploadConnection}
+                    downloadConnections={props.downloadConnections}
                 />
             </div>
         </div>

@@ -105,7 +105,7 @@ class ComponentOperation:
             library_name: The library where the component is saved.
 
         Returns:
-            A boolean that indicate if the component has been found or the content of the file.
+            A boolean that indicate if the component has not been found or the content of the file.
         """
         component_folder = component_path(session_id, library_name)
         _, _, filenames = next(walk(component_folder))
