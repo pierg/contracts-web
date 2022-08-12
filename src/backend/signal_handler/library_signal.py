@@ -10,11 +10,9 @@ from src.backend.operations.library import LibraryOperation
 @socketio.on("get-library")
 def get_library() -> None:
     """Get all the library that exists in the session folder."""
-    print("Get library received !")
     session_id = str(request.args.get("id"))
     list_library = LibraryOperation.get_library(session_id)
     emit("receive-library", list_library, room=request.sid)
-    print("library send !")
 
 
 @socketio.on("add-components-to-library")
