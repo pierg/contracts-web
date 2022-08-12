@@ -1,9 +1,8 @@
 const textProps = {
   infos: {
-    types: ["LTL", "Pattern", "PL"],
+    types: ["LTL", "PL"],
     placeholders: {
       ltl: "LTL Value",
-      pattern: "Name",
       singleValues: "Value",
       listOfValues: "Values",
     },

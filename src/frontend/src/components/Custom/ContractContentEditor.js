@@ -1,7 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import CustomSelect from "./CustomSelect";
-import ContractEditArguments from "./ContractEditArguments.js";
 import {
   Button,
   Card,
@@ -12,31 +10,14 @@ import {
   Table,
   UncontrolledDropdown,
 } from "reactstrap";
-import searchPatterns from "../../hooks/searchPatterns.js";
 import LTLTextArea from "./LTLTextArea";
 
-function NamesOf(obj) {
-  let list = [];
 
-  for (let i = 0; i < obj.length; i++) {
-    list.push(obj[i].name);
-  }
-  return list;
-}
 
-function DescriptionOf(obj) {
-  let list = [];
 
-  for (let i = 0; i < obj.length; i++) {
-    list.push(obj[i].description);
-  }
-  return list;
-}
 
 export default function ContractContentEditor({
   items,
-  patterns,
-  color,
   changeParameter,
   deleteContent,
   addContent,
@@ -45,11 +26,6 @@ export default function ContractContentEditor({
   setLTLWorldValues,
   infos,
 }) {
-  const [open, setOpen] = React.useState();
-
-  let callBackAction = (key) => {
-    setOpen(key);
-  };
 
   let changeParameterTmp = (string, key) => {
     let e = {
@@ -115,38 +91,6 @@ export default function ContractContentEditor({
                           setLTLWorldValues={(values) =>
                             setLTLWorldValues(key, contractType, values)
                           }
-                        />
-                      </td>
-                    )}
-                    {prop.type === "Pattern" && (
-                      <td className="w-5/12">
-                        <CustomSelect
-                          items={NamesOf(patterns)}
-                          placeholder={infos.placeholders.pattern}
-                          defaultValue={prop.pattern.name}
-                          patternDescription={DescriptionOf(patterns)}
-                          name="contentName"
-                          changeSelector={(e, value) =>
-                            changeParameter(e, contractType, key, value)
-                          }
-                        />
-                      </td>
-                    )}
-
-                    {prop.type === "Pattern" && (
-                      <td className="w-4/12">
-                        <ContractEditArguments
-                          title={infos.details}
-                          content={searchPatterns(prop.pattern, patterns)}
-                          color={color}
-                          setOpen={() => callBackAction(key)}
-                          changeParameter={(e, subKey) =>
-                            changeParameter(e, contractType, key, false, subKey)
-                          }
-                          number={key}
-                          infos={infos}
-                          defaultOpened={key === open}
-                          presentPattern={prop.pattern}
                         />
                       </td>
                     )}

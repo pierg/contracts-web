@@ -49,14 +49,8 @@ function ComponentEdit(props) {
         break;
       case "type":
         contractTypeIndex.type = value;
-        if (value === "Pattern") {
-          if (contractTypeIndex.pattern === undefined) {
-            contractTypeIndex.pattern = { name: "", arguments: [] };
-            delete contractTypeIndex.world_values;
-          }
-        } else {
-          delete contractTypeIndex.pattern;
-        }
+        delete contractTypeIndex.pattern;
+
         break;
       case "subValue":
         contractTypeIndex.pattern.arguments[subKey] = { value: makeListOf(value) };
@@ -141,7 +135,6 @@ function ComponentEdit(props) {
             <h4 className="title title-up">{prop.title}</h4>
             <ContractContentEditor
               items={component[prop.title]}
-              patterns={props.patterns}
               color={prop.color}
               changeParameter={changeParameter}
               deleteContent={deleteContractContent}
