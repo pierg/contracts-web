@@ -59,7 +59,7 @@ function ContractsConnectConnections(props) {
                       props.deleteConnection(i);
                     }}
                   >
-                    <i className={contractsconnect.deleteButton.icon} />
+                    <i className={contractsconnect.deleteButton.icon + "flex"} />
                   </Button>
                 </Tooltip>
               )}
@@ -90,7 +90,7 @@ function ContractsConnectConnections(props) {
           {contractsconnect.connections.connectionsTitle}
         </span>
         <div>
-          <div className="mx-1 py-1">
+          <div className="mx-1 py-1 flex">
             <Tooltip title="Upload a connection" position="right" arrow="true">
               <UploadButton upload={props.uploadConnection} />
             </Tooltip>
