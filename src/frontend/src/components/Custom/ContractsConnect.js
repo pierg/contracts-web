@@ -44,6 +44,7 @@ function ContractsConnect(props) {
                     clearConnections={props.clearConnections}
                     connections={props.connections}
                     deleteConnection={props.deleteConnection}
+                    uploadConnection={props.uploadConnection}
                 />
             </div>
         </div>

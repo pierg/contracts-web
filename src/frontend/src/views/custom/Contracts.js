@@ -18,6 +18,7 @@ import LibraryView from "../../components/Custom/LibraryView";
 import SocketLibrary from "../../components/Custom/Socket/Library";
 import SocketDeleteComponent from "../../components/Custom/Socket/DeleteComponent";
 import SocketConnection from "../../components/Custom/Socket/Connection";
+import SocketUploadConnection from "../../components/Custom/Socket/UploadConnection";
 import CustomFooter from "../../components/Custom/CustomFooter";
 import customfooter from "../../_texts/custom/customfooter";
 
@@ -68,6 +69,9 @@ export default class Contracts extends React.Component {
     connectionToDelete: null,
     connections: [],
     patterns: [],
+    triggerUploadConnections: false,
+    connectionFileUpload: null,
+
   };
 
   getPatterns = (list) => {
@@ -509,6 +513,20 @@ export default class Contracts extends React.Component {
     });
   };
 
+  setTriggerUploadConnection = (bool) => {
+    this.setState({
+      triggerUploadConnections: bool,
+    })
+  }
+
+  uploadConnection = (connectionFile) => {
+    this.setState({
+      triggerUploadConnections: true,
+      connectionFileUpload: connectionFile,
+    })
+  }
+
+
   render() {
     let page;
     if (this.state.headerStates[0]) {
@@ -574,6 +592,7 @@ export default class Contracts extends React.Component {
             connections={this.state.connections}
             checkAddConnections={this.checkAddConnections}
             deleteConnection={this.deleteConnection}
+            uploadConnection={this.uploadConnection}
           />
           <Modal
             isOpen={this.state.triggerAddConnection}
@@ -673,6 +692,13 @@ export default class Contracts extends React.Component {
           connectionToDelete={this.state.connectionToDelete}
           triggerDeleteConnection={this.state.triggerDeleteConnection}
           setTriggerDeleteConnection={this.setTriggerDeleteConnection}
+        />
+        <SocketUploadConnection
+          triggerUpload={this.state.triggerUploadConnections}
+          setTriggerUpload={this.setTriggerUploadConnection}
+          connectionIsUploaded={this.setTriggerGetConnection}
+          connectionToUpload={this.state.connectionFileUpload}
+          library={this.state.selectedLibrary}
         />
         <CustomHeader
           {...cromecontractsheaderscards}

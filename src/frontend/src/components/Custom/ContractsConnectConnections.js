@@ -4,6 +4,7 @@ import React from "react";
 import {Tree} from "@blueprintjs/core";
 import {Tooltip} from "react-tippy";
 import {saveAs} from "file-saver";
+import UploadButton from "./UploadButton";
 
 function ContractsConnectConnections(props) {
     const downloadConnections = () => {
@@ -107,6 +108,11 @@ function ContractsConnectConnections(props) {
         </span>
                 <div>
                     <div className="mx-1 py-1">
+                        <Tooltip title="Upload a connection" position="right" arrow="true">
+                            <UploadButton
+                                upload={props.uploadConnection}
+                            />
+                        </Tooltip>
                         <Tooltip title="Download connections" position="right" arrow="true">
                             <Button
                                 size={contractsconnect.downloadButton.size}

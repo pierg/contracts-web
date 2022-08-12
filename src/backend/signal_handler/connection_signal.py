@@ -43,3 +43,21 @@ def get_possible_connection(data) -> None:
         data["components"], session_id, data["library_name"], data["default"]
     )
     emit("receive-possible-connection", possible_list, room=request.sid)
+
+
+@socketio.on("upload-connection")
+def upload_connection(data) -> None:
+    """
+    Upload a connection using a txt file.
+
+    Arguments:
+        data: A dictionary containing the txt file and the name of the library.
+    """
+
+    session_id = str(request.args.get("id"))
+    upload_done = ConnectionOperation.save_connection_file(data["library_name"], data["connection_file"], session_id)
+    emit("upload-done-connection", upload_done, room=request.sid)
+    if not upload_done:
+        send_message_to_user("The file does not have the right structure", request.sid, "error")
+    else:
+        send_message_to_user("The connection has been uploaded", request.sid, "success")

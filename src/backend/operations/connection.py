@@ -50,6 +50,41 @@ class ConnectionOperation:
                 file.write(f"\t{elt}\n")
 
     @staticmethod
+    def save_connection_file(library_name, connection_file, session_id) -> bool:
+        """
+            Save a connection file. It checks if the file has the right structure.
+
+            Arguments:
+                session_id: The id of the session of the user.
+                library_name: The library where the connection is saved.
+                connection_file: The content of the txt file.
+
+            Returns:
+                A boolean that indicate if the connection has been saved.
+        """
+
+        connection_folder = connection_path(session_id, library_name)
+        try:
+            _check_structure_file(connection_file)
+        except:
+            return False
+        if not os.path.exists(connection_folder):
+            os.makedirs(connection_folder)
+
+        _, _, filenames = next(walk(connection_folder))
+        greatest_id = -1 if len(filenames) == 0 else int(max(filenames)[0:4])
+        greatest_id += 1
+        name = ConnectionOperation.get_name(connection_file.split("\n"))
+        file_checked = ConnectionOperation._check_if_already_exist(connection_folder, name)
+        if file_checked:
+            file = connection_folder / file_checked
+        else:
+            file = connection_folder / f"{str(greatest_id).zfill(4)}.txt"
+        with open(file, "w") as file:
+            file.write(str(connection_file))
+        return True
+
+    @staticmethod
     def delete_connection(name, session_id, library_name) -> None:
         """Delete a connection from a library.
 
@@ -78,7 +113,8 @@ class ConnectionOperation:
         Arguments:
             component_list: List of the name of the components.
             session_id: The id of the session of the user.
-            library_name: The library where the connection are.
+            library_name: The library where the connections are.
+            default: Boolean that indicates if we work with a default project.
 
         Returns:
             A list of all the connection possible.
@@ -161,7 +197,7 @@ class ConnectionOperation:
         """Retrieve the name of a connection from a txt file.
 
         Arguments:
-            file: The content of the txt file, each line is one line of the table
+            content_file: The content of the txt file, each line is one line of the table
 
         Returns:
             '' if the name has not been found, the name otherwise.
@@ -188,7 +224,7 @@ class ConnectionOperation:
         """Retrieve the name of a connection from a txt file.
 
         Arguments:
-            file: The content of the txt file, each line is one line of the table
+            content_file: The content of the txt file, each line is one line of the table
 
         Returns:
             '' if the name has not been found, the name otherwise.
@@ -231,3 +267,32 @@ def _check_header(line: str) -> Tuple[str, bool]:
     if line.startswith(HEADER_SYMBOL):
         return line.strip(), True
     return line.strip(), False
+
+
+def _check_structure_file(connection_file):
+    line_header = ""
+    for line in connection_file.split("\n"):
+        line, header = _check_header(line)
+
+        if not line:
+            continue
+
+        elif header:
+            print(f"The Header is : {line}")
+            if NAME_HEADER == line:
+                if line_header == "":
+                    line_header = line
+                else:
+                    Exception("File format not supported")
+
+            elif INSTANCE_HEADER == line:
+                if line_header == NAME_HEADER:
+                    line_header = line
+                else:
+                    Exception("File format not supported")
+
+            elif CONNECTIONS_HEADER == line:
+                if line_header == INSTANCE_HEADER:
+                    line_header = line
+                else:
+                    Exception("File format not supported")
