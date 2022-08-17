@@ -13,6 +13,7 @@
     "@fortawesome/fontawesome-free": "6.1.1",
     "@popperjs/core": "^2.11.5",
     "@types/react-dom": "^18.0.5",
+    "autoprefixer": "10.4.7",
     "beautiful-react-diagrams": "^0.5.1",
     "classnames": "^2.3.1",
     "file-saver": "^2.0.5",
@@ -35,7 +36,7 @@
     "uuid": "^8.3.2"
   },
   "resolutions": {
-    "autoprefixer": "10.4.5"
+    "autoprefixer": "10.4.7"
   },
   "scripts": {
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
